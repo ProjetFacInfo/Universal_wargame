@@ -11,12 +11,14 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
 endif()
 
 file(GLOB OBJET_HEADER
+    objet/Carte.hh
     objet/Element.hh
     objet/Jeu.hh
     objet/Joueur.hh
 )
 
 file(GLOB OBJETS
+    objet/Carte.cc
     #objet/Element.cc
     objet/Jeu.cc
     objet/Joueur.cc
