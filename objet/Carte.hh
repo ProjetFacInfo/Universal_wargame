@@ -17,11 +17,12 @@ struct Case {
     Case(std::shared_ptr<Element> const & element, Terrain const & terrain):_element(element),_terrain(terrain){}
 };
 
-const int TAILLECARTE = 16*16;
+const uint8_t TAILLECARTE = 16*16;
 
 class Carte{
 private: 
     std::vector<Case> _plateau;
 public:
     Carte();
+    uint8_t taille() const { return _plateau.size(); }
 };

@@ -13,15 +13,21 @@ endif()
 file(GLOB OBJET_HEADER
     objet/Carte.hh
     objet/Element.hh
+    objet/Graphe.hh
     objet/Jeu.hh
     objet/Joueur.hh
+    objet/MAPF.hh
+    objet/Troupe.hh
 )
 
 file(GLOB OBJETS
     objet/Carte.cc
     #objet/Element.cc
+    objet/Graphe.cc
     objet/Jeu.cc
     objet/Joueur.cc
+    objet/MAPF.cc
+    objet/Troupe.cc
     ${OBJET_HEADER}
 )
 

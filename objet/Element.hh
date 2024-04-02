@@ -1,8 +1,9 @@
+#pragma once
 #include <string>
 using uint32 = uint32_t;
 using uint8 = uint8_t;
 
-enum class Type { batiment, troupe};
+enum class Type { batiment, troupe };
 
 struct Ressource {
 	uint32 Metaux, Bois, Viande;
