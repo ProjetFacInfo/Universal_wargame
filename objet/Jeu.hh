@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "Element.hh"
+#include "Joueur.hh"
 
 enum class Terrain{
     plaine, foret, colline, montagne, eau, mer, desert
@@ -13,14 +14,15 @@ struct Case {
     Terrain _terrain;
 };
 
-using TailleCarte = 16*16;
+const int TAILLECARTE = 16*16;
 
-using Carte = std::vector<Case, TailleCarte>
+using Carte = std::vector<Case>;
 
 class Jeu {
 private:
     Carte _carte;
-
+    Joueur _j1;
+    Joueur _j2;
 public:
     Jeu();
 };
