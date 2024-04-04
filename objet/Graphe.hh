@@ -12,7 +12,7 @@ private:
     vertex _n;
     std::vector<bool> _matrice;
 public:
-    Graphe(Carte const & carte, std::vector<Troupe> allies);
+    Graphe(Carte const & carte, std::vector<Troupe> const & troupes_a_deplacer);
     gint nb_vertex() {return _n;};
     bool is_edge(vertex r, vertex c);
     void add_edge(vertex r, vertex c);

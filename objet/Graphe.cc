@@ -1,6 +1,6 @@
 #include "Graphe.hh"
 
-Graphe::Graphe(Carte const & carte, std::vector<Troupe> allies):_n(carte.taille()), _matrice(_n * (_n + 1) / 2, false)
+Graphe::Graphe(Carte const & carte, std::vector<Troupe> const & troupes_a_deplacer):_n(carte.taille()), _matrice(_n * (_n + 1) / 2, false)
 {
     _matrice.shrink_to_fit();
 }
