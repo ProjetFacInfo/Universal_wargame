@@ -20,5 +20,6 @@ private:
 	Ressource _cout;
 
 public:
-
+	Element(std::string const & nom, Type const & type, uint32 vie, uint32 pos, uint8 ere, Ressource const & cout);
+	Type const & type() const;
 };
