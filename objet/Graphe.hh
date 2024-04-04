@@ -9,8 +9,8 @@ using gint = uint8_t;
 
 class Graphe{
 private:
-    std::vector<bool> _matrice;
     vertex _n;
+    std::vector<bool> _matrice;
 public:
     Graphe(Carte const & carte, std::vector<Troupe> allies);
     gint nb_vertex() {return _n;};

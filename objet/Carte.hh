@@ -17,7 +17,7 @@ struct Case {
     Case(std::shared_ptr<Element> const & element, Terrain const & terrain):_element(element),_terrain(terrain){}
 };
 
-const uint8_t TAILLECARTE = 16*16;
+const uint16_t TAILLECARTE = 16*16;
 
 class Carte{
 private: 
