@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <array>
 
 #include "Carte.hh"
 #include "Joueur.hh"
@@ -12,5 +13,6 @@ private:
     Joueur _j2;
 public:
     Jeu();
-
+    Jeu(std::array<Terrain, TAILLECARTE> const & liste_terrains);
+    void afficherCarte(std::ostream & flux) const;
 };
