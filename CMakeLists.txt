@@ -22,7 +22,7 @@ file(GLOB OBJET_HEADER
 
 file(GLOB OBJETS
     objet/Carte.cc
-    #objet/Element.cc
+    objet/Element.cc
     objet/Graphe.cc
     objet/Jeu.cc
     objet/Joueur.cc
