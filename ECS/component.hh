@@ -8,10 +8,12 @@
 
 struct Transform { // a une position sur la map
     Vec3 position;
+    Vec3 rotation;
 };
 
 struct Motion { // vélocité, accélération
-    vec3 velocity, accelaration;
+    Vec3 velocity;
+    Vec3 accelaration;
 };
 
 struct Sprite { // pour le rendu sur l'écran
@@ -19,7 +21,6 @@ struct Sprite { // pour le rendu sur l'écran
 };
 
 struct Collision { // collision avec d'autre entité
-
 };
 
 struct Health { // a une vie (peut se faire "attaquer")
