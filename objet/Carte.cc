@@ -36,10 +36,10 @@ void Case::afficher(std::ostream &flux) const
     if (_element){
         switch (_element->type())
         {
-        case Type::batiment:
+        case TypeElement::batiment:
             flux << "Ba";
             break;
-        case Type::troupe:
+        case TypeElement::troupe:
             flux << "Tr";
         default:
             break;

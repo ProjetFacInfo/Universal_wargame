@@ -26,5 +26,5 @@ private:
 
 public:
 	Element(std::string const & nom, uint32 vie, uint32 pos, uint8 ere, Ressource const & cout);
-	virtual TypeElement const & type() const = 0;
+	virtual TypeElement type() const = 0;
 };
