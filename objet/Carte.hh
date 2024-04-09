@@ -5,6 +5,8 @@
 #include "Terrain.hh"
 #include "Element.hh"
 
+#include "Batiment/Base.hh"
+
 struct Case {
     std::shared_ptr<Element> _element;
     Terrain _terrain;
@@ -26,6 +28,9 @@ private:
     uint16_t _largeur; // horizontal
     uint16_t _longueur; // vertical
     std::vector<Case> _plateau;
+    std::shared_ptr<Base> _base1;
+    std::shared_ptr<Base> _base2;
+    Case & _getCase(uint16_t i, uint16_t j);
 public:
     Carte();
     Carte(std::array<Terrain, TAILLECARTE> const & liste_terrains);

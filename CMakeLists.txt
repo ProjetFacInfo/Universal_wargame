@@ -10,6 +10,10 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     add_compile_options(-Wall -Wpedantic)
 endif()
 
+file(GLOB BATIMENTS
+    objet/Batiment/Base.cc
+)
+
 file(GLOB OBJET_HEADER
     objet/Batiment.hh
     objet/Carte.hh
@@ -32,6 +36,9 @@ file(GLOB OBJETS
     objet/MAPF.cc
     objet/Troupe.cc
     ${OBJET_HEADER}
+    ${BATIMENTS}
 )
+
+
 
 add_executable(Universal_WarGame main.cc ${OBJETS})
