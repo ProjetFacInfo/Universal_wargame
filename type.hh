@@ -9,4 +9,3 @@ using entity = u32;
 const entity MAX_ENTITIES = 5000;
 using component_id = u8;
 const component_id MAX_COMPONENTS = 64;
-using signature = std::bitset<MAX_COMPONENTS>;

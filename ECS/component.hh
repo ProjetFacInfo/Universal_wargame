@@ -1,4 +1,4 @@
-#pragma one
+#pragma once
 
 #include "../type.hh"
 #include <stdexcept>
@@ -9,7 +9,8 @@
 class Component_data_interface {
 public:
       virtual ~Component_data_interface() = default;
-      virtual void delete_entity(entity ett) = 0;
+      virtual void dlt_entity(entity ett) = 0;
+      virtual component_id type_id;
 };
 
 
@@ -18,16 +19,24 @@ class Component_data : public Component_data_interface {
 private:
       std::array<C, MAX_ENTITIES> _components;
       std::unordered_map<entity, u32> _ett_ind_map;
+
       u32 _size;
 
 public:
       Component_data()
             :_size(0) {}
 
+      // Return a reference to the entity's component
+      C & get_component(entity ett) {
+            if (_ett_ind_map.find(ett) == _ett_ind_map.end()) {
+                  throw std::invalid_argument("Can't get nonexistent component.");
+            }
+            return _components[_ett_ind_map[ett]];
+      }
 
       // Insert component data to the component_data array
       // and update the _ett_ind_map map.
-      void insert_componenet(entity ett, C component) {
+      void add_data(entity ett, C component) {
 
             if (_ett_ind_map.find(ett) != _ett_ind_map.end()) {
                   throw std::invalid_argument("This component had already added to this entity.");
@@ -41,10 +50,10 @@ public:
             // printf("----------\n");
       }
 
-      // Remove component data from component_data array
+      // Delete component data from component_data array
       // copy last element into deleted element's place
       // to maintent density and update the _ett_ind_map map
-      void remove_componet(entity ett) {
+      void dlt_data(entity ett) {
             if (_ett_ind_map.find(ett) == _ett_ind_map.end()) {
                   throw std::invalid_argument("Can't remove nonexistent component.");
             }
@@ -65,19 +74,12 @@ public:
             // printf("----------\n");
       }
 
-      // Return a reference to the entity's component
-      C & get_component(entity ett) {
-            if (_ett_ind_map.find(ett) == _ett_ind_map.end()) {
-                  throw std::invalid_argument("Can't get nonexistent component.");
-            }
-            return _components[_ett_ind_map[ett]];
-      }
 
 
       // Remove the entity's component
       // syntactic sugar for the World class
-      void delete_entity(entity ett) override {
-            remove_component(ett);
+      void dlt_entity(entity ett) override {
+            dlt_data(ett);
       }
 
       void display() {
