@@ -1,57 +1,73 @@
-// TODO : simplifier ?? un seul map, enlever static_cast
 #pragma once
 
-#include  "component.hh"
-#include <typeinfo>
+#include "../type.hh"
+#include "component.hh"
 #include <memory>
 
+
 // Class qui gere les composants avec :
-// un map : p type id -> id des composants
 // un map : p type id -> pointeur des composants
+// un u32 : un compteur de type de component
 class Component_manager {
       private:
-            std::unordered_map<const char *, component_id> _component_ids;
-            std::unordered_map<const char *, std::shared_ptr<Component_interface>> _component_arrays;
-            component_id _component_id_counter;
+            std::unordered_map<signature, std::shared_ptr<Component_data_interface>> _component_arrays;
 
       public:
-            Component_manager()
-                  :_component_id_counter(0) {}
+            Component_manager() = default;
 
-            template <typename C>
-            component_id get_component_id() {
-                  const char * type_id = typeid(C).name();
-
-                  if (_componenet_ids.find(type_id) == _component_ids.end()) {
-                        throw std::invalid_argument("Component id no find.")
+            template <typename T>
+            void save_component(signature const & mask) {
+                  if (_component_arrays.find(mask) != _component_arrays.end()) {
+                        throw std::invalid_argument("Component type already exist.");
                   }
 
-                  return _component_ids[type_id];
-
+                  _component_arrays.insert({mask, std::make_shared<Component_data<T>>()});
             }
 
-            template <typename C>
-            void save_component() {
-                  const char * type_id = typeid(C).name();
-
-                  if (_component_ids.find(type_id) != _component_ids.end()) {
-                        throw std::invalid_argument("Component id already exist.");
+            template <typename T>
+            T & get_component(entity ett, signature const & mask) {
+                  try {
+                        return get_component_data<T>(mask)->get_data(ett);
+                  } catch (std::invalid_argument const & e) {
+                        std::cerr << e.what() << std::endl;
+                        exit(1);
                   }
-
-                  _component_ids.insert({type_id, _component_id_counter++});
-                  _component_arrays.insert({type_id, std::make_shared<Component_data<C>>()});
             }
 
-            template <typename C>
-            void add_component(entity ett, C component) {
-                  get_component_array<T>()->add_data();
+            template <typename T>
+            void add_component(entity ett, T component, signature const & mask) {
+                  try {
+                        get_component_data<T>(mask)->add_data(ett, component);
+                  } catch (std::invalid_argument const & e) {
+                        std::cerr << e.what() << std::endl;
+                  }
             }
 
-            template <typename C>
-            void remove_component(entity ett) {
-                  get_component_array<T>()->dlt_data(ett);
+            template <typename T>
+            void remove_component(entity ett, signature const & mask) {
+                  try {
+                        get_component_data<T>(mask)->remove_data(ett);
+                  } catch (std::invalid_argument const & e) {
+                        std::cerr << e.what() << std::endl;
+                  }
             }
 
+            void delete_entity(entity ett) {
+                  for (auto const & [mask, component] : _component_arrays) {
+                        component->remove_entity(ett);
+                  }
+            }
+
+      private:
+            // Determine quel type de composant il s'agit
+            template <typename T>
+                  std::shared_ptr<Component_data<T>> get_component_data(signature const & mask) {
+                        if (_component_arrays.find(mask) == _component_arrays.end()) {
+                              throw std::invalid_argument("Component type missing.");
+                        }
+
+                        return std::static_pointer_cast<Component_data<T>>(_component_arrays[mask]);
+                  }
 
 
 };
