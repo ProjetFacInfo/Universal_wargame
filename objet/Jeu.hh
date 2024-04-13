@@ -2,13 +2,14 @@
 #include <iostream>
 #include <string>
 #include <array>
+#include <memory>
 
 #include "Carte.hh"
 #include "Joueur.hh"
 
 class Jeu {
 private:
-    Carte _carte;
+    std::shared_ptr<Carte> _carte;
     Joueur _j1;
     Joueur _j2;
 public:
