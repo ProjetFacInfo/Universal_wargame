@@ -3,8 +3,8 @@
 uint8_t Element::ere_joueur1 = 0;
 uint8_t Element::ere_joueur2 = 0;
 
-Element::Element(std::string const &nom, uint32 vie, uint32 pos, Ressource const &cout, TypeJoueur const & joueur)
-    :_nom(nom),_vie(vie),_pos(pos),_cout(cout), _joueur(joueur){}
+Element::Element(uint32 vie, uint32 pos, TypeJoueur const & joueur)
+    :_vie(vie),_pos(pos), _joueur(joueur){}
 
 void Element::passerEreSuivante(TypeJoueur const &joueur)
 {

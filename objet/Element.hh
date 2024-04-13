@@ -10,22 +10,24 @@ enum class TypeJoueur {
 	joueur1, joueur2
 };
 
-
 class Element {
 protected:
 	static uint8_t ere_joueur1;
 	static uint8_t ere_joueur2;
 
 private:
-	std::string _nom;
 	uint32 _vie;
 	uint32 _pos;
-	Ressource _cout;
 	TypeJoueur _joueur;
 
 public:
-	Element(std::string const & nom, uint32 vie, uint32 pos, Ressource const & cout, TypeJoueur const & joueur);
+	Element(uint32 vie, uint32 pos, TypeJoueur const & joueur);
 	virtual TypeElement type() const = 0;
+	virtual std::string const & nom() const =0;
+	virtual Ressource const & cout() const =0;
+	uint32_t vie() const {return _vie;}
+	uint32_t pos() const {return _pos;}
+	TypeJoueur const & joueur() const {return _joueur;}
 	
 	void passerEreSuivante(TypeJoueur const & joueur);
 };
