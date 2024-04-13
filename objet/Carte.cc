@@ -8,8 +8,8 @@ Carte::Carte(std::array<Terrain, TAILLECARTE> const & liste_terrains):Carte(){
         it->_terrain = terrain;
         it++;
     }
-    _base1 = std::make_shared<Base>(_longueur/4*_largeur+_largeur/2);
-    _base2 = std::make_shared<Base>(_longueur*3/4*_largeur+_largeur/2);
+    _base1 = std::make_shared<Base>(_longueur/4*_largeur+_largeur/2, TypeJoueur::joueur1);
+    _base2 = std::make_shared<Base>(_longueur*3/4*_largeur+_largeur/2, TypeJoueur::joueur2);
     _getCase(_longueur/4, _largeur/2)._element = _base1;
     _getCase(_longueur*3/4, _largeur/2)._element = _base2;
 }

@@ -1,7 +1,7 @@
 #include "Troupe.hh"
 
-Troupe::Troupe(std::string const &nom, uint32 vie, uint32 pos, Ressource const &cout)
-    :Element(nom,vie,pos,cout){}
+Troupe::Troupe(std::string const &nom, uint32 vie, uint32 pos, Ressource const &cout, TypeJoueur const & joueur)
+    :Element(nom,vie,pos,cout, joueur){}
 
 TypeElement Troupe::type() const
 {

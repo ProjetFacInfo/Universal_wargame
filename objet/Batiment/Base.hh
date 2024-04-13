@@ -5,5 +5,5 @@ class Base : public Batiment{
 private:
 
 public:
-    Base(uint32 pos, TypeJoueur const & joueur);
+    Base(uint32_t pos, TypeJoueur const & joueur);
 };

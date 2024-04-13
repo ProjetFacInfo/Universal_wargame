@@ -5,6 +5,6 @@
 class Troupe: public Element{
 private:
 public:
-    Troupe(std::string const & nom, uint32 vie, uint32 pos, Ressource const & cout);
+    Troupe(std::string const & nom, uint32 vie, uint32 pos, Ressource const & cout, TypeJoueur const & joueur);
     TypeElement type() const override;
 };
