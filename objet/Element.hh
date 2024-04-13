@@ -28,6 +28,7 @@ public:
 	uint32_t vie() const {return _vie;}
 	uint32_t pos() const {return _pos;}
 	TypeJoueur const & joueur() const {return _joueur;}
+	uint8_t ere() const;
 	
 	void passerEreSuivante(TypeJoueur const & joueur);
 };

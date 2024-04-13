@@ -6,6 +6,11 @@ uint8_t Element::ere_joueur2 = 0;
 Element::Element(uint32 vie, uint32 pos, TypeJoueur const & joueur)
     :_vie(vie),_pos(pos), _joueur(joueur){}
 
+uint8_t Element::ere() const
+{
+    return (joueur() == TypeJoueur::joueur1) ? ere_joueur1 : ere_joueur2;
+}
+
 void Element::passerEreSuivante(TypeJoueur const &joueur)
 {
     switch (joueur)

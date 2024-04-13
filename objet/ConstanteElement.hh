@@ -23,11 +23,12 @@ public:
 struct infoBatimentRessource {
     std::string nom;
     std::array<uint16_t, NB_ERE> vie;
+    std::array<uint32_t, NB_ERE> quantite;
     std::array<Ressource, NB_ERE> cout;
 };
 
 const std::map<TypeRessource, infoBatimentRessource> dataBatimentRessources {
-    {TypeRessource::metaux, infoBatimentRessource{"BatimentMetaux", {1000, 2000, 3000, 4000, 5000}, {Ressource(100,100,0), Ressource(120,120,0), Ressource(140,140,0), Ressource(160,160,0), Ressource(180,180,0)}}},
-    {TypeRessource::bois, infoBatimentRessource{"BatimentBois", {1000, 2000, 3000, 4000, 5000}, {Ressource(100,100,0), Ressource(120,120,0), Ressource(140,140,0), Ressource(160,160,0), Ressource(180,180,0)}}},
-    {TypeRessource::viande, infoBatimentRessource{"BatimentViande", {1000, 2000, 3000, 4000, 5000}, {Ressource(100,100,0), Ressource(120,120,0), Ressource(140,140,0), Ressource(160,160,0), Ressource(180,180,0)}}}
+    {TypeRessource::metaux, infoBatimentRessource{"BatimentMetaux", {1000, 2000, 3000, 4000, 5000}, {100, 200, 300, 400, 500}, {Ressource(100,100,0), Ressource(120,120,0), Ressource(140,140,0), Ressource(160,160,0), Ressource(180,180,0)}}},
+    {TypeRessource::bois, infoBatimentRessource{"BatimentBois", {1000, 2000, 3000, 4000, 5000}, {100, 200, 300, 400, 500}, {Ressource(100,100,0), Ressource(120,120,0), Ressource(140,140,0), Ressource(160,160,0), Ressource(180,180,0)}}},
+    {TypeRessource::viande, infoBatimentRessource{"BatimentViande", {1000, 2000, 3000, 4000, 5000}, {100, 200, 300, 400, 500}, {Ressource(100,100,0), Ressource(120,120,0), Ressource(140,140,0), Ressource(160,160,0), Ressource(180,180,0)}}}
 };
