@@ -1,6 +1,6 @@
 #include "Carte.hh"
 
-Carte::Carte() : _largeur(LARGEURCARTE), _longueur(LONGUEURCARTE), _plateau(_largeur * _longueur) {}
+Carte::Carte() : _largeur(LARGEURCARTE), _longueur(LONGUEURCARTE), _plateau(_largeur * _longueur), _posBase1((_longueur*3/4-1)*_largeur+_largeur/4), _posBase2(_longueur/4*_largeur+_largeur*3/4) {}
 
 Carte::Carte(std::array<Terrain, TAILLECARTE> const & liste_terrains):Carte(){
     auto it = _plateau.begin();
@@ -8,10 +8,10 @@ Carte::Carte(std::array<Terrain, TAILLECARTE> const & liste_terrains):Carte(){
         it->_terrain = terrain;
         it++;
     }
-    _base1 = std::make_shared<Base>((_longueur*3/4-1)*_largeur+_largeur/4, TypeJoueur::joueur1);
-    _base2 = std::make_shared<Base>(_longueur/4*_largeur+_largeur*3/4, TypeJoueur::joueur2);
-    _getCase(_longueur*3/4-1, _largeur/4)._element = _base1;
-    _getCase(_longueur/4, _largeur*3/4)._element = _base2;
+    std::shared_ptr<Base> base1 = std::make_shared<Base>(_posBase1, TypeJoueur::joueur1);
+    std::shared_ptr<Base> base2 = std::make_shared<Base>(_posBase2, TypeJoueur::joueur2);
+    _getCase(_longueur*3/4-1, _largeur/4)._element = base1;
+    _getCase(_longueur/4, _largeur*3/4)._element = base2;
 }
 
 uint16_t Carte::largeur() const
@@ -37,6 +37,21 @@ Case &Carte::_getCase(uint16_t i, uint16_t j)
 Case const &Carte::getCase(uint16_t i, uint16_t j) const
 {
     return _plateau[i*_largeur+j];
+}
+
+Case const &Carte::getCase(uint16_t i) const
+{
+    return _plateau[i];
+}
+
+uint16_t Carte::getPosBase1() const
+{
+    return _posBase1;
+}
+
+uint16_t Carte::getPosBase2() const
+{
+    return _posBase2;
 }
 
 void Case::afficher(std::ostream &flux) const

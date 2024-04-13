@@ -28,8 +28,8 @@ private:
     uint16_t _largeur; // horizontal
     uint16_t _longueur; // vertical
     std::vector<Case> _plateau;
-    std::shared_ptr<Base> _base1;
-    std::shared_ptr<Base> _base2;
+    uint16_t _posBase1;
+    uint16_t _posBase2;
     Case & _getCase(uint16_t i, uint16_t j);
 public:
     Carte();
@@ -38,5 +38,8 @@ public:
     uint16_t longueur() const;
     uint16_t taille() const;
     Case const & getCase(uint16_t i, uint16_t j) const;
+    Case const & getCase(uint16_t i) const;
+    uint16_t getPosBase1() const;
+    uint16_t getPosBase2() const;
     void afficher(std::ostream & flux) const;
 };
