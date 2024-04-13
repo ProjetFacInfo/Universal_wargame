@@ -38,7 +38,7 @@ struct infoBatimentRessource {
 };
 
 const std::map<TypeRessource, infoBatimentRessource> dataBatimentRessources {
-    {TypeRessource::metaux, infoBatimentRessource{"BatimentMetaux", 1000, 100, Ressource(100,100,0)}},
-    {TypeRessource::bois, infoBatimentRessource{"BatimentBois", 1000, 100, Ressource(100,100,0)}},
-    {TypeRessource::viande, infoBatimentRessource{"BatimentViande", 1000, 100, Ressource(100,100,0)}}
+    {TypeRessource::metaux, infoBatimentRessource{"Mine", 1000, 100, Ressource(100,100,0)}},
+    {TypeRessource::bois, infoBatimentRessource{"Scierie", 1000, 100, Ressource(100,100,0)}},
+    {TypeRessource::viande, infoBatimentRessource{"Ferme", 1000, 100, Ressource(100,100,0)}}
 };
