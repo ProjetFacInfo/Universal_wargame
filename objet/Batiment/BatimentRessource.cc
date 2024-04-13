@@ -5,6 +5,7 @@ BatimentRessource::BatimentRessource(TypeRessource const & r, uint32_t pos, Type
 
 std::string const &BatimentRessource::nom() const
 {
+    return dataBatimentRessources.at(_ressource).nom;
 }
 
 Ressource const &BatimentRessource::cout() const
