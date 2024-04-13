@@ -6,6 +6,6 @@ class Batiment: public Element{
 private:
 
 public:
-    Batiment(std::string const & nom, uint32 vie, uint32 pos, uint8 ere, Ressource const & cout);
+    Batiment(std::string const & nom, uint32 vie, uint32 pos, Ressource const & cout, TypeJoueur const & joueur);
     TypeElement type() const override;
 };

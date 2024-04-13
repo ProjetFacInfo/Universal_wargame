@@ -1,7 +1,7 @@
 #include "Batiment.hh"
 
-Batiment::Batiment(std::string const & nom, uint32 vie, uint32 pos, uint8 ere, Ressource const & cout)
-    :Element(nom,vie,pos,ere,cout){}
+Batiment::Batiment(std::string const & nom, uint32 vie, uint32 pos, Ressource const & cout, TypeJoueur const & joueur)
+    :Element(nom,vie,pos,cout, joueur){}
 
 TypeElement Batiment::type() const
 {
