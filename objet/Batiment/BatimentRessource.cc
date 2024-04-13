@@ -1,7 +1,7 @@
 #include "BatimentRessource.hh"
 
 BatimentRessource::BatimentRessource(TypeRessource const & r, uint32_t pos, TypeJoueur const & joueur)
-    :Batiment(dataBatimentRessources.at(r).vie[(joueur == TypeJoueur::joueur1) ? ere_joueur1 : ere_joueur2], pos, joueur), _ressource(r){}
+    :Batiment(dataBatimentRessources.at(r).vie, pos, joueur), _ressource(r){}
 
 std::string const &BatimentRessource::nom() const
 {
@@ -10,7 +10,7 @@ std::string const &BatimentRessource::nom() const
 
 Ressource const &BatimentRessource::cout() const
 {
-    return dataBatimentRessources.at(_ressource).cout[ere()];
+    return dataBatimentRessources.at(_ressource).cout;
 }
 
 TypeRessource const &BatimentRessource::ressourceProduite() const
@@ -20,5 +20,5 @@ TypeRessource const &BatimentRessource::ressourceProduite() const
 
 uint32_t BatimentRessource::quantiteProduite() const
 {
-    return dataBatimentRessources.at(_ressource).quantite[ere()];
+    return dataBatimentRessources.at(_ressource).quantite;
 }
