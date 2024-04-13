@@ -6,6 +6,10 @@
 
 const uint8_t NB_ERE = 5;
 
+const std::array<float, NB_ERE> MULT_ERE {
+    1, 1.25, 1.5, 1.75, 2
+};
+
 enum class TypeRessource{
     metaux, bois, viande
 };
@@ -18,6 +22,12 @@ public:
 	uint32_t Metaux() const {return _metaux;}
 	uint32_t Bois() const {return _bois;}
 	uint32_t Viande() const {return _viande;}
+    Ressource& operator*(float mult) {
+        this->_bois*=mult;
+        this->_metaux*=mult;
+        this->_viande*=mult;
+        return *this;
+    }
 };
 
 struct infoBatimentRessource {
