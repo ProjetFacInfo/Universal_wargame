@@ -7,3 +7,11 @@ TypeElement Troupe::type() const
 {
     return TypeElement::troupe;
 }
+
+void Troupe::add_component(signature const & s, std::unique_ptr<Icomponent> C) {
+   _components.insert({s, std::move(C)});
+}
+
+void Troupe::remove_component(signature const & s) {
+    _components.erase(s);
+}
