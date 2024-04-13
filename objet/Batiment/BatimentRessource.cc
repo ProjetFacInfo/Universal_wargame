@@ -8,9 +8,9 @@ std::string const &BatimentRessource::nom() const
     return dataBatimentRessources.at(_ressource).nom;
 }
 
-Ressource const &BatimentRessource::cout() const
+Ressources const &BatimentRessource::cout() const
 {
-    Ressource cout = dataBatimentRessources.at(_ressource).cout;
+    Ressources cout = dataBatimentRessources.at(_ressource).cout;
     return cout * MULT_ERE[ere()];
 }
 

@@ -24,7 +24,7 @@ public:
 	Element(uint32 vie, uint32 pos, TypeJoueur const & joueur);
 	virtual TypeElement type() const = 0;
 	virtual std::string const & nom() const =0;
-	virtual Ressource const & cout() const =0;
+	virtual Ressources const & cout() const =0;
 	uint32_t vie() const {return _vie;}
 	uint32_t pos() const {return _pos;}
 	TypeJoueur const & joueur() const {return _joueur;}

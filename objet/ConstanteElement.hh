@@ -14,15 +14,15 @@ enum class TypeRessource{
     metaux, bois, viande
 };
 
-struct Ressource {
+struct Ressources {
 	uint32_t _metaux, _bois, _viande;
 public:
-	Ressource():_metaux(0),_bois(0),_viande(0){}
-	Ressource(uint32_t metaux, uint32_t bois, uint32_t viande):_metaux(metaux),_bois(bois),_viande(viande){}
+	Ressources():_metaux(0),_bois(0),_viande(0){}
+	Ressources(uint32_t metaux, uint32_t bois, uint32_t viande):_metaux(metaux),_bois(bois),_viande(viande){}
 	uint32_t Metaux() const {return _metaux;}
 	uint32_t Bois() const {return _bois;}
 	uint32_t Viande() const {return _viande;}
-    Ressource& operator*(float mult) {
+    Ressources& operator*(float mult) {
         this->_bois*=mult;
         this->_metaux*=mult;
         this->_viande*=mult;
@@ -34,11 +34,11 @@ struct infoBatimentRessource {
     std::string nom;
     uint32_t vie;
     uint32_t quantite;
-    Ressource cout;
+    Ressources cout;
 };
 
 const std::map<TypeRessource, infoBatimentRessource> dataBatimentRessources {
-    {TypeRessource::metaux, infoBatimentRessource{"Mine", 1000, 100, Ressource(100,100,0)}},
-    {TypeRessource::bois, infoBatimentRessource{"Scierie", 1000, 100, Ressource(100,100,0)}},
-    {TypeRessource::viande, infoBatimentRessource{"Ferme", 1000, 100, Ressource(100,100,0)}}
+    {TypeRessource::metaux, infoBatimentRessource{"Mine", 1000, 100, Ressources(100,100,0)}},
+    {TypeRessource::bois, infoBatimentRessource{"Scierie", 1000, 100, Ressources(100,100,0)}},
+    {TypeRessource::viande, infoBatimentRessource{"Ferme", 1000, 100, Ressources(100,100,0)}}
 };
