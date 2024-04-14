@@ -8,7 +8,7 @@ TypeElement Troupe::type() const
     return TypeElement::troupe;
 }
 
-void Troupe::add_component(signature const & s, std::unique_ptr<IComponent> C) {
+void Troupe::add_component(signature const & s, std::unique_ptr<Icomponent> C) {
    _components.insert({s, std::move(C)});
 }
 
@@ -16,11 +16,10 @@ void Troupe::remove_component(signature const & s) {
     _components.erase(s);
 }
 
-std::string const & Troupe::nom() const {
+std::string const & Troupe::nom() const override {
     return dataTroupeRessources.at(_type).nom;
 }
 
-Ressources const & Troupe::cout() const {
-    Ressources cout = dataTroupeRessources.at(_type).cout;
-    return cout * MULT_ERE[ere()];
+Ressource const & Troupe::cout() const override {
+    return (dataTroupeRessources.at(_type).cout * MULT_ERE[ere()]);
 }
