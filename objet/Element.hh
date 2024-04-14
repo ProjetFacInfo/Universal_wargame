@@ -16,12 +16,12 @@ protected:
 	static uint8_t ere_joueur2;
 
 private:
-	uint32 _vie;
-	uint32 _pos;
+	uint32_t _vie;
+	uint32_t _pos;
 	TypeJoueur _joueur;
 
 public:
-	Element(uint32 vie, uint32 pos, TypeJoueur const & joueur);
+	Element(uint32_t vie, uint32_t pos, TypeJoueur const & joueur);
 	virtual TypeElement type() const = 0;
 	virtual std::string const & nom() const =0;
 	virtual Ressources const & cout() const =0;
@@ -30,5 +30,7 @@ public:
 	TypeJoueur const & joueur() const {return _joueur;}
 	uint8_t ere() const;
 	
-	void passerEreSuivante(TypeJoueur const & joueur);
+	static void passerEreSuivante(TypeJoueur const & joueur);
+	void retirerVie(uint32_t vieARetirer);
+	bool estDetruit() const;
 };
