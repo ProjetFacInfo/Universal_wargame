@@ -24,9 +24,21 @@ public:
 	uint32 Metaux() const {return _metaux;}
 	uint32 Bois() const {return _bois;}
 	uint32 Viande() const {return _viande;}
+    Ressources& operator+(Ressources const & r){
+        this->_metaux+=r._metaux;
+        this->_bois+=r._bois;
+        this->_viande+=r._viande;
+        return *this;
+    }
+    Ressources& operator-(Ressources const & r){
+        this->_metaux-=r._metaux;
+        this->_bois-=r._bois;
+        this->_viande-=r._viande;
+        return *this;
+    }
     Ressources& operator*(float mult) {
-        this->_bois*=mult;
         this->_metaux*=mult;
+        this->_bois*=mult;
         this->_viande*=mult;
         return *this;
     }
