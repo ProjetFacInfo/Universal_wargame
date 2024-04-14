@@ -1,6 +1,5 @@
 #pragma once
 
-#include <memory>
 #include <queue>
 
 #include "Carte.hh"
@@ -13,7 +12,6 @@ private:
     std::shared_ptr<Carte> _carte;
     Ressources _ressources;
     std::queue<BatimentRessource> _batiments;
-    std::queue<Troupe> _troupes;
     std::shared_ptr<Element> _base;
     uint8_t _ere;
 public:
