@@ -2,6 +2,7 @@
 
 #include <queue>
 
+#include "ConstanteElement.hh"
 #include "Carte.hh"
 #include "Batiment/Base.hh"
 #include "Batiment/BatimentRessource.hh"
@@ -12,6 +13,7 @@ private:
     std::shared_ptr<Carte> _carte;
     Ressources _ressources;
     std::queue<BatimentRessource> _batiments;
+    std::queue<Troupe> _troupes;
     std::shared_ptr<Element> _base;
     uint8_t _ere;
 public:

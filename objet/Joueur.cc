@@ -37,6 +37,6 @@ bool Joueur::aPerdu() const
 
 bool Joueur::acheterBatiment(TypeRessource const &ressource, uint16_t i, uint16_t j)
 {
-    Ressources cout = dataBatimentRessources[ressource].cout;
-    if (cout * MULT_ERE[_ere] < _ressources)
+    Ressources cout = dataBatimentRessources.at(ressource).cout;
+    // if (cout * MULT_ERE[_ere] < _ressources)
 }
