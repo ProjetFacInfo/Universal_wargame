@@ -13,7 +13,7 @@ const std::array<float, NB_ERE> MULT_ERE {
 };
 
 enum class TypeRessource{
-    metaux, bois, viande
+    metaux, bois, viande, troupe
 };
 
 struct Ressources {
@@ -60,7 +60,8 @@ struct infoBatimentRessource {
 const std::map<TypeRessource, infoBatimentRessource> dataBatimentRessources {
     {TypeRessource::metaux, infoBatimentRessource{"Mine", 1000, 100, Ressources(100,100,0)}},
     {TypeRessource::bois, infoBatimentRessource{"Scierie", 1000, 100, Ressources(100,100,0)}},
-    {TypeRessource::viande, infoBatimentRessource{"Ferme", 1000, 100, Ressources(100,100,0)}}
+    {TypeRessource::viande, infoBatimentRessource{"Ferme", 1000, 100, Ressources(100,100,0)}},
+    {TypeRessource::troupe, infoBatimentRessource{"Caserne", 1500, 1, Ressources(200,200,0)}}
 };
 
 

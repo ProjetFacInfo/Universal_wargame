@@ -10,16 +10,12 @@ using signature = std::bitset<16>;
 
 const uint8 NB_ERE = 5;
 
-enum class TypeRessource{
-    metaux, bois, viande
-};
-
 enum class TypeTroupe{
     infanterie, archer, cavalier
 };
 
 
 // ECS
-using entity = u32;
+using entity = uint32;
 const entity MAX_ENTITIES = 1000;
 using signature = std::bitset<32>;
