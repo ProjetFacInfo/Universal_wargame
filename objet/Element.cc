@@ -3,7 +3,7 @@
 uint8_t Element::ere_joueur1 = 0;
 uint8_t Element::ere_joueur2 = 0;
 
-Element::Element(uint32_t vie, uint32_t pos, TypeJoueur const & joueur)
+Element::Element(uint32 vie, uint32 pos, TypeJoueur const & joueur)
     :_vie(vie),_pos(pos), _joueur(joueur){}
 
 uint8_t Element::ere() const
@@ -24,7 +24,7 @@ void Element::passerEreSuivante(TypeJoueur const &joueur)
     }
 }
 
-void Element::retirerVie(uint32_t vieARetirer)
+void Element::retirerVie(uint32 vieARetirer)
 {
     if (vieARetirer > _vie) _vie = 0;
     else _vie-=vieARetirer;

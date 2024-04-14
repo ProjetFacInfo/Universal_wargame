@@ -12,25 +12,25 @@ enum class TypeJoueur {
 
 class Element {
 protected:
-	static uint8_t ere_joueur1;
-	static uint8_t ere_joueur2;
+	static uint8 ere_joueur1;
+	static uint8 ere_joueur2;
 
 private:
-	uint32_t _vie;
-	uint32_t _pos;
+	uint32 _vie;
+	uint32 _pos;
 	TypeJoueur _joueur;
 
 public:
-	Element(uint32_t vie, uint32_t pos, TypeJoueur const & joueur);
+	Element(uint32 vie, uint32 pos, TypeJoueur const & joueur);
 	virtual TypeElement type() const = 0;
 	virtual std::string const & nom() const =0;
 	virtual Ressources const & cout() const =0;
-	uint32_t vie() const {return _vie;}
-	uint32_t pos() const {return _pos;}
+	uint32 vie() const {return _vie;}
+	uint32 pos() const {return _pos;}
 	TypeJoueur const & joueur() const {return _joueur;}
-	uint8_t ere() const;
+	uint8 ere() const;
 	
 	static void passerEreSuivante(TypeJoueur const & joueur);
-	void retirerVie(uint32_t vieARetirer);
+	void retirerVie(uint32 vieARetirer);
 	bool estDetruit() const;
 };
