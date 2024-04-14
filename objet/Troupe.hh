@@ -3,6 +3,7 @@
 #include "Component/Components.hh"
 #include "Element.hh"
 #include <map>
+#include <memory>
 
 class Troupe: public Element{
 private:
@@ -17,6 +18,6 @@ public:
     void add_component(signature const & s, std::unique_ptr<IComponent> C);
     void remove_component(signature const & s);
     std::string const & nom() const override;
-    Ressource const & cout() const override;
+    Ressources const & cout() const override;
 
 };

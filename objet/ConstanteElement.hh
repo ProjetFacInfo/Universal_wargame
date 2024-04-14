@@ -53,7 +53,7 @@ struct infoTroupeRessource {
 };
 
 const std::map<TypeTroupe, infoTroupeRessource> dataTroupeRessources {
-    {TypeTroupe::infanterie, infoTroupeRessource{"infanterie", 80, Ressource(20, 0, 50)}},
-    {TypeTroupe::archer, infoTroupeRessource{"archer", 60, Ressource(20, 20, 50)}},
-    {TypeTroupe::cavalier, infoTroupeRessource{"cavalier", 120, Ressource(50, 10, 100)}}
+    {TypeTroupe::infanterie, infoTroupeRessource{"infanterie", 80, Ressources(20, 0, 50)}},
+    {TypeTroupe::archer, infoTroupeRessource{"archer", 60, Ressources(20, 20, 50)}},
+    {TypeTroupe::cavalier, infoTroupeRessource{"cavalier", 120, Ressources(50, 10, 100)}}
 };
