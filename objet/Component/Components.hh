@@ -54,3 +54,46 @@ struct Control_component : public ICompoenent {
 
 }
 
+// A une arme (court porté, long porté, artillerie)
+struct Weapon_component {
+   constexpr uint16 range_min;
+   constexpr uint16 range_max;
+   Weapon_component(uint16 min, uint16 max)
+       :range_min(min), range_max(max) {}
+};
+
+struct Melee_weapon {
+   Melee_weapon(): Weapon_component(1, 1) {}
+};
+
+struct Ranged_weapon {
+   Melee_weapon(): Weapon_component(1, 3) {}
+};
+
+struct Artillery_weapon {
+   Artillery_weapon(): Weapon_component(2, 6) {}
+};
+
+// A un type de comportement d'unité
+// infanterie, cavalerie, etc..
+struct Arms_component {
+    constexpr signature terrain;
+    constexpr uint16 step;
+    Arms_component(signature const & t, uint16 s)
+        :terrain(t), step(s) {}
+};
+
+struct Infantry {
+    // Terrain acces 0000'...'0000'0011'1111'0101
+    signature terrain_behaviour() {
+        return 1013;
+    }
+
+    uint16 step_behaviour() {
+        return 2;
+    }
+};
+
+struct Rider  {
+
+}
