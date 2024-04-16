@@ -79,3 +79,29 @@ const std::map<TypeTroupe, infoTroupeRessource> dataTroupeRessources {
     {TypeTroupe::archer, infoTroupeRessource{"archer", 60, Ressources(20, 20, 50)}},
     {TypeTroupe::cavalier, infoTroupeRessource{"cavalier", 120, Ressources(50, 10, 100)}}
 };
+
+
+// struct infoTroupe {
+//     std::string nom;
+//     uint32 vie;
+//     uint32 attaque;
+//     uint8 portee;
+//     uint32 defense;
+//     uint8 etapes;
+//     Ressources cout;
+//     std::map<Terrain, uint8> deplacement; 
+// };
+// 
+// const uint8 DEPL_IMP = 255;
+// 
+// const std::map<TypeTroupe, infoTroupe> dataTroupes {
+//     {TypeTroupe::infanterie, infoTroupe{"infanterie", /*VIE*/ 80, /*ATT*/ 20, /*POR*/ 1, /*DEF*/ 20, /*STP*/ 4, Ressources(20, 0, 50),
+//         {{Terrain::plaine, 1}, {Terrain::colline, 2}, {Terrain::montagne, 5}, {Terrain::foret, 2}, {Terrain::desert, 1}, {Terrain::mer, DEPL_IMP}}
+//     }},
+//     {TypeTroupe::archer, infoTroupe{"archer", /*VIE*/ 60, /*ATT*/ 20, /*POR*/ 2, /*DEF*/ 10, /*STP*/ 4, Ressources(20, 20, 50),
+//         {{Terrain::plaine, 1}, {Terrain::colline, 2}, {Terrain::montagne, 5}, {Terrain::foret, 1}, {Terrain::desert, 1}, {Terrain::mer, DEPL_IMP}}
+//     }},
+//     {TypeTroupe::cavalier, infoTroupe{"cavalier", /*VIE*/ 20, /*ATT*/ 20, /*POR*/ 1, /*DEF*/ 20, /*STP*/ 4, Ressources(50, 10, 100),
+//         {{Terrain::plaine, 1}, {Terrain::colline, 1}, {Terrain::montagne, 3}, {Terrain::foret, 1}, {Terrain::desert, 1}, {Terrain::mer, DEPL_IMP}}
+//     }}
+// };
