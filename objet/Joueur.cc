@@ -35,8 +35,10 @@ bool Joueur::aPerdu() const
     return _base->estDetruit();
 }
 
+/*
 bool Joueur::acheterBatiment(TypeRessource const &ressource, uint16_t i, uint16_t j)
 {
     Ressources cout = dataBatimentRessources.at(ressource).cout;
     // if (cout * MULT_ERE[_ere] < _ressources)
 }
+*/

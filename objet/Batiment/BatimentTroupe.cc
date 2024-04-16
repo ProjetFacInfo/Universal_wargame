@@ -9,20 +9,9 @@ std::string const & BatimentTroupe::nom() const {
 }
 
 Ressources const & BatimentTroupe::cout() const {
-    Ressources cout = dataBatimentRessources.at(TypeRessource::troupe).cout;
-    return cout * MULT_ERE[ere()];
+    return dataBatimentRessources.at(TypeRessource::troupe).cout * MULT_ERE[ere()];
 }
 
-TypeRessource const & BatimentTroupe::ressourceProduite() const
-{
-    return TypeRessource::troupe;
-}
-
-uint32 BatimentTroupe::quantiteProduite() const
-{
-    return 1;
-    // return dataBatimentRessources.at(TypeRessource::troupe).quantite * MULT_ERE[ere()];
-}
 //
 // std::shared_ptr<Element> BatimentTroupe::creer_infanterie(uint32 pos) {
 //     TypeJoueur joueur = joueur();

@@ -9,8 +9,6 @@ public:
     BatimentTroupe(uint32 pos, TypeJoueur const & joueur);
     std::string const & nom() const override;
 	  Ressources const & cout() const override;
-    TypeRessource const & ressourceProduite() const;
-    uint32 quantiteProduite() const;
 
     // std::shared_ptr<Element> creer_infanterie(uint32 pos);
     // std::shared_ptr<Element> creer_archer(uint32 pos);

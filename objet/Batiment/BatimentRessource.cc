@@ -10,8 +10,7 @@ std::string const &BatimentRessource::nom() const
 
 Ressources const &BatimentRessource::cout() const
 {
-    Ressources cout = dataBatimentRessources.at(_ressource).cout;
-    return cout * MULT_ERE[ere()];
+    return dataBatimentRessources.at(_ressource).cout * MULT_ERE[ere()];
 }
 
 TypeRessource const &BatimentRessource::ressourceProduite() const
