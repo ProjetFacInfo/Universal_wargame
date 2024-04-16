@@ -6,6 +6,7 @@
 #include "Carte.hh"
 #include "Batiment/Base.hh"
 #include "Batiment/BatimentRessource.hh"
+#include "Batiment/BatimentTroupe.hh"
 #include "Troupe.hh"
 
 class Joueur{
