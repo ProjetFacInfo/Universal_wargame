@@ -12,7 +12,6 @@ std::string const & Troupe::nom() const {
     return dataTroupes.at(_typeTroupe).nom;
 }
 
-Ressources const & Troupe::cout() const {
-    Ressources cout = dataTroupes.at(_typeTroupe).cout;
-    return cout * MULT_ERE[ere()];
+Ressources Troupe::cout() const {
+    return dataTroupes.at(_typeTroupe).cout * MULT_ERE[ere()];
 }

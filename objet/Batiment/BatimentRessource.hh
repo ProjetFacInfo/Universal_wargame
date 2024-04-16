@@ -8,7 +8,7 @@ private:
 public:
     BatimentRessource(TypeRessource const & r, uint32 pos, TypeJoueur const & joueur);
     std::string const & nom() const override;
-	  Ressources const & cout() const override;
+	  Ressources cout() const override;
     TypeRessource const & ressourceProduite() const;
     uint32 quantiteProduite() const;
 };

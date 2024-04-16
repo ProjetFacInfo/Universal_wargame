@@ -11,7 +11,7 @@ std::string const &Base::nom() const
     return NOM_BASE;
 }
 
-Ressources const &Base::cout() const
+Ressources Base::cout() const
 {
     return RESSOURCE_VIDE;
 }
