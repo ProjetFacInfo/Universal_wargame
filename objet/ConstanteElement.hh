@@ -88,16 +88,16 @@ const uint8 DEPL_IMP = 255;
 
 const std::map<TypeTroupe, infoTroupe> dataTroupes {
     {TypeTroupe::infanterie, infoTroupe{"infanterie", /*VIE*/ 80, /*ATT*/ 20, /*POR*/ {1,1}, /*DEF*/ 20, /*STP*/ 4, Ressources(20, 0, 50),
-        {{Terrain::plaine, 1}, {Terrain::colline, 2}, {Terrain::montagne, 4}, {Terrain::foret, 2}, {Terrain::desert, 1}, {Terrain::mer, DEPL_IMP}}
+        {{Terrain::plaine, 1}, {Terrain::colline, 2}, {Terrain::montagne, 4}, {Terrain::foret, 2}, {Terrain::desert, 1}, {Terrain::eau, 3}, {Terrain::mer, DEPL_IMP}}
     }},
     {TypeTroupe::archer, infoTroupe{"archer", /*VIE*/ 60, /*ATT*/ 20, /*POR*/ {1,2}, /*DEF*/ 10, /*STP*/ 4, Ressources(20, 20, 50),
-        {{Terrain::plaine, 1}, {Terrain::colline, 2}, {Terrain::montagne, 4}, {Terrain::foret, 2}, {Terrain::desert, 1}, {Terrain::mer, DEPL_IMP}}
+        {{Terrain::plaine, 1}, {Terrain::colline, 2}, {Terrain::montagne, 4}, {Terrain::foret, 2}, {Terrain::desert, 1}, {Terrain::eau, 3}, {Terrain::mer, DEPL_IMP}}
     }},
     {TypeTroupe::cavalier, infoTroupe{"cavalier", /*VIE*/ 100, /*ATT*/ 30, /*POR*/ {1,1}, /*DEF*/ 25, /*STP*/ 6, Ressources(50, 10, 100),
-        {{Terrain::plaine, 1}, {Terrain::colline, 1}, {Terrain::montagne, 3}, {Terrain::foret, 2}, {Terrain::desert, 1}, {Terrain::mer, DEPL_IMP}}
+        {{Terrain::plaine, 1}, {Terrain::colline, 1}, {Terrain::montagne, 3}, {Terrain::foret, 2}, {Terrain::desert, 1}, {Terrain::eau, 3}, {Terrain::mer, DEPL_IMP}}
     }},
     {TypeTroupe::artillerie, infoTroupe{"artillerie", /*VIE*/ 20, /*ATT*/ 90, /*POR*/ {2,4}, /*DEF*/ 10, /*STP*/ 2, Ressources(100, 50, 100),
-        {{Terrain::plaine, 1}, {Terrain::colline, 1}, {Terrain::montagne, 2}, {Terrain::foret, 2}, {Terrain::desert, 1}, {Terrain::mer, DEPL_IMP}}
+        {{Terrain::plaine, 1}, {Terrain::colline, 1}, {Terrain::montagne, 2}, {Terrain::foret, 2}, {Terrain::desert, 1}, {Terrain::eau, 3}, {Terrain::mer, DEPL_IMP}}
     }}
 };
 
