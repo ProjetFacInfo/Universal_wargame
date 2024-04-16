@@ -1,5 +1,5 @@
 #pragma once
-#include "../type.hh"
+#include "../../type.hh"
 #include <map>
 
 // A une arme (court porté, long porté, artillerie)

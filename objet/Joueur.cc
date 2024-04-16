@@ -40,5 +40,6 @@ bool Joueur::acheterBatiment(TypeRessource const &ressource, uint16_t i, uint16_
 {
     Ressources cout = dataBatimentRessources.at(ressource).cout;
     // if (cout * MULT_ERE[_ere] < _ressources)
+    return true;
 }
 */

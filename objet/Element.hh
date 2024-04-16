@@ -29,7 +29,7 @@ public:
 	uint32 pos() const {return _pos;}
 	TypeJoueur const & joueur() const {return _joueur;}
 	uint8 ere() const;
-	
+
 	static void passerEreSuivante(TypeJoueur const & joueur);
 	void retirerVie(uint32 vieARetirer);
 	bool estDetruit() const;
