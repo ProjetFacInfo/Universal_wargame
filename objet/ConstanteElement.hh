@@ -44,7 +44,7 @@ public:
         this->_bois-=r._bois;
         this->_viande-=r._viande;
     }
-    Ressources operator*(float mult) {
+    Ressources operator*(float mult) const{
         Ressources ret;
         ret._metaux = this->_metaux * mult;
         ret._bois = this->_bois * mult;
