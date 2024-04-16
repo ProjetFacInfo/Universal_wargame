@@ -16,6 +16,10 @@ enum class TypeRessource{
     metaux, bois, viande, troupe
 };
 
+enum class TypeTroupe{
+    infanterie, archer, cavalier
+};
+
 struct Ressources {
 	uint32 _metaux, _bois, _viande;
 public:
@@ -30,23 +34,24 @@ public:
     bool operator>=(Ressources const & r){
         return this->_metaux >= r._metaux && this->_bois >= r._bois && this->_viande >= r._viande;
     }
-    Ressources& operator+(Ressources const & r){
+    Ressources& operator+=(Ressources const & r){
         this->_metaux+=r._metaux;
         this->_bois+=r._bois;
         this->_viande+=r._viande;
         return *this;
     }
-    Ressources& operator-(Ressources const & r){
+    Ressources& operator-=(Ressources const & r){
         this->_metaux-=r._metaux;
         this->_bois-=r._bois;
         this->_viande-=r._viande;
         return *this;
     }
-    Ressources& operator*(float mult) {
-        this->_metaux*=mult;
-        this->_bois*=mult;
-        this->_viande*=mult;
-        return *this;
+    Ressources operator*(float mult) {
+        Ressources ret;
+        ret._metaux = this->_metaux * mult;
+        ret._bois = this->_bois * mult;
+        ret._viande = this->_viande * mult;
+        return ret;
     }
 };
 
