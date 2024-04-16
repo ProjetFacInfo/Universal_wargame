@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../type.hh"
+#include "Terrain.hh"
 
 #include <map>
 #include <string>
@@ -14,10 +15,6 @@ const std::array<float, NB_ERE> MULT_ERE {
 
 enum class TypeRessource{
     metaux, bois, viande, troupe
-};
-
-enum class TypeTroupe{
-    infanterie, archer, cavalier
 };
 
 struct Ressources {
@@ -67,41 +64,51 @@ const std::map<TypeRessource, infoBatimentRessource> dataBatimentRessources {
     {TypeRessource::troupe, infoBatimentRessource{"Caserne", 1500, 1, Ressources(200,200,0)}}
 };
 
+enum class TypeTroupe {
+    infanterie, archer, cavalier, artillerie
+};
 
-struct infoTroupeRessource {
+
+struct Range {
+    uint8 min, max;
+};
+
+struct infoTroupe {
     std::string nom;
     uint32 vie;
+    uint32 attaque;
+    Range portee;
+    uint32 defense;
+    uint8 pas;
     Ressources cout;
+    std::map<Terrain, uint8> accesTerrain;
 };
 
-const std::map<TypeTroupe, infoTroupeRessource> dataTroupeRessources {
-    {TypeTroupe::infanterie, infoTroupeRessource{"infanterie", 80, Ressources(20, 0, 50)}},
-    {TypeTroupe::archer, infoTroupeRessource{"archer", 60, Ressources(20, 20, 50)}},
-    {TypeTroupe::cavalier, infoTroupeRessource{"cavalier", 120, Ressources(50, 10, 100)}}
+const uint8 DEPL_IMP = 255;
+
+const std::map<TypeTroupe, infoTroupe> dataTroupes {
+    {TypeTroupe::infanterie, infoTroupe{"infanterie", /*VIE*/ 80, /*ATT*/ 20, /*POR*/ {1,1}, /*DEF*/ 20, /*STP*/ 4, Ressources(20, 0, 50),
+        {{Terrain::plaine, 1}, {Terrain::colline, 2}, {Terrain::montagne, 4}, {Terrain::foret, 2}, {Terrain::desert, 1}, {Terrain::mer, DEPL_IMP}}
+    }},
+    {TypeTroupe::archer, infoTroupe{"archer", /*VIE*/ 60, /*ATT*/ 20, /*POR*/ {1,2}, /*DEF*/ 10, /*STP*/ 4, Ressources(20, 20, 50),
+        {{Terrain::plaine, 1}, {Terrain::colline, 2}, {Terrain::montagne, 4}, {Terrain::foret, 2}, {Terrain::desert, 1}, {Terrain::mer, DEPL_IMP}}
+    }},
+    {TypeTroupe::cavalier, infoTroupe{"cavalier", /*VIE*/ 100, /*ATT*/ 30, /*POR*/ {1,1}, /*DEF*/ 25, /*STP*/ 6, Ressources(50, 10, 100),
+        {{Terrain::plaine, 1}, {Terrain::colline, 1}, {Terrain::montagne, 3}, {Terrain::foret, 2}, {Terrain::desert, 1}, {Terrain::mer, DEPL_IMP}}
+    }},
+    {TypeTroupe::artillerie, infoTroupe{"artillerie", /*VIE*/ 20, /*ATT*/ 90, /*POR*/ {2,4}, /*DEF*/ 10, /*STP*/ 2, Ressources(100, 50, 100),
+        {{Terrain::plaine, 1}, {Terrain::colline, 1}, {Terrain::montagne, 2}, {Terrain::foret, 2}, {Terrain::desert, 1}, {Terrain::mer, DEPL_IMP}}
+    }}
 };
 
-
-// struct infoTroupe {
+// struct infoTroupeRessource {
 //     std::string nom;
 //     uint32 vie;
-//     uint32 attaque;
-//     uint8 portee;
-//     uint32 defense;
-//     uint8 etapes;
 //     Ressources cout;
-//     std::map<Terrain, uint8> deplacement; 
 // };
-// 
-// const uint8 DEPL_IMP = 255;
-// 
-// const std::map<TypeTroupe, infoTroupe> dataTroupes {
-//     {TypeTroupe::infanterie, infoTroupe{"infanterie", /*VIE*/ 80, /*ATT*/ 20, /*POR*/ 1, /*DEF*/ 20, /*STP*/ 4, Ressources(20, 0, 50),
-//         {{Terrain::plaine, 1}, {Terrain::colline, 2}, {Terrain::montagne, 5}, {Terrain::foret, 2}, {Terrain::desert, 1}, {Terrain::mer, DEPL_IMP}}
-//     }},
-//     {TypeTroupe::archer, infoTroupe{"archer", /*VIE*/ 60, /*ATT*/ 20, /*POR*/ 2, /*DEF*/ 10, /*STP*/ 4, Ressources(20, 20, 50),
-//         {{Terrain::plaine, 1}, {Terrain::colline, 2}, {Terrain::montagne, 5}, {Terrain::foret, 1}, {Terrain::desert, 1}, {Terrain::mer, DEPL_IMP}}
-//     }},
-//     {TypeTroupe::cavalier, infoTroupe{"cavalier", /*VIE*/ 20, /*ATT*/ 20, /*POR*/ 1, /*DEF*/ 20, /*STP*/ 4, Ressources(50, 10, 100),
-//         {{Terrain::plaine, 1}, {Terrain::colline, 1}, {Terrain::montagne, 3}, {Terrain::foret, 1}, {Terrain::desert, 1}, {Terrain::mer, DEPL_IMP}}
-//     }}
+//
+// const std::map<TypeTroupe, infoTroupeRessource> dataTroupeRessources {
+//     {TypeTroupe::infanterie, infoTroupeRessource{"infanterie", 80, Ressources(20, 0, 50)}},
+//     {TypeTroupe::archer, infoTroupeRessource{"archer", 60, Ressources(20, 20, 50)}},
+//     {TypeTroupe::cavalier, infoTroupeRessource{"cavalier", 120, Ressources(50, 10, 100)}}
 // };

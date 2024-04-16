@@ -16,8 +16,11 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     add_compile_options(-Wall -Wpedantic)
 endif()
 
+
 file(GLOB BATIMENTS
     objet/Batiment/Base.cc
+    objet/Batiment/BatimentRessource.cc
+    objet/Batiment/BatimentTroupe.cc
 )
 
 file(GLOB OBJET_HEADER

@@ -1,23 +1,21 @@
 #pragma once
 
-#include "Component/Components.hh"
 #include "Element.hh"
-#include <map>
-#include <memory>
+
+class BatimentTroupe;
 
 class Troupe: public Element{
 private:
-    std::map<signature, std::unique_ptr<IComponent>> _components;
-    TypeTroupe _type;
+    TypeTroupe _typeTroupe;
 
 private:
-    Troupe(uint32 vie, uint32 pos, TypeJoueur const & joueur, TypeTroupe const & t);
 
 public:
+    Troupe(uint32 vie, uint32 pos, TypeJoueur const & joueur, TypeTroupe const & t);
     TypeElement type() const override;
-    void add_component(signature const & s, std::unique_ptr<IComponent> C);
-    void remove_component(signature const & s);
     std::string const & nom() const override;
     Ressources const & cout() const override;
 
+
+    friend BatimentTroupe;
 };

@@ -1,6 +1,8 @@
 #pragma once
 
 #include "../Batiment.hh"
+#include <memory>
+
 
 class BatimentTroupe : public Batiment {
 public:
@@ -10,7 +12,7 @@ public:
     TypeRessource const & ressourceProduite() const;
     uint32 quantiteProduite() const;
 
-    static std::shared_ptr<Element> creer_infanterie(uint32 pos, TypeJoueur const & joueur);
-    static std::shared_ptr<Element> creer_archer(uint32 pos, TypeJoueur const & joueur);
-    static std::shared_ptr<Element> creer_cavalier(uint32 pos, TypeJoueur const & joueur);
-}
+    // std::shared_ptr<Element> creer_infanterie(uint32 pos);
+    // std::shared_ptr<Element> creer_archer(uint32 pos);
+    // std::shared_ptr<Element> creer_cavalier(uint32 pos);
+};
