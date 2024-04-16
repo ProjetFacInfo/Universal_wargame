@@ -34,17 +34,15 @@ public:
     bool operator>=(Ressources const & r){
         return this->_metaux >= r._metaux && this->_bois >= r._bois && this->_viande >= r._viande;
     }
-    Ressources& operator+=(Ressources const & r){
+    void operator+=(Ressources const & r){
         this->_metaux+=r._metaux;
         this->_bois+=r._bois;
         this->_viande+=r._viande;
-        return *this;
     }
-    Ressources& operator-=(Ressources const & r){
+    void operator-=(Ressources const & r){
         this->_metaux-=r._metaux;
         this->_bois-=r._bois;
         this->_viande-=r._viande;
-        return *this;
     }
     Ressources operator*(float mult) {
         Ressources ret;
