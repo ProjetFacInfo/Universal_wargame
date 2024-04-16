@@ -55,6 +55,22 @@ struct Control_component : public ICompoenent {
 }
 
 // A une arme (court porté, long porté, artillerie)
+//
+// Arme de melée distance 1~1   : signature 001
+// Arme à distance distance 1~3 : signature 010
+// Artillerie distance 2~6      : signature 100
+
+struct Range {
+    uint16 min;
+    uint16 max;
+};
+
+const std::map<weapon_signature, Range} infoWeapon{
+    {1,{1,1}},
+    {2,{1,3}},
+    {4,{2,6}}
+};
+
 struct Weapon_component {
    constexpr uint16 range_min;
    constexpr uint16 range_max;
@@ -62,20 +78,27 @@ struct Weapon_component {
        :range_min(min), range_max(max) {}
 };
 
-struct Melee_weapon {
-   Melee_weapon(): Weapon_component(1, 1) {}
-};
+// A un type de comportement d'unité.
+// Terrain accéssibilité (avec ou sans malus)
+// Nombre de pas (Prendre le max en cas de type mixte)
+//
+// Infanterie :
+// Terrain acces : 0000'0011'1111'0101
+// Nombre de pas : 4
+//
+// Cavalier :
+//
+// Terrain acces : 0000'0001'1111'0101
+// Nombre de pas : 6
+//
+//
 
-struct Ranged_weapon {
-   Melee_weapon(): Weapon_component(1, 3) {}
-};
+struct Arms {
+    signature terrain;
+    uint16 step
+}
 
-struct Artillery_weapon {
-   Artillery_weapon(): Weapon_component(2, 6) {}
-};
-
-// A un type de comportement d'unité
-// infanterie, cavalerie, etc..
+const std::map<
 struct Arms_component {
     constexpr signature terrain;
     constexpr uint16 step;
@@ -84,7 +107,6 @@ struct Arms_component {
 };
 
 struct Infantry {
-    // Terrain acces 0000'...'0000'0011'1111'0101
     signature terrain_behaviour() {
         return 1013;
     }
@@ -94,6 +116,3 @@ struct Infantry {
     }
 };
 
-struct Rider  {
-
-}
