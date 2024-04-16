@@ -15,7 +15,15 @@ public:
     TypeElement type() const override;
     std::string const & nom() const override;
     Ressources cout() const override;
+    uint32 attaque() const;
+    uint32 portee_min() const;
+    uint32 portee_max() const;
+    uint32 defense() const;
+    uint32 pas() const;
+    uint32 accesTerrain(Terrain t) const;
 
+    //TODO:
+    // liste des positions attaquable
 
     friend BatimentTroupe;
 };
