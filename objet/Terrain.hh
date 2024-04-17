@@ -1,7 +1,7 @@
 #pragma once
 
 enum class Terrain {
-    plaine, colline, montagne, foret, desert, eau, mer, ciel
+    plaine, colline, montagne, foret, desert, eau, mer
 };
 
 // enum class Terrain{

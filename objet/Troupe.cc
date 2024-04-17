@@ -36,6 +36,6 @@ uint32 Troupe::pas() const {
     return dataTroupes.at(_typeTroupe).pas;
 }
 
-uint32 Troupe::accesTerrain(Terrain t) const {
-    return dataTroupes.at(_typeTroupe).accesTerrain[t];
+uint32 Troupe::accesTerrain(Terrain const & t) const {
+    return dataTroupes.at(_typeTroupe).accesTerrain.at(t);
 }

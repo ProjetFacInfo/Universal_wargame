@@ -20,7 +20,7 @@ public:
     uint32 portee_max() const;
     uint32 defense() const;
     uint32 pas() const;
-    uint32 accesTerrain(Terrain t) const;
+    uint32 accesTerrain(Terrain const & t) const;
 
     //TODO:
     // liste des positions attaquable
