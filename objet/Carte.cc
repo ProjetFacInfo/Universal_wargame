@@ -34,6 +34,11 @@ uint16_t Carte::pos(uint16_t i, uint16_t j) const
     return i*_largeur+j;
 }
 
+bool Carte::casesAdjacentes(uint16_t i1, uint16_t j1, uint16_t i2, uint16_t j2) const
+{
+    return (i2 >= i1-1 && i2 <= i1+1 && j2 >= j1-1 && j2 <= j1+1);
+}
+
 Case &Carte::_getCase(uint16_t i, uint16_t j)
 {
     return _plateau[pos(i,j)];
