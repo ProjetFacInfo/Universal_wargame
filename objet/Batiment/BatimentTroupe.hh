@@ -11,9 +11,11 @@ public:
     std::string const & nom() const override;
 	Ressources cout(uint8 ere) const override;
     void evolue(uint8 ere) override;
-
+    
+    /*
     std::shared_ptr<Element> creer_infanterie(uint32 pos, uint8 ere);
     std::shared_ptr<Element> creer_archer(uint32 pos, uint8 ere);
     std::shared_ptr<Element> creer_cavalier(uint32 pos, uint8 ere);
     std::shared_ptr<Element> creer_catapulte(uint32 pos, uint8 ere);
+    */
 };

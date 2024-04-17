@@ -15,17 +15,17 @@ Ressources const &Joueur::getRessources() const
     return _ressources;
 }
 
-std::queue<std::shared_ptr<BatimentRessource>> const &Joueur::getBatimentsRessources() const
+std::list<std::shared_ptr<BatimentRessource>> const &Joueur::getBatimentsRessources() const
 {
     return _batimentsRessources;
 }
 
-std::queue<std::shared_ptr<BatimentTroupe>> const &Joueur::getBatimentsTroupes() const
+std::list<std::shared_ptr<BatimentTroupe>> const &Joueur::getBatimentsTroupes() const
 {
     return _batimentsTroupes;
 }
 
-std::queue<std::shared_ptr<Troupe>> const &Joueur::getTroupes() const
+std::list<std::shared_ptr<Troupe>> const &Joueur::getTroupes() const
 {
     return _troupes;
 }
@@ -45,7 +45,7 @@ bool Joueur::acheterBatimentRessource(TypeRessource const &ressource, uint16_t i
     std::shared_ptr<BatimentRessource> batiment = std::make_shared<BatimentRessource>(ressource, _carte->pos(i,j), _type, _ere);
     if (_carte->caseBatimentAdjacent(_type, i, j) && batiment->cout(_ere) <= _ressources){
         _carte->poseElement(batiment, i, j);
-        _batimentsRessources.push(batiment);
+        _batimentsRessources.push_back(batiment);
         _ressources -= batiment->cout(_ere);
         return true;
     }
@@ -57,7 +57,7 @@ bool Joueur::acheterBatimentTroupe(uint16_t i, uint16_t j)
     std::shared_ptr<BatimentTroupe> batiment = std::make_shared<BatimentTroupe>(_carte->pos(i,j), _type, _ere);
     if (_carte->caseBatimentAdjacent(_type, i, j) && batiment->cout(_ere) <= _ressources){
         _carte->poseElement(batiment, i, j);
-        _batimentsTroupes.push(batiment);
+        _batimentsTroupes.push_back(batiment);
         _ressources -= batiment->cout(_ere);
         return true;
     }
@@ -66,5 +66,21 @@ bool Joueur::acheterBatimentTroupe(uint16_t i, uint16_t j)
 
 bool Joueur::acheterTroupe(TypeTroupe const &troupe, uint16_t i, uint16_t j)
 {
+    std::shared_ptr<Troupe> tr = std::make_shared<Troupe>(_carte->pos(i,j), _type, troupe, _ere);
+    if (_carte->caseBatimentAdjacent(_type, i, j) && tr->cout(_ere) <= _ressources){
+        _carte->poseElement(tr, i, j);
+        _troupes.push_back(tr);
+        _ressources -= tr->cout(_ere);
+        return true;
+    }
     return false;
+}
+
+void Joueur::passerEreSuivante()
+{
+    // Definir les conditions pour passer à l'ère suivante à faire
+    _ere++;
+    for (auto const & el : _batimentsRessources) el->evolue(_ere);
+    for (auto const & el : _batimentsTroupes) el->evolue(_ere);
+    for (auto const & el : _troupes) el->evolue(_ere);
 }

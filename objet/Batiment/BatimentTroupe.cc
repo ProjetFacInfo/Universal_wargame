@@ -16,12 +16,13 @@ void BatimentTroupe::evolue(uint8 ere)
 {
 }
 
+/*
 std::shared_ptr<Element> BatimentTroupe::creer_infanterie(uint32 pos, uint8 ere) {
     TypeJoueur num_joueur = joueur();
     uint8 ere_joueur = ere;
     uint16 vie = dataTroupes.at(TypeTroupe::infanterie).vie * MULT_ERE[ere_joueur];
 
-    return std::make_shared<Troupe>(vie, pos, num_joueur, TypeTroupe::infanterie);
+    return std::make_shared<Troupe>(pos, num_joueur, TypeTroupe::infanterie, ere);
 }
 
 std::shared_ptr<Element> BatimentTroupe::creer_archer(uint32 pos, uint8 ere) {
@@ -29,7 +30,7 @@ std::shared_ptr<Element> BatimentTroupe::creer_archer(uint32 pos, uint8 ere) {
     uint8 ere_joueur = ere;
     uint16 vie = dataTroupes.at(TypeTroupe::archer).vie * MULT_ERE[ere_joueur];
 
-    return std::make_shared<Troupe>(vie, pos, num_joueur, TypeTroupe::archer);
+    return std::make_shared<Troupe>(pos, num_joueur, TypeTroupe::archer, ere);
 }
 
 std::shared_ptr<Element> BatimentTroupe::creer_cavalier(uint32 pos, uint8 ere) {
@@ -37,7 +38,7 @@ std::shared_ptr<Element> BatimentTroupe::creer_cavalier(uint32 pos, uint8 ere) {
     uint8 ere_joueur = ere;
     uint16 vie = dataTroupes.at(TypeTroupe::cavalier).vie * MULT_ERE[ere_joueur];
 
-    return std::make_shared<Troupe>(vie, pos, num_joueur, TypeTroupe::cavalier);
+    return std::make_shared<Troupe>(pos, num_joueur, TypeTroupe::cavalier, ere);
 }
 
 std::shared_ptr<Element> BatimentTroupe::creer_catapulte(uint32 pos, uint8 ere) {
@@ -45,7 +46,7 @@ std::shared_ptr<Element> BatimentTroupe::creer_catapulte(uint32 pos, uint8 ere) 
     uint8 ere_joueur = ere;
     uint16 vie = dataTroupes.at(TypeTroupe::archer).vie * MULT_ERE[ere_joueur];
 
-    return std::make_shared<Troupe>(vie, pos, num_joueur, TypeTroupe::catapulte);
+    return std::make_shared<Troupe>(pos, num_joueur, TypeTroupe::catapulte, ere);
 }
-
+*/
 
