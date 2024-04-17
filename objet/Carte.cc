@@ -29,14 +29,19 @@ uint16_t Carte::taille() const
     return _plateau.size();
 }
 
+uint16_t Carte::pos(uint16_t i, uint16_t j) const
+{
+    return i*_largeur+j;
+}
+
 Case &Carte::_getCase(uint16_t i, uint16_t j)
 {
-    return _plateau[i*_largeur+j];
+    return _plateau[pos(i,j)];
 }
 
 Case const &Carte::getCase(uint16_t i, uint16_t j) const
 {
-    return _plateau[i*_largeur+j];
+    return _plateau[pos(i,j)];
 }
 
 Case const &Carte::getCase(uint16_t i) const
@@ -52,6 +57,14 @@ uint16_t Carte::getPosBase1() const
 uint16_t Carte::getPosBase2() const
 {
     return _posBase2;
+}
+
+bool Carte::poseElement(std::shared_ptr<Element> element, uint16_t i, uint16_t j)
+{
+    Case& c = _getCase(i, j);
+    if (!c._element) return false;
+    else c._element = element;
+    return true;
 }
 
 void Case::afficher(std::ostream &flux) const

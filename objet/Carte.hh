@@ -34,9 +34,13 @@ public:
     uint16_t largeur() const;
     uint16_t longueur() const;
     uint16_t taille() const;
+    uint16_t pos(uint16_t i, uint16_t j) const;
     Case const & getCase(uint16_t i, uint16_t j) const;
     Case const & getCase(uint16_t i) const;
     uint16_t getPosBase1() const;
     uint16_t getPosBase2() const;
+
+    bool poseElement(std::shared_ptr<Element> element, uint16_t i, uint16_t j);
+
     void afficher(std::ostream & flux) const;
 };

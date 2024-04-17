@@ -11,7 +11,11 @@ std::string const &Base::nom() const
     return NOM_BASE;
 }
 
-Ressources Base::cout() const
+Ressources Base::cout(uint8 ere) const
 {
     return RESSOURCE_VIDE;
+}
+
+void Base::evolue(uint8 ere)
+{
 }

@@ -17,6 +17,7 @@ private:
     std::queue<Troupe> _troupes;
     std::shared_ptr<Element> _base;
     uint8_t _ere;
+    TypeJoueur _type;
 public:
     Joueur(std::shared_ptr<Carte> const & carte, TypeJoueur const & joueur);
     std::shared_ptr<Carte> const & getCarte() const;
@@ -27,6 +28,7 @@ public:
 
     bool aPerdu() const;
 
-    bool acheterBatiment(TypeRessource const & ressource, uint16_t i, uint16_t j);
+    bool acheterBatimentRessource(TypeRessource const & ressource, uint16_t i, uint16_t j);
+    bool acheterBatimentTroupe(TypeRessource const & ressource, uint16_t i, uint16_t j);
     bool acheterTroupe(TypeTroupe const & troupe, uint16_t i, uint16_t j);
 };
