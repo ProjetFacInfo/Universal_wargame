@@ -35,6 +35,7 @@ public:
     uint16_t longueur() const;
     uint16_t taille() const;
     uint16_t pos(uint16_t i, uint16_t j) const;
+    bool estCase(uint16_t i, uint16_t j) const;
     bool casesAdjacentes(uint16_t i1, uint16_t j1, uint16_t i2, uint16_t j2) const;
     Case const & getCase(uint16_t i, uint16_t j) const;
     Case const & getCase(uint16_t i) const;

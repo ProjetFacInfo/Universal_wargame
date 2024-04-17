@@ -34,8 +34,14 @@ uint16_t Carte::pos(uint16_t i, uint16_t j) const
     return i*_largeur+j;
 }
 
+bool Carte::estCase(uint16_t i, uint16_t j) const
+{
+    return i>=0 && i < _longueur && j>=0 && j < _largeur;
+}
+
 bool Carte::casesAdjacentes(uint16_t i1, uint16_t j1, uint16_t i2, uint16_t j2) const
 {
+    if (!estCase(i1, j1) || !estCase(i2, j2)) return false;
     return (i2 >= i1-1 && i2 <= i1+1 && j2 >= j1-1 && j2 <= j1+1);
 }
 
