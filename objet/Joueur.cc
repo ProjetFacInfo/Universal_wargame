@@ -15,9 +15,14 @@ Ressources const &Joueur::getRessources() const
     return _ressources;
 }
 
-std::queue<BatimentRessource> const &Joueur::getBatiments() const
+std::queue<BatimentRessource> const &Joueur::getBatimentsRessources() const
 {
-    return _batiments;
+    return _batimentsRessources;
+}
+
+std::queue<BatimentTroupe> const &Joueur::getBatimentsTroupes() const
+{
+    return _batimentsTroupes;
 }
 
 std::queue<Troupe> const &Joueur::getTroupes() const

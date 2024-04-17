@@ -13,7 +13,8 @@ class Joueur{
 private:
     std::shared_ptr<Carte> _carte;
     Ressources _ressources;
-    std::queue<BatimentRessource> _batiments;
+    std::queue<BatimentRessource> _batimentsRessources;
+    std::queue<BatimentTroupe> _batimentsTroupes;
     std::queue<Troupe> _troupes;
     std::shared_ptr<Element> _base;
     uint8_t _ere;
@@ -22,7 +23,8 @@ public:
     Joueur(std::shared_ptr<Carte> const & carte, TypeJoueur const & joueur);
     std::shared_ptr<Carte> const & getCarte() const;
     Ressources const & getRessources() const;
-    std::queue<BatimentRessource> const & getBatiments() const;
+    std::queue<BatimentRessource> const & getBatimentsRessources() const;
+    std::queue<BatimentTroupe> const & getBatimentsTroupes() const;
     std::queue<Troupe> const & getTroupes() const;
     std::shared_ptr<Element> const & getBase() const;
 
