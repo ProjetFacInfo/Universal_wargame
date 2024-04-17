@@ -11,7 +11,7 @@ private:
 private:
 
 public:
-    Troupe(uint32 vie, uint32 pos, TypeJoueur const & joueur, TypeTroupe const & t);
+    Troupe(uint32 pos, TypeJoueur const & joueur, TypeTroupe const & t, uint8 ere);
     TypeElement type() const override;
     std::string const & nom() const override;
     Ressources cout(uint8 ere) const override;

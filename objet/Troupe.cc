@@ -1,7 +1,7 @@
 #include "Troupe.hh"
 
-Troupe::Troupe(uint32 vie, uint32 pos, TypeJoueur const & joueur, TypeTroupe const & t)
-    :Element(vie,pos, joueur), _typeTroupe(t){}
+Troupe::Troupe(uint32 pos, TypeJoueur const & joueur, TypeTroupe const & t, uint8 ere)
+    :Element(dataTroupes.at(t).vie * MULT_ERE[ere], pos, joueur), _typeTroupe(t){}
 
 TypeElement Troupe::type() const
 {
