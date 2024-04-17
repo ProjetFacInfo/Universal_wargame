@@ -10,7 +10,7 @@
 struct Case {
     std::shared_ptr<Element> _element;
     Terrain _terrain;
-    
+
     Case():_element(nullptr),_terrain(Terrain::plaine){}
     Case(std::shared_ptr<Element> const & element):_element(element),_terrain(Terrain::plaine){}
     Case(Terrain const & terrain):_element(nullptr),_terrain(terrain){}
@@ -19,12 +19,9 @@ struct Case {
     void afficher(std::ostream & flux) const;
 };
 
-const uint16_t LARGEURCARTE = 16;
-const uint16_t LONGUEURCARTE = 16;
-const uint16_t TAILLECARTE = LARGEURCARTE*LONGUEURCARTE;
 
 class Carte{
-private: 
+private:
     uint16_t _largeur; // horizontal
     uint16_t _longueur; // vertical
     std::vector<Case> _plateau;
