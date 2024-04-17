@@ -45,6 +45,19 @@ bool Carte::casesAdjacentes(uint16_t i1, uint16_t j1, uint16_t i2, uint16_t j2) 
     return (i2 >= i1-1 && i2 <= i1+1 && j2 >= j1-1 && j2 <= j1+1);
 }
 
+bool Carte::caseBatimentAdjacent(TypeJoueur const &joueur, uint16 i, uint16 j) const
+{
+    if (!estCase(i, j)) return false;
+    return (estCase(i-1, j-1) && getCase(i-1, j-1)._element->type() == TypeElement::batiment && getCase(i-1,j-1)._element->joueur() == joueur)
+        || (estCase(i-1, j) && getCase(i-1, j)._element->type() == TypeElement::batiment && getCase(i-1,j-1)._element->joueur() == joueur)
+        || (estCase(i-1, j+1) && getCase(i-1, j+1)._element->type() == TypeElement::batiment && getCase(i-1,j-1)._element->joueur() == joueur)
+        || (estCase(i, j-1) && getCase(i, j-1)._element->type() == TypeElement::batiment && getCase(i-1,j-1)._element->joueur() == joueur)
+        || (estCase(i, j+1) && getCase(i, j+1)._element->type() == TypeElement::batiment && getCase(i-1,j-1)._element->joueur() == joueur)
+        || (estCase(i+1, j-1) && getCase(i+1, j-1)._element->type() == TypeElement::batiment && getCase(i-1,j-1)._element->joueur() == joueur)
+        || (estCase(i+1, j) && getCase(i+1, j)._element->type() == TypeElement::batiment && getCase(i-1,j-1)._element->joueur() == joueur)
+        || (estCase(i+1, j+1) && getCase(i+1, j+1)._element->type() == TypeElement::batiment && getCase(i-1,j-1)._element->joueur() == joueur);
+}
+
 Case &Carte::_getCase(uint16_t i, uint16_t j)
 {
     return _plateau[pos(i,j)];
