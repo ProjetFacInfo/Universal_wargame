@@ -43,7 +43,7 @@ bool Joueur::aPerdu() const
 bool Joueur::acheterBatimentRessource(TypeRessource const &ressource, uint16_t i, uint16_t j)
 {
     std::shared_ptr<BatimentRessource> batiment = std::make_shared<BatimentRessource>(ressource, _carte->pos(i,j), _type, _ere);
-    if (batiment->cout(_ere) <= _ressources){
+    if (_carte->caseBatimentAdjacent(_type, i, j) && batiment->cout(_ere) <= _ressources){
         _carte->poseElement(batiment, i, j);
         _ressources -= batiment->cout(_ere);
         return true;
