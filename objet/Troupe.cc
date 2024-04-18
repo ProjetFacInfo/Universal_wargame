@@ -1,4 +1,6 @@
 #include "Troupe.hh"
+#include <iostream>
+#include <cmath>
 
 Troupe::Troupe(uint32 pos, TypeJoueur const & joueur, TypeTroupe const & t, uint8 ere)
     :Element(dataTroupes.at(t).vie * MULT_ERE[ere], pos, joueur), _typeTroupe(t){}
@@ -43,3 +45,82 @@ uint32 Troupe::pas() const {
 uint32 Troupe::accesTerrain(Terrain const & t) const {
     return dataTroupes.at(_typeTroupe).accesTerrain.at(t);
 }
+
+void Troupe::deplacer(uint32 pos) {
+    _pos = pos;
+}
+
+std::vector<uint32> Troupe::list_pos_attaquable() const {
+    int min(portee_min());
+    int max(portee_max());
+    int capacite(0);
+
+    for (int i(min); i <= max; i++) {
+        capacite += i * 8;
+    }
+
+    std::vector<uint32> l;
+    l.reserve(capacite);
+
+    int ligne(pos() / LARGEURCARTE);
+    int colonne(pos() % LONGUEURCARTE);
+
+
+    for (int i(1); i <= max; i++) {
+        // Nord
+        if (position_valable(ligne, colonne, (ligne - i), colonne, min)) {
+            l.push_back((ligne - i) * LARGEURCARTE + colonne);
+        }
+
+        // Sud
+        if (position_valable(ligne, colonne, (ligne + i), colonne, min)) {
+            l.push_back((ligne + i) * LONGUEURCARTE + colonne);
+        }
+
+        for (int j(1); j <= max; j++) {
+
+            // Nord-Ouest
+            if (position_valable(ligne, colonne, (ligne - i), (colonne -j), min)) {
+                l.push_back((ligne - i) * LONGUEURCARTE + colonne - j);
+            }
+
+            // Nord-EST
+            if (position_valable(ligne, colonne, (ligne - i), (colonne + j), min)) {
+                l.push_back((ligne - i) * LONGUEURCARTE + colonne + j);
+            }
+
+            // Sud-Ouest
+            if (position_valable(ligne, colonne, (ligne + i), (colonne -j), min)) {
+                l.push_back((ligne + i) * LONGUEURCARTE + colonne - j);
+            }
+
+            // Sud-EST
+            if (position_valable(ligne, colonne, (ligne + i), (colonne + j), min)) {
+                l.push_back((ligne + i) * LONGUEURCARTE + colonne + j);
+            }
+
+        }
+
+        // Ouest
+        if (position_valable(ligne, colonne, ligne, (colonne - i), min)) {
+            l.push_back(ligne * LARGEURCARTE + colonne - i);
+        }
+
+        // Est
+        if (position_valable(ligne, colonne, ligne, (colonne + i), min)) {
+            l.push_back(ligne * LARGEURCARTE + colonne + i);
+        }
+    }
+
+    return l;
+}
+
+void Troupe::attaquer(std::shared_ptr<Troupe> T) const {
+    T->setVie(T->vie() + T->defense() - attaque());
+}
+
+bool Troupe::position_valable(int x1, int y1, int x2, int y2, int dist) const {
+    return (x2 >= 0) and (x2 < 16) and (y2 >= 0) and (y2 < 16)
+            and (abs(x2 - x1) >= dist or abs(y2 - y1) >= dist);
+}
+

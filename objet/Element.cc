@@ -1,7 +1,7 @@
 #include "Element.hh"
 
 Element::Element(uint32 vie, uint32 pos, TypeJoueur const &joueur)
-    : _vie(vie), _pos(pos), _joueur(joueur) {}
+    : _vie(vie),  _joueur(joueur), _pos(pos) {}
 
 void Element::setVie(uint32 vie)
 {

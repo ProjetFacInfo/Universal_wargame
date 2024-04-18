@@ -13,8 +13,12 @@ enum class TypeJoueur {
 class Element {
 private:
 	uint32 _vie;
-	uint32 _pos;
 	TypeJoueur _joueur;
+
+protected:
+	// En protected pour que Troupe puisse y accéder
+	// avec la méthode deplacer().
+	uint32 _pos;
 
 protected:
 	void setVie(uint32 vie);
