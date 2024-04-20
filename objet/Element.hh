@@ -20,8 +20,6 @@ protected:
 	// avec la méthode deplacer().
 	uint32 _pos;
 
-protected:
-	void setVie(uint32 vie);
 
 public:
 	Element(uint32 vie, uint32 pos, TypeJoueur const & joueur);
@@ -29,6 +27,7 @@ public:
 	virtual std::string const & nom() const =0;
 	virtual Ressources cout(uint8 ere) const =0;
 	virtual void evolue(uint8 ere) =0;
+	void setVie(uint32 vie);
 	uint32 vie() const {return _vie;}
 	uint32 pos() const {return _pos;}
 	TypeJoueur const & joueur() const {return _joueur;}
