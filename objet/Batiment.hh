@@ -6,4 +6,5 @@ class Batiment: public Element{
 public:
     Batiment(uint32 vie, uint32 pos, TypeJoueur const & joueur);
     TypeElement type() const override;
+    uint32 defense() const override;
 };

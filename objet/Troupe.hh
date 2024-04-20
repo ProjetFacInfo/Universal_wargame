@@ -20,7 +20,7 @@ public:
     uint32 attaque() const;
     uint32 portee_min() const;
     uint32 portee_max() const;
-    uint32 defense() const;
+    uint32 defense() const override;
     uint32 pas() const;
     uint32 accesTerrain(Terrain const & t) const;
 
@@ -29,7 +29,7 @@ public:
     // liste des positions attaquable
     std::vector<uint32> list_pos_attaquable() const;
 
-    void attaquer(std::shared_ptr<Troupe> T) const;
+    void attaquer(std::shared_ptr<Element> T) const;
 
 
 

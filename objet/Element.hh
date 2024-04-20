@@ -26,6 +26,7 @@ public:
 	virtual TypeElement type() const = 0;
 	virtual std::string const & nom() const =0;
 	virtual Ressources cout(uint8 ere) const =0;
+  virtual uint32 defense() const =0;
 	virtual void evolue(uint8 ere) =0;
 	void setVie(uint32 vie);
 	uint32 vie() const {return _vie;}

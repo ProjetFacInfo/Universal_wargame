@@ -46,4 +46,10 @@ public:
     bool poseElement(std::shared_ptr<Element> element, uint16_t i, uint16_t j);
 
     void afficher(std::ostream & flux) const;
+
+    Case & at(uint16 pos);
+    const Case & at(uint16 pos) const;
+
+    Case & operator[](uint16 pos);
+    const Case & operator[](uint16 pos) const;
 };

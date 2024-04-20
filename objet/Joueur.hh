@@ -18,7 +18,7 @@ private:
     std::list<std::shared_ptr<Troupe>> _troupes;
     std::shared_ptr<Element> _base;
     uint8_t _ere;
-    TypeJoueur _type;
+    TypeJoueur _joueur;
 public:
     Joueur(std::shared_ptr<Carte> const & carte, TypeJoueur const & joueur);
     std::shared_ptr<Carte> const & getCarte() const;
@@ -33,6 +33,13 @@ public:
     bool acheterBatimentRessource(TypeRessource const & ressource, uint16_t i, uint16_t j);
     bool acheterBatimentTroupe(uint16_t i, uint16_t j);
     bool acheterTroupe(TypeTroupe const & troupe, uint16_t i, uint16_t j);
+
+    // Recher une cible parmi une liste de position attaquable
+    std::shared_ptr<Element> cible(std::shared_ptr<Troupe> t) const;
+
+    // Parcourir la liste des troupes pour combattre l'ennemie a portée de l'arme
+    void combat();
+
 
     void passerEreSuivante();
 };

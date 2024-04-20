@@ -3,7 +3,7 @@
 const Ressources RESSOURCES_JOUEUR_INIT = {500, 500, 500};
 
 Joueur::Joueur(std::shared_ptr<Carte> const & carte, TypeJoueur const & joueur)
-    :_carte(carte), _ressources(RESSOURCES_JOUEUR_INIT), _base(carte->getCase((joueur == TypeJoueur::joueur1) ? carte->getPosBase1() : carte->getPosBase2())._element), _ere(0), _type(joueur){}
+    :_carte(carte), _ressources(RESSOURCES_JOUEUR_INIT), _base(carte->getCase((joueur == TypeJoueur::joueur1) ? carte->getPosBase1() : carte->getPosBase2())._element), _ere(0), _joueur(joueur){}
 
 std::shared_ptr<Carte> const &Joueur::getCarte() const
 {
@@ -42,8 +42,8 @@ bool Joueur::aPerdu() const
 
 bool Joueur::acheterBatimentRessource(TypeRessource const &ressource, uint16_t i, uint16_t j)
 {
-    std::shared_ptr<BatimentRessource> batiment = std::make_shared<BatimentRessource>(ressource, _carte->pos(i,j), _type, _ere);
-    if (_carte->caseBatimentAdjacent(_type, i, j) && batiment->cout(_ere) <= _ressources){
+    std::shared_ptr<BatimentRessource> batiment = std::make_shared<BatimentRessource>(ressource, _carte->pos(i,j), _joueur, _ere);
+    if (_carte->caseBatimentAdjacent(_joueur, i, j) && batiment->cout(_ere) <= _ressources){
         _carte->poseElement(batiment, i, j);
         _batimentsRessources.push_back(batiment);
         _ressources -= batiment->cout(_ere);
@@ -54,8 +54,8 @@ bool Joueur::acheterBatimentRessource(TypeRessource const &ressource, uint16_t i
 
 bool Joueur::acheterBatimentTroupe(uint16_t i, uint16_t j)
 {
-    std::shared_ptr<BatimentTroupe> batiment = std::make_shared<BatimentTroupe>(_carte->pos(i,j), _type, _ere);
-    if (_carte->caseBatimentAdjacent(_type, i, j) && batiment->cout(_ere) <= _ressources){
+    std::shared_ptr<BatimentTroupe> batiment = std::make_shared<BatimentTroupe>(_carte->pos(i,j), _joueur, _ere);
+    if (_carte->caseBatimentAdjacent(_joueur, i, j) && batiment->cout(_ere) <= _ressources){
         _carte->poseElement(batiment, i, j);
         _batimentsTroupes.push_back(batiment);
         _ressources -= batiment->cout(_ere);
@@ -66,14 +66,34 @@ bool Joueur::acheterBatimentTroupe(uint16_t i, uint16_t j)
 
 bool Joueur::acheterTroupe(TypeTroupe const &troupe, uint16_t i, uint16_t j)
 {
-    std::shared_ptr<Troupe> tr = std::make_shared<Troupe>(_carte->pos(i,j), _type, troupe, _ere);
-    if (_carte->caseBatimentAdjacent(_type, i, j) && tr->cout(_ere) <= _ressources){
+    std::shared_ptr<Troupe> tr = std::make_shared<Troupe>(_carte->pos(i,j), _joueur, troupe, _ere);
+    if (_carte->caseBatimentAdjacent(_joueur, i, j) && tr->cout(_ere) <= _ressources){
         _carte->poseElement(tr, i, j);
         _troupes.push_back(tr);
         _ressources -= tr->cout(_ere);
         return true;
     }
     return false;
+}
+
+std::shared_ptr<Element> Joueur::cible(std::shared_ptr<Troupe> t) const {
+    auto list_pos_att = t->list_pos_attaquable();
+    for (auto pos : list_pos_att) {
+        auto elm = _carte->at(pos)._element;
+        if (elm and elm->joueur() != _joueur) {
+            return elm;
+        }
+    }
+    return nullptr;
+}
+
+void Joueur::combat() {
+    for (const auto & t : _troupes) {
+        auto ennemi = cible(t);
+        if (ennemi) {
+            t->attaquer(ennemi);
+        }
+    }
 }
 
 void Joueur::passerEreSuivante()

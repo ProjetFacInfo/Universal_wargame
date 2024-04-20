@@ -115,8 +115,8 @@ std::vector<uint32> Troupe::list_pos_attaquable() const {
     return l;
 }
 
-void Troupe::attaquer(std::shared_ptr<Troupe> T) const {
-    T->setVie(T->vie() + T->defense() - attaque());
+void Troupe::attaquer(std::shared_ptr<Element> T) const {
+    T->setVie(T->vie() + T->defense() - this->attaque());
 }
 
 bool Troupe::position_valable(int x1, int y1, int x2, int y2, int dist) const {

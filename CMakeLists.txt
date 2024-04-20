@@ -17,10 +17,17 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
 endif()
 
 
+file(GLOB BATIMENTS_HEADER
+    objet/Batiment/Base.cc
+    objet/Batiment/BatimentRessource.cc
+    objet/Batiment/BatimentTroupe.cc
+)
+
 file(GLOB BATIMENTS
     objet/Batiment/Base.cc
     objet/Batiment/BatimentRessource.cc
     objet/Batiment/BatimentTroupe.cc
+    ${BATIMENTS_HEADER}
 )
 
 file(GLOB OBJET_HEADER
@@ -45,9 +52,6 @@ file(GLOB OBJETS
     objet/MAPF.cc
     objet/Troupe.cc
     ${OBJET_HEADER}
-    ${BATIMENTS}
 )
 
-
-
-add_executable(Universal_WarGame main.cc ${OBJETS})
+add_executable(Universal_WarGame main.cc ${OBJETS} ${BATIMENTS})

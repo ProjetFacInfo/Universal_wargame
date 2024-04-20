@@ -7,3 +7,7 @@ TypeElement Batiment::type() const
 {
     return TypeElement::batiment;
 }
+
+uint32 Batiment::defense() const {
+    return 0;
+}

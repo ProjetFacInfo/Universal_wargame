@@ -145,3 +145,19 @@ void Carte::afficher(std::ostream &flux) const
         flux << "\n";
     }
 }
+
+Case & Carte::at(uint16 pos) {
+    return _plateau.at(pos);
+}
+
+const Case & Carte::at(uint16 pos) const {
+    return _plateau.at(pos);
+}
+
+Case & Carte::operator[](uint16 pos) {
+    return _plateau[pos];
+}
+
+const Case & Carte::operator[](uint16 pos) const {
+    return _plateau[pos];
+}
