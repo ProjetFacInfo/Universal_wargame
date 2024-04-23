@@ -1,6 +1,6 @@
 #include "Graphe.hh"
 
-Graphe::Graphe(std::shared_ptr<Carte> const & carte, std::shared_ptr<Troupe> const & troupe_a_deplacer):_matrice(carte->taille() * carte->taille() , false)
+Graphe::Graphe(std::shared_ptr<Carte> const & carte, std::shared_ptr<Troupe> const & troupe_a_deplacer):_matrice(carte->taille() * carte->taille() , 0)
 {
     _matrice.shrink_to_fit();
     for (vertex r = 0; r < nb_vertex() ; ++r){
@@ -23,7 +23,7 @@ float Graphe::is_edge(vertex r, vertex c) const
 
 void Graphe::add_edge(vertex r, vertex c, std::shared_ptr<Carte> const & carte, std::shared_ptr<Troupe> const & troupe_a_deplacer)
 {
-    _matrice[r*nb_vertex()+c] = true;
+    _matrice[r*nb_vertex()+c] = troupe_a_deplacer->accesTerrain(carte->getCase(c)._terrain) / troupe_a_deplacer->pas();
 }
 
 void Graphe::add_all_edge(vertex r, std::shared_ptr<Carte> const & carte, std::shared_ptr<Troupe> const & troupe_a_deplacer)
@@ -36,7 +36,7 @@ void Graphe::add_all_edge(vertex r, std::shared_ptr<Carte> const & carte, std::s
 
 void Graphe::delete_edge(vertex r, vertex c)
 {
-    _matrice[r*nb_vertex()+c] = false;
+    _matrice[r*nb_vertex()+c] = 0;
 }
 
 void Graphe::delete_all_edge(vertex r)
