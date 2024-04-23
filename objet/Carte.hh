@@ -37,6 +37,7 @@ public:
     uint16_t pos(uint16_t i, uint16_t j) const;
     bool estCase(uint16_t i, uint16_t j) const;
     bool casesAdjacentes(uint16_t i1, uint16_t j1, uint16_t i2, uint16_t j2) const;
+    bool casesAdjacentes(uint16_t pos1, uint16_t pos2) const;
     bool caseBatimentAdjacent(TypeJoueur const & joueur, uint16 i, uint16 j) const;
     Case const & getCase(uint16_t i, uint16_t j) const;
     Case const & getCase(uint16_t i) const;

@@ -1,20 +1,30 @@
 #pragma once
 #include <algorithm>
+#include <list>
 
 #include "Carte.hh"
 #include "Troupe.hh"
 
-using vertex = uint8_t;
-using gint = uint8_t;
+using vertex = uint8;
+using gint = uint8;
+
+struct Neighbor{
+    vertex _v;
+    uint8 _cost;
+    Neighbor(vertex v, uint8 cost):_v(v),_cost(cost){}
+};
 
 class Graphe{
 private:
-    vertex _n;
-    std::vector<bool> _matrice;
+    std::vector<float> _matrice;
 public:
-    Graphe(Carte const & carte, std::vector<Troupe> const & troupes_a_deplacer);
-    gint nb_vertex() {return _n;};
-    bool is_edge(vertex r, vertex c);
-    void add_edge(vertex r, vertex c);
+    Graphe(std::shared_ptr<Carte> const & carte, std::shared_ptr<Troupe> const & troupe_a_deplacer);
+    gint nb_vertex() const;
+    float is_edge(vertex r, vertex c) const;
+    void add_edge(vertex r, vertex c, std::shared_ptr<Carte> const & carte, std::shared_ptr<Troupe> const & troupe_a_deplacer);
+    void add_all_edge(vertex r, std::shared_ptr<Carte> const & carte, std::shared_ptr<Troupe> const & troupe_a_deplacer);
     void delete_edge(vertex r, vertex c);
+    void delete_all_edge(vertex r);
+
+    std::list<Neighbor> neighbors(vertex v) const;
 };

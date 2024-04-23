@@ -45,6 +45,11 @@ bool Carte::casesAdjacentes(uint16_t i1, uint16_t j1, uint16_t i2, uint16_t j2) 
     return (i2 >= i1-1 && i2 <= i1+1 && j2 >= j1-1 && j2 <= j1+1);
 }
 
+bool Carte::casesAdjacentes(uint16_t pos1, uint16_t pos2) const
+{
+    return casesAdjacentes(pos1/largeur(), pos1%largeur(), pos2/largeur(), pos2%largeur());
+}
+
 bool Carte::caseBatimentAdjacent(TypeJoueur const &joueur, uint16 i, uint16 j) const
 {
     if (!estCase(i, j)) return false;
