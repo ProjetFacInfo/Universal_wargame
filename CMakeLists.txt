@@ -16,30 +16,16 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     add_compile_options(-Wall -Wpedantic)
 endif()
 
-
-file(GLOB BATIMENTS_HEADER
-    objet/Batiment/Base.cc
-    objet/Batiment/BatimentRessource.cc
-    objet/Batiment/BatimentTroupe.cc
-)
-
 file(GLOB BATIMENTS
     objet/Batiment/Base.cc
     objet/Batiment/BatimentRessource.cc
     objet/Batiment/BatimentTroupe.cc
-    ${BATIMENTS_HEADER}
 )
 
-file(GLOB OBJET_HEADER
-    objet/Batiment.hh
-    objet/Carte.hh
-    objet/Element.hh
-    objet/Graphe.hh
-    objet/Jeu.hh
-    objet/Joueur.hh
-    objet/MAPF.hh
-    objet/Terrain.hh
-    objet/Troupe.hh
+file(GLOB MAPF
+    objet/MAPF/Graphe.cc
+    objet/MAPF/MAPF.cc
+    objet/MAPF/Chemin.cc
 )
 
 file(GLOB OBJETS
@@ -51,7 +37,8 @@ file(GLOB OBJETS
     objet/Joueur.cc
     objet/MAPF.cc
     objet/Troupe.cc
-    ${OBJET_HEADER}
+    ${BATIMENTS}
+    ${MAPF}
 )
 
-add_executable(Universal_WarGame main.cc ${OBJETS} ${BATIMENTS})
+add_executable(Universal_WarGame main.cc ${OBJETS})
