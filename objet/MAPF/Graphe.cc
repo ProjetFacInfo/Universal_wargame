@@ -11,6 +11,14 @@ Graphe::Graphe(std::shared_ptr<Carte> const & carte, std::list<std::shared_ptr<T
     for (auto const & agent : agents){
         add_all_edge(agent->pos(), carte);
     }
+
+    /*
+    std::cout << "[";
+    for (auto const & b : _matrice){
+        std::cout << b << ",";
+    }
+    std::cout << "]";
+    */
 }
 
 float Graphe::is_edge(vertex r, vertex c) const
@@ -29,10 +37,10 @@ void Graphe::add_edge(vertex r, vertex c)
 
 void Graphe::add_all_edge(vertex r, std::shared_ptr<Carte> const & carte)
 {
-    if (carte->estCase(r / _largeur - 1, r % _largeur) && !carte->getCase(r / _largeur - 1, r % _largeur)._element, carte) add_edge(r / _largeur - 1, r % _largeur);
-    if (carte->estCase(r / _largeur + 1, r % _largeur) && !carte->getCase(r / _largeur + 1, r % _largeur)._element, carte) add_edge(r / _largeur + 1, r % _largeur);
-    if (carte->estCase(r / _largeur, r % _largeur - 1) && !carte->getCase(r / _largeur, r % _largeur - 1)._element, carte) add_edge(r / _largeur, r % _largeur - 1);
-    if (carte->estCase(r / _largeur, r % _largeur + 1) && !carte->getCase(r / _largeur, r % _largeur + 1)._element, carte) add_edge(r / _largeur, r % _largeur + 1);
+    if (carte->estCase(r % _largeur - 1, r / _largeur) && !carte->getCase(r % _largeur - 1, r / _largeur)._element) add_edge(r, r-1);
+    if (carte->estCase(r % _largeur + 1, r / _largeur) && !carte->getCase(r % _largeur + 1, r / _largeur)._element) add_edge(r, r+1);
+    if (carte->estCase(r % _largeur, r / _largeur - 1) && !carte->getCase(r % _largeur, r / _largeur - 1)._element) add_edge(r, r-_largeur);
+    if (carte->estCase(r % _largeur, r / _largeur + 1) && !carte->getCase(r % _largeur, r / _largeur + 1)._element) add_edge(r, r+_largeur);
 }
 
 void Graphe::delete_edge(vertex r, vertex c)
@@ -56,20 +64,20 @@ float Graphe::cout(vertex r, std::shared_ptr<Carte> const & carte, std::shared_p
 std::list<Neighbor> Graphe::neighbors(vertex r, std::shared_ptr<Carte> const & carte, std::shared_ptr<Troupe> const & troupe) const
 {
     std::list<Neighbor> neighbors;
-    if (is_edge(r, r - _largeur)){
-        float cout = troupe->accesTerrain(carte->getCase(r - _largeur)._terrain) / troupe->pas();
+    if (r >= _largeur && is_edge(r, r - _largeur)){
+        float cout = (float)troupe->accesTerrain(carte->getCase(r - _largeur)._terrain) / (float)troupe->pas();
         if (cout <= 1) neighbors.push_back(Neighbor(r - _largeur, cout));
     } 
-    if (is_edge(r, r + _largeur)){
-        float cout = troupe->accesTerrain(carte->getCase(r + _largeur)._terrain) / troupe->pas();
+    if (r < carte->taille()-_largeur && is_edge(r, r + _largeur)){
+        float cout = (float)troupe->accesTerrain(carte->getCase(r + _largeur)._terrain) / (float)troupe->pas();
         if (cout <= 1) neighbors.push_back(Neighbor(r + _largeur, cout));
     } 
-    if (is_edge(r, r - 1)){
-        float cout = troupe->accesTerrain(carte->getCase(r - 1)._terrain) / troupe->pas();
+    if (r >= 1 && is_edge(r, r - 1)){
+        float cout = (float)troupe->accesTerrain(carte->getCase(r - 1)._terrain) / (float)troupe->pas();
         if (cout <= 1) neighbors.push_back(Neighbor(r - 1, cout));
     } 
-    if (is_edge(r, r + 1)){
-        float cout = troupe->accesTerrain(carte->getCase(r + 1)._terrain) / troupe->pas();
+    if ((int)r < carte->taille()-1 && is_edge(r, r + 1)){
+        float cout = (float)troupe->accesTerrain(carte->getCase(r + 1)._terrain) / (float)troupe->pas();
         if (cout <= 1) neighbors.push_back(Neighbor(r + 1, cout));
     } 
     return neighbors;

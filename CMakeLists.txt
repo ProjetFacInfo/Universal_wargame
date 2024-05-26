@@ -42,3 +42,5 @@ file(GLOB OBJETS
 )
 
 add_executable(Universal_WarGame main.cc ${OBJETS})
+
+add_executable(Test_MAPF Test/Test_MAPF.cc ${OBJETS})

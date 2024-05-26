@@ -5,13 +5,13 @@
 #include "../Carte.hh"
 #include "../Troupe.hh"
 
-using vertex = uint8;
-using gint = uint8;
+using vertex = unsigned int;
+using gint = unsigned int;
 
 struct Neighbor{
     vertex _v;
-    uint8 _cost;
-    Neighbor(vertex v, uint8 cost):_v(v),_cost(cost){}
+    float _cost;
+    Neighbor(vertex v, float cost):_v(v),_cost(cost){}
 };
 
 class Graphe{

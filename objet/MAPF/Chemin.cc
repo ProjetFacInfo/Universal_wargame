@@ -56,7 +56,7 @@ std::vector<InfoChemins> construitInfosChemins(Graphe graphe, std::shared_ptr<Ca
     unsigned int start = troupe->pos();
     listInfosChemins[start]._cost = new float(0);
     
-    list.push_front(Voisin(start, 0));
+    list.push_front(Voisin(start, new float(0)));
     check[start] = true;
     unsigned int tour = 1;
     while (!list.empty()){
@@ -84,31 +84,33 @@ std::vector<InfoChemins> construitInfosChemins(Graphe graphe, std::shared_ptr<Ca
         }
         list.sort([](Voisin const & v1, Voisin const & v2){ return *v1._cost < *v2._cost;});
     }
-
     return listInfosChemins;
 }
 
 std::vector<Chemin> construitChemin(Graphe const & graphe, std::shared_ptr<Carte> const & carte, std::vector<InfoChemins> const & listInfosChemins, std::shared_ptr<Troupe> const & troupe, unsigned int target){
-    unsigned int nbTours = std::ceil(*listInfosChemins[target]._cost);
-    std::vector<Chemin> listTourChemins(nbTours);
-    unsigned int tourActuel = nbTours;
-    listTourChemins[tourActuel-1].push_front(target);
-    while(target != troupe->pos()){
-        unsigned int costMin(*listInfosChemins[target]._cost);
-        unsigned int next(target);
-        for (auto const & neighbor : graphe.neighbors(target, carte, troupe)){
-            if (costMin >= *listInfosChemins[neighbor._v]._cost) {
-                costMin = *listInfosChemins[neighbor._v]._cost;
-                next = neighbor._v;
-            }
-        }
-        target = next;
-        if (tourActuel > std::ceil(*listInfosChemins[target]._cost)){
-            tourActuel = std::ceil(*listInfosChemins[target]._cost);
-        }
+    if (*listInfosChemins[target]._cost < std::numeric_limits<unsigned int>::max()){
+        unsigned int nbTours = (int)std::ceil(*listInfosChemins[target]._cost);
+        std::vector<Chemin> listTourChemins(nbTours);
+        unsigned int tourActuel = nbTours;
         listTourChemins[tourActuel-1].push_front(target);
+        while(target != troupe->pos()){
+            float costMin(*listInfosChemins[target]._cost);
+            unsigned int next(target);
+            for (auto const & neighbor : graphe.neighbors(target, carte, troupe)){
+                if (costMin >= *listInfosChemins[neighbor._v]._cost) {
+                    costMin = *listInfosChemins[neighbor._v]._cost;
+                    next = neighbor._v;
+                }
+            }
+            target = next;
+            if (tourActuel > std::ceil(*listInfosChemins[target]._cost)){
+                tourActuel = std::ceil(*listInfosChemins[target]._cost);
+            }
+            if (target != troupe->pos()) listTourChemins[tourActuel-1].push_front(target);
+        }
+        return listTourChemins;
     }
-    return listTourChemins;
+    return std::vector<Chemin>();
 }
 
 std::vector<Chemin> fabriqueChemin(Graphe graphe, std::shared_ptr<Carte> const &carte, std::shared_ptr<Troupe> const &troupe, std::list<std::shared_ptr<Troupe>> const &agentsRestants, Paths const & paths, unsigned int target)
