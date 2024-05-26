@@ -34,6 +34,8 @@ public:
     bool acheterBatimentTroupe(uint16_t i, uint16_t j);
     bool acheterTroupe(TypeTroupe const & troupe, uint16_t i, uint16_t j);
 
+    bool giveTroupe(TypeTroupe const & troupe, uint16_t i, uint16_t j); // uniquement pour faire des tests
+
     // Recher une cible parmi une liste de position attaquable
     std::shared_ptr<Element> cible(std::shared_ptr<Troupe> t) const;
 

@@ -1,6 +1,6 @@
 #include "Carte.hh"
 
-Carte::Carte() : _largeur(LARGEURCARTE), _longueur(LONGUEURCARTE), _plateau(_largeur * _longueur), _posBase1((_longueur*3/4-1)*_largeur+_largeur/4), _posBase2(_longueur/4*_largeur+_largeur*3/4) {}
+Carte::Carte() : _largeur(LARGEURCARTE), _longueur(LONGUEURCARTE), _plateau(_largeur * _longueur), _posBase1(_largeur/4*_largeur+_longueur*3/4-1), _posBase2(_largeur*3/4*_largeur+_longueur/4) {}
 
 Carte::Carte(std::array<Terrain, TAILLECARTE> const & liste_terrains):Carte(){
     auto it = _plateau.begin();
@@ -31,12 +31,12 @@ uint16_t Carte::taille() const
 
 uint16_t Carte::pos(uint16_t i, uint16_t j) const
 {
-    return i*_largeur+j;
+    return j*_largeur+i;
 }
 
 bool Carte::estCase(uint16_t i, uint16_t j) const
 {
-    return i>=0 && i < _longueur && j>=0 && j < _largeur;
+    return i < _longueur && j < _largeur;
 }
 
 bool Carte::casesAdjacentes(uint16_t i1, uint16_t j1, uint16_t i2, uint16_t j2) const
@@ -47,20 +47,20 @@ bool Carte::casesAdjacentes(uint16_t i1, uint16_t j1, uint16_t i2, uint16_t j2) 
 
 bool Carte::casesAdjacentes(uint16_t pos1, uint16_t pos2) const
 {
-    return casesAdjacentes(pos1/largeur(), pos1%largeur(), pos2/largeur(), pos2%largeur());
+    return casesAdjacentes(pos1%largeur(), pos1/largeur(), pos2%largeur(), pos2/largeur());
 }
 
 bool Carte::caseBatimentAdjacent(TypeJoueur const &joueur, uint16 i, uint16 j) const
 {
     if (!estCase(i, j)) return false;
-    return (estCase(i-1, j-1) && getCase(i-1, j-1)._element->type() == TypeElement::batiment && getCase(i-1,j-1)._element->joueur() == joueur)
-        || (estCase(i-1, j) && getCase(i-1, j)._element->type() == TypeElement::batiment && getCase(i-1,j-1)._element->joueur() == joueur)
-        || (estCase(i-1, j+1) && getCase(i-1, j+1)._element->type() == TypeElement::batiment && getCase(i-1,j-1)._element->joueur() == joueur)
-        || (estCase(i, j-1) && getCase(i, j-1)._element->type() == TypeElement::batiment && getCase(i-1,j-1)._element->joueur() == joueur)
-        || (estCase(i, j+1) && getCase(i, j+1)._element->type() == TypeElement::batiment && getCase(i-1,j-1)._element->joueur() == joueur)
-        || (estCase(i+1, j-1) && getCase(i+1, j-1)._element->type() == TypeElement::batiment && getCase(i-1,j-1)._element->joueur() == joueur)
-        || (estCase(i+1, j) && getCase(i+1, j)._element->type() == TypeElement::batiment && getCase(i-1,j-1)._element->joueur() == joueur)
-        || (estCase(i+1, j+1) && getCase(i+1, j+1)._element->type() == TypeElement::batiment && getCase(i-1,j-1)._element->joueur() == joueur);
+    return (estCase(i-1, j-1) && getCase(i-1, j-1)._element && getCase(i-1, j-1)._element->type() == TypeElement::batiment && getCase(i-1,j-1)._element->joueur() == joueur)
+        || (estCase(i-1, j) && getCase(i-1, j)._element && getCase(i-1, j)._element->type() == TypeElement::batiment && getCase(i-1,j-1)._element->joueur() == joueur)
+        || (estCase(i-1, j+1) && getCase(i-1, j+1)._element && getCase(i-1, j+1)._element->type() == TypeElement::batiment && getCase(i-1,j-1)._element->joueur() == joueur)
+        || (estCase(i, j-1) && getCase(i, j-1)._element && getCase(i, j-1)._element->type() == TypeElement::batiment && getCase(i-1,j-1)._element->joueur() == joueur)
+        || (estCase(i, j+1) && getCase(i, j+1)._element && getCase(i, j+1)._element->type() == TypeElement::batiment && getCase(i-1,j-1)._element->joueur() == joueur)
+        || (estCase(i+1, j-1) && getCase(i+1, j-1)._element && getCase(i+1, j-1)._element->type() == TypeElement::batiment && getCase(i-1,j-1)._element->joueur() == joueur)
+        || (estCase(i+1, j) && getCase(i+1, j)._element && getCase(i+1, j)._element->type() == TypeElement::batiment && getCase(i-1,j-1)._element->joueur() == joueur)
+        || (estCase(i+1, j+1) && getCase(i+1, j+1)._element && getCase(i+1, j+1)._element->type() == TypeElement::batiment && getCase(i-1,j-1)._element->joueur() == joueur);
 }
 
 Case &Carte::_getCase(uint16_t i, uint16_t j)

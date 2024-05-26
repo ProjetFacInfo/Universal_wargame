@@ -76,6 +76,14 @@ bool Joueur::acheterTroupe(TypeTroupe const &troupe, uint16_t i, uint16_t j)
     return false;
 }
 
+bool Joueur::giveTroupe(TypeTroupe const &troupe, uint16_t i, uint16_t j)
+{
+    std::shared_ptr<Troupe> tr = std::make_shared<Troupe>(_carte->pos(i,j), _joueur, troupe, _ere);
+    _carte->poseElement(tr, i, j);
+    _troupes.push_back(tr);
+    return true;
+}
+
 std::shared_ptr<Element> Joueur::cible(std::shared_ptr<Troupe> t) const {
     auto list_pos_att = t->list_pos_attaquable();
     for (auto pos : list_pos_att) {

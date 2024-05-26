@@ -10,6 +10,11 @@ TypeElement Troupe::type() const
     return TypeElement::troupe;
 }
 
+TypeTroupe Troupe::getType() const
+{
+    return _typeTroupe;
+}
+
 std::string const & Troupe::nom() const {
     return dataTroupes.at(_typeTroupe).nom;
 }
