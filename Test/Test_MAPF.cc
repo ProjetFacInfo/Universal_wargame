@@ -9,7 +9,7 @@ using Paths = std::unordered_map<std::shared_ptr<Troupe>, std::vector<Chemin>>;
 
 void afficheTroupe(std::shared_ptr<Troupe> const & troupe, std::shared_ptr<Carte> const & carte){
 
-    std::cout << "agents (";
+    std::cout << "agent (";
     switch (troupe->getType())
     {
     case TypeTroupe::archer:
@@ -74,7 +74,7 @@ int main(){
     };
 
     Paths paths = MAPF::run(carte, agents, targets);
-
+    
     affichePaths(paths, carte);
 
     return 0;

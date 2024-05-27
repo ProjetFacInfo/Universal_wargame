@@ -119,9 +119,9 @@ std::vector<Chemin> construitChemin(Graphe const & graphe, std::shared_ptr<Carte
             float costMin(*listInfosChemins[target]._cost);
             unsigned int next(target);
             for (auto const & neighbor : graphe.neighbors(target, carte, troupe)){
-                if (costMin >= *listInfosChemins[neighbor._v]._cost) {
+                if (costMin > *listInfosChemins[neighbor._v]._cost) {
                     costMin = *listInfosChemins[neighbor._v]._cost;
-                    next = neighbor._v;
+                    next = neighbor._v; 
                 }
             }
             target = next;

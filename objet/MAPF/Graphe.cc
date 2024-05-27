@@ -58,7 +58,7 @@ void Graphe::delete_all_edge(vertex r, std::shared_ptr<Carte> const & carte)
 }
 
 float Graphe::cout(vertex r, std::shared_ptr<Carte> const & carte, std::shared_ptr<Troupe> const & troupe) const{
-    return troupe->accesTerrain(carte->getCase(r)._terrain) / troupe->pas();
+    return (float)troupe->accesTerrain(carte->getCase(r)._terrain) / (float)troupe->pas();
 }
 
 std::list<Neighbor> Graphe::neighbors(vertex r, std::shared_ptr<Carte> const & carte, std::shared_ptr<Troupe> const & troupe) const
