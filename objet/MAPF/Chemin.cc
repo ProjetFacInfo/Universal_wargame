@@ -39,6 +39,14 @@ void suppInitGraphe(Graphe & graphe, std::shared_ptr<Carte> const & carte, Paths
     }
 }
 
+unsigned int tourMax(Paths const & paths){
+    unsigned int tour = 0;
+    for (auto const & path : paths){
+        if (path.second.size()>tour) tour = path.second.size();
+    }
+    return tour;
+}
+
 // Algorithme de dijkstra modifié
 std::vector<InfoChemins> construitInfosChemins(Graphe graphe, std::shared_ptr<Carte> const &carte, Paths const & paths, std::shared_ptr<Troupe> const &troupe)
 {
@@ -47,6 +55,8 @@ std::vector<InfoChemins> construitInfosChemins(Graphe graphe, std::shared_ptr<Ca
         float * _cost;
         Voisin(vertex v, float * cost):_v(v),_cost(cost){}
     };
+
+    unsigned int maxTour = tourMax(paths);
 
     suppInitGraphe(graphe, carte, paths);
     
@@ -59,31 +69,42 @@ std::vector<InfoChemins> construitInfosChemins(Graphe graphe, std::shared_ptr<Ca
     list.push_front(Voisin(start, new float(0)));
     check[start] = true;
     unsigned int tour = 1;
-    while (!list.empty()){
-        Voisin n = list.front();
-        list.pop_front();
-        if (*n._cost >= tour){
-            tour++;
+    do {
+        while (!list.empty()){
+            Voisin n = list.front();
+            list.pop_front();
+            if (*n._cost >= tour){
+                tour++;
+                std::list<unsigned int> nouveaux_sommets = modifGraphe(graphe, carte, paths, tour);
+                for (auto const & sommet : nouveaux_sommets){
+                    *listInfosChemins[sommet]._cost = tour+graphe.cout(sommet, carte, troupe);
+                    check[sommet] = true;
+                    list.push_back(Voisin(sommet, listInfosChemins[sommet]._cost));
+                }
+            } 
+            for (auto const & neighbor : graphe.neighbors(n._v, carte, troupe)){
+                float cost = neighbor._cost + *listInfosChemins[n._v]._cost;
+                if (cost > tour) cost = tour+neighbor._cost;
+                if (cost < *listInfosChemins[neighbor._v]._cost){
+                    *listInfosChemins[neighbor._v]._cost = cost;
+                    if (!check[neighbor._v]){
+                        check[neighbor._v] = true;
+                        list.push_back(Voisin(neighbor._v, listInfosChemins[neighbor._v]._cost));
+                    }
+                }
+            }
+            list.sort([](Voisin const & v1, Voisin const & v2){ return *v1._cost < *v2._cost;});
+        }
+        tour++;
+        if (tour < maxTour){
             std::list<unsigned int> nouveaux_sommets = modifGraphe(graphe, carte, paths, tour);
             for (auto const & sommet : nouveaux_sommets){
                 *listInfosChemins[sommet]._cost = tour+graphe.cout(sommet, carte, troupe);
                 check[sommet] = true;
                 list.push_back(Voisin(sommet, listInfosChemins[sommet]._cost));
             }
-        } 
-        for (auto const & neighbor : graphe.neighbors(n._v, carte, troupe)){
-            float cost = neighbor._cost + *listInfosChemins[n._v]._cost;
-            if (cost > tour) cost = tour+neighbor._cost;
-            if (cost < *listInfosChemins[neighbor._v]._cost){
-                *listInfosChemins[neighbor._v]._cost = cost;
-                if (!check[neighbor._v]){
-                    check[neighbor._v] = true;
-                    list.push_back(Voisin(neighbor._v, listInfosChemins[neighbor._v]._cost));
-                }
-            }
         }
-        list.sort([](Voisin const & v1, Voisin const & v2){ return *v1._cost < *v2._cost;});
-    }
+    }while(tour < maxTour);
     return listInfosChemins;
 }
 

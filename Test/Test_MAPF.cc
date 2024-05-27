@@ -66,11 +66,11 @@ int main(){
 
     std::list<std::shared_ptr<Troupe>> agents = j1.getTroupes();
     std::list<unsigned int> targets {
-        carte->pos(2, 12),
+        carte->pos(12, 12),
         carte->pos(6, 8),
         carte->pos(5, 5),
         carte->pos(5, 4),
-        carte->pos(7, 10)
+        carte->pos(15, 10)
     };
 
     Paths paths = MAPF::run(carte, agents, targets);
