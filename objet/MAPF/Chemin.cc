@@ -48,7 +48,7 @@ unsigned int tourMax(Paths const & paths){
 }
 
 // Algorithme de dijkstra modifié
-std::vector<InfoChemins> construitInfosChemins(Graphe graphe, std::shared_ptr<Carte> const &carte, Paths const & paths, std::shared_ptr<Troupe> const &troupe)
+std::vector<InfoChemins> construitInfosChemins(Graphe graphe, std::shared_ptr<Carte> const &carte, Paths const & paths, std::shared_ptr<Troupe> const &troupe, unsigned int target)
 {
     struct Voisin {
         vertex _v;
@@ -72,6 +72,7 @@ std::vector<InfoChemins> construitInfosChemins(Graphe graphe, std::shared_ptr<Ca
     do {
         while (!list.empty()){
             Voisin n = list.front();
+            if (n._v == target) return listInfosChemins;
             list.pop_front();
             if (*n._cost >= tour){
                 tour++;
@@ -139,5 +140,5 @@ std::vector<Chemin> fabriqueChemin(Graphe graphe, std::shared_ptr<Carte> const &
     for (auto const & agent: agentsRestants){
         graphe.delete_all_edge(agent->pos(), carte);
     }
-    return construitChemin(graphe, carte, construitInfosChemins(graphe, carte, paths, troupe), troupe, target);
+    return construitChemin(graphe, carte, construitInfosChemins(graphe, carte, paths, troupe, target), troupe, target);
 }
