@@ -227,6 +227,7 @@ void Terrain::SaveToFile(const char* pFilename)
         for (int j = 0; j < m_terrainSize; ++j) {
             file << m_heightMap.at(i,j) << " ";
         }
+        file << "\n";
     }
 
     file.close();
