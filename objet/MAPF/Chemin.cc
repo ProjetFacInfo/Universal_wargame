@@ -23,6 +23,14 @@ std::list<unsigned int> modifGraphe(Graphe & graphe, std::shared_ptr<Carte> cons
     return sommetAjout;
 }
 
+bool aUpdate(Graphe const & graphe, std::shared_ptr<Carte> const & carte, std::vector<bool> const & check, std::shared_ptr<Troupe> const &troupe, vertex const & v){
+
+    for (auto const & neighbor : graphe.neighbors(v, carte, troupe)){
+        if (check.at(neighbor._v)) return true;
+    }
+    return false;
+}
+
 void suppInitGraphe(Graphe & graphe, std::shared_ptr<Carte> const & carte, Paths const paths){
     for (auto const & path : paths){
         if (path.second.size() > 0){ 
@@ -63,6 +71,7 @@ std::vector<InfoChemins> construitInfosChemins(Graphe graphe, std::shared_ptr<Ca
     std::vector<InfoChemins> listInfosChemins(carte->taille());
     std::list<Voisin> list;
     std::vector<bool> check(carte->taille(), false);
+    std::vector<bool> check2(carte->taille(), false);
     unsigned int start = troupe->pos();
     listInfosChemins[start]._cost = new float(0);
     
@@ -72,15 +81,22 @@ std::vector<InfoChemins> construitInfosChemins(Graphe graphe, std::shared_ptr<Ca
     do {
         while (!list.empty()){
             Voisin n = list.front();
+            check2[n._v] = true;
             if (n._v == target) return listInfosChemins;
             list.pop_front();
             if (*n._cost >= tour){
                 tour++;
                 std::list<unsigned int> nouveaux_sommets = modifGraphe(graphe, carte, paths, tour);
                 for (auto const & sommet : nouveaux_sommets){
-                    *listInfosChemins[sommet]._cost = tour+graphe.cout(sommet, carte, troupe);
-                    check[sommet] = true;
-                    list.push_back(Voisin(sommet, listInfosChemins[sommet]._cost));
+                    if (aUpdate(graphe, carte, check2, troupe, sommet)){
+                        *listInfosChemins[sommet]._cost = tour-1+graphe.cout(sommet, carte, troupe);
+                        if (*listInfosChemins[sommet]._cost > tour)
+                            *listInfosChemins[sommet]._cost = std::numeric_limits<unsigned int>::max();
+                        else{ 
+                            check[sommet] = true;
+                            list.push_back(Voisin(sommet, listInfosChemins[sommet]._cost));
+                        }
+                    }
                 }
             } 
             for (auto const & neighbor : graphe.neighbors(n._v, carte, troupe)){
@@ -97,19 +113,41 @@ std::vector<InfoChemins> construitInfosChemins(Graphe graphe, std::shared_ptr<Ca
             list.sort([](Voisin const & v1, Voisin const & v2){ return *v1._cost < *v2._cost;});
         }
         tour++;
-        if (tour < maxTour){
+        if (tour <= maxTour){
             std::list<unsigned int> nouveaux_sommets = modifGraphe(graphe, carte, paths, tour);
             for (auto const & sommet : nouveaux_sommets){
-                *listInfosChemins[sommet]._cost = tour+graphe.cout(sommet, carte, troupe);
-                check[sommet] = true;
-                list.push_back(Voisin(sommet, listInfosChemins[sommet]._cost));
+                if (aUpdate(graphe, carte, check2, troupe, sommet)){
+                    *listInfosChemins[sommet]._cost = tour-1+graphe.cout(sommet, carte, troupe);
+                    if (*listInfosChemins[sommet]._cost > tour)
+                        *listInfosChemins[sommet]._cost = std::numeric_limits<unsigned int>::max();
+                    else{ 
+                        check[sommet] = true;
+                        list.push_back(Voisin(sommet, listInfosChemins[sommet]._cost));
+                    }
+                }
             }
+            list.sort([](Voisin const & v1, Voisin const & v2){ return *v1._cost < *v2._cost;});
         }
-    }while(tour < maxTour);
+    }while(tour <= maxTour);
     return listInfosChemins;
 }
 
 std::vector<Chemin> construitChemin(Graphe const & graphe, std::shared_ptr<Carte> const & carte, std::vector<InfoChemins> const & listInfosChemins, std::shared_ptr<Troupe> const & troupe, unsigned int target){
+
+    /*
+    unsigned int i = 0;
+    for (auto const & infoChemins : listInfosChemins){
+        if (*infoChemins._cost == std::numeric_limits<unsigned int>::max()) std::cout << "inf" << "\t";
+        else std::cout << *infoChemins._cost << "\t";
+        i++;
+        if (i == 16){
+            i = 0;
+            std::cout << std::endl;
+        }
+    }
+    std::cout << std::endl;
+    */
+    
     if (*listInfosChemins[target]._cost < std::numeric_limits<unsigned int>::max()){
         unsigned int nbTours = (int)std::ceil(*listInfosChemins[target]._cost);
         std::vector<Chemin> listTourChemins(nbTours);
@@ -123,6 +161,10 @@ std::vector<Chemin> construitChemin(Graphe const & graphe, std::shared_ptr<Carte
                     costMin = *listInfosChemins[neighbor._v]._cost;
                     next = neighbor._v; 
                 }
+            }
+            if (target == next){
+                std::cout << "pb MAPF !" << std::endl;
+                return std::vector<Chemin>();
             }
             target = next;
             if (tourActuel > std::ceil(*listInfosChemins[target]._cost)){
