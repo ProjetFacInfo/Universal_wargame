@@ -19,6 +19,10 @@ std::list<unsigned int> modifGraphe(Graphe & graphe, std::shared_ptr<Carte> cons
             }
             graphe.delete_all_edge(*dernier_element, carte);
         }
+        else if (path.second.size() > tour - 2){ 
+            sommetAjout.push_back(path.second.at(tour-2).back());
+            graphe.add_all_edge(sommetAjout.back(), carte);
+        }
     }
     return sommetAjout;
 }
@@ -164,7 +168,7 @@ std::vector<Chemin> construitChemin(Graphe const & graphe, std::shared_ptr<Carte
             }
             if (target == next){
                 std::cout << "pb MAPF !" << std::endl;
-                return std::vector<Chemin>();
+                return std::vector<Chemin>(1, std::list<unsigned int>{troupe->pos()});
             }
             target = next;
             if (tourActuel > std::ceil(*listInfosChemins[target]._cost)){
@@ -174,7 +178,7 @@ std::vector<Chemin> construitChemin(Graphe const & graphe, std::shared_ptr<Carte
         }
         return listTourChemins;
     }
-    return std::vector<Chemin>();
+    return std::vector<Chemin>(1, std::list<unsigned int>{troupe->pos()});
 }
 
 std::vector<Chemin> fabriqueChemin(Graphe graphe, std::shared_ptr<Carte> const &carte, std::shared_ptr<Troupe> const &troupe, std::list<std::shared_ptr<Troupe>> const &agentsRestants, Paths const & paths, unsigned int target)
