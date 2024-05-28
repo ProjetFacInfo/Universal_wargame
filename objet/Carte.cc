@@ -88,6 +88,15 @@ uint16_t Carte::getPosBase2() const
     return _posBase2;
 }
 
+bool Carte::deplacer(std::shared_ptr<Troupe> &troupe, uint16 position)
+{
+    if (getCase(position)._element || !casesAdjacentes(troupe->pos(),position)) return false;
+    this->operator[](position)._element = troupe;
+    this->operator[](troupe->pos())._element = nullptr;
+    troupe->deplacer(position);
+    return true;
+}
+
 bool Carte::poseElement(std::shared_ptr<Element> element, uint16_t i, uint16_t j)
 {
     Case& c = _getCase(i, j);
@@ -103,38 +112,62 @@ void Case::afficher(std::ostream &flux) const
         switch (_element->type())
         {
         case TypeElement::batiment:
-            flux << "Ba";
+            flux << "Bas" << ((_element->joueur()==TypeJoueur::joueur1) ? 1 : 2);
             break;
         case TypeElement::troupe:
-            flux << "Tr";
+            {
+                Troupe * troupe = dynamic_cast<Troupe *>(_element.get());
+                switch (troupe->getType())
+                {
+                case TypeTroupe::archer:
+                    flux << "Arc";
+                    break;
+                case TypeTroupe::infanterie:
+                    flux << "Inf";
+                    break;
+                case TypeTroupe::catapulte:
+                    flux << "Cat";
+                    break;
+                case TypeTroupe::cavalier:
+                    flux << "Cav";
+                    break;
+                default:
+                    break;
+                }
+                flux << ((_element->joueur()==TypeJoueur::joueur1) ? 1 : 2);
+            }
+            break;
         default:
             break;
         }
     }
-    else flux << "--";
-    flux << ", ";
+    else flux << "----";
+    flux << ",";
     switch (_terrain)
     {
     case Terrain::plaine:
-        flux << "Pl";
+        flux << "Pla";
         break;
     case Terrain::foret:
-        flux << "Fo";
+        flux << "For";
         break;
     case Terrain::colline:
-        flux << "Co";
+        flux << "Col";
         break;
     case Terrain::montagne:
-        flux << "Mo";
+        flux << "Mon";
         break;
     case Terrain::eau:
-        flux << "Ea";
+        flux << "Eau";
         break;
     case Terrain::desert:
-        flux << "De";
+        flux << "Des";
+        break;
+    case Terrain::mer:
+        flux << "Mer";
         break;
     default:
-        flux << "Ot";
+        flux << "Oth";
         break;
     }
     flux << ")";

@@ -183,6 +183,7 @@ std::vector<Chemin> construitChemin(Graphe const & graphe, std::shared_ptr<Carte
 
 std::vector<Chemin> fabriqueChemin(Graphe graphe, std::shared_ptr<Carte> const &carte, std::shared_ptr<Troupe> const &troupe, std::list<std::shared_ptr<Troupe>> const &agentsRestants, Paths const & paths, unsigned int target)
 {
+    if (troupe->pos() == target) return std::vector<Chemin>(1, std::list<unsigned int>{troupe->pos()});
     for (auto const & agent: agentsRestants){
         graphe.delete_all_edge(agent->pos(), carte);
     }

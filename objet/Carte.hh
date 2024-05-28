@@ -3,7 +3,7 @@
 #include <memory>
 #include <vector>
 #include "Terrain.hh"
-#include "Element.hh"
+#include "Troupe.hh"
 
 #include "Batiment/Base.hh"
 
@@ -43,6 +43,8 @@ public:
     Case const & getCase(uint16_t i) const;
     uint16_t getPosBase1() const;
     uint16_t getPosBase2() const;
+
+    bool deplacer(std::shared_ptr<Troupe> & troupe, uint16 position);
 
     bool poseElement(std::shared_ptr<Element> element, uint16_t i, uint16_t j);
 

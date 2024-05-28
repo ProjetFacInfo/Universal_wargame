@@ -78,5 +78,29 @@ int main(){
     
     affichePaths(paths, carte);
 
+    std::cout << std::endl;
+
+    Joueur j2(carte, TypeJoueur::joueur2);
+    j2.giveTroupe(TypeTroupe::archer, posX(j2.getBase()->pos(), carte), posY(j2.getBase()->pos(), carte)+1);
+    j2.giveTroupe(TypeTroupe::catapulte, posX(j2.getBase()->pos(), carte)-1, posY(j2.getBase()->pos(), carte)+1);
+    j2.giveTroupe(TypeTroupe::cavalier, posX(j2.getBase()->pos(), carte)+1, posY(j2.getBase()->pos(), carte)+1);
+    j2.giveTroupe(TypeTroupe::infanterie, posX(j2.getBase()->pos(), carte)-2, posY(j2.getBase()->pos(), carte)+1);
+    j2.giveTroupe(TypeTroupe::archer, posX(j2.getBase()->pos(), carte)+2, posY(j2.getBase()->pos(), carte)+1);
+    j2.giveTroupe(TypeTroupe::infanterie, posX(j2.getBase()->pos(), carte), posY(j2.getBase()->pos(), carte)+2);
+
+    std::list<std::shared_ptr<Troupe>> agents2 = j2.getTroupes();
+    std::list<unsigned int> targets2 {
+        carte->pos(10, 8),
+        carte->pos(6, 8),
+        carte->pos(2, 5),
+        carte->pos(9, 5),
+        carte->pos(5, 15),
+        carte->pos(14, 8),
+    };
+
+    Paths paths2 = MAPF::run(carte, agents2, targets2);
+    
+    affichePaths(paths2, carte);
+
     return 0;
 }

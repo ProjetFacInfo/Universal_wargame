@@ -25,8 +25,7 @@ Jeu::Jeu(std::array<Terrain, TAILLECARTE> const & liste_terrains):_carte(std::ma
 
 void Jeu::lancer()
 {
-    unsigned int i = 0;
-    while(i<21 && i++){
+    for (unsigned int i = 0; i < 6 ; i++){
         _j1.joue();
         afficherCarte(std::cout);
         _j2.joue();

@@ -13,7 +13,7 @@ int main(int argc, char *argv[]){
     Jeu jeu(maps["1"]);
     jeu.afficherCarte(std::cout);
 
-    // test_list_position();
+    jeu.lancer();
 
     return 0;
 }

@@ -2,6 +2,7 @@
 
 #include <list>
 #include <unordered_map>
+#include <unistd.h>
 
 #include "ConstanteElement.hh"
 #include "Carte.hh"
@@ -12,7 +13,7 @@
 #include "MAPF/MAPF.hh"
 
 class Joueur{
-private:
+protected:
     std::shared_ptr<Carte> _carte;
     Ressources _ressources;
     std::list<std::shared_ptr<BatimentRessource>> _batimentsRessources;
