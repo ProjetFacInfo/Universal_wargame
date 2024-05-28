@@ -167,7 +167,6 @@ std::vector<Chemin> construitChemin(Graphe const & graphe, std::shared_ptr<Carte
                 }
             }
             if (target == next){
-                std::cout << "pb MAPF !" << std::endl;
                 return std::vector<Chemin>(1, std::list<unsigned int>{troupe->pos()});
             }
             target = next;
@@ -176,6 +175,7 @@ std::vector<Chemin> construitChemin(Graphe const & graphe, std::shared_ptr<Carte
             }
             if (target != troupe->pos()) listTourChemins[tourActuel-1].push_front(target);
         }
+        listTourChemins[0].push_front(troupe->pos());
         return listTourChemins;
     }
     return std::vector<Chemin>(1, std::list<unsigned int>{troupe->pos()});

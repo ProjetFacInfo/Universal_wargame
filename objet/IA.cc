@@ -30,7 +30,7 @@ void IA::joue()
             _carte->pos(10, 8),
             _carte->pos(6, 8),
             _carte->pos(2, 5),
-            _carte->pos(9, 5),
+            _carte->pos(9, 6),
             _carte->pos(5, 15),
             _carte->pos(14, 8),
         };

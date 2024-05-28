@@ -93,7 +93,7 @@ int main(){
         carte->pos(10, 8),
         carte->pos(6, 8),
         carte->pos(2, 5),
-        carte->pos(9, 5),
+        carte->pos(9, 6),
         carte->pos(5, 15),
         carte->pos(14, 8),
     };
