@@ -14,5 +14,6 @@ private:
     IA _j2;
 public:
     Jeu(std::array<Terrain, TAILLECARTE> const & liste_terrains);
+    void lancer();
     void afficherCarte(std::ostream & flux) const;
 };
