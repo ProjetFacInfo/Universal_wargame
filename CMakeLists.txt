@@ -37,6 +37,7 @@ file(GLOB OBJETS
     objet/Joueur.cc
     objet/MAPF.cc
     objet/Troupe.cc
+    objet/IA.cc
     ${BATIMENTS}
     ${MAPF}
 )
