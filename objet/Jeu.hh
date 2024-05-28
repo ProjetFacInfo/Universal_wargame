@@ -5,13 +5,13 @@
 #include <memory>
 
 #include "Carte.hh"
-#include "Joueur.hh"
+#include "IA.hh"
 
 class Jeu {
 private:
     std::shared_ptr<Carte> _carte;
-    Joueur _j1;
-    Joueur _j2;
+    IA _j1;
+    IA _j2;
 public:
     Jeu(std::array<Terrain, TAILLECARTE> const & liste_terrains);
     void afficherCarte(std::ostream & flux) const;

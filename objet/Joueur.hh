@@ -1,6 +1,7 @@
 #pragma once
 
 #include <list>
+#include <unordered_map>
 
 #include "ConstanteElement.hh"
 #include "Carte.hh"
@@ -8,6 +9,7 @@
 #include "Batiment/BatimentRessource.hh"
 #include "Batiment/BatimentTroupe.hh"
 #include "Troupe.hh"
+#include "MAPF/MAPF.hh"
 
 class Joueur{
 private:
@@ -36,12 +38,13 @@ public:
 
     bool giveTroupe(TypeTroupe const & troupe, uint16_t i, uint16_t j); // uniquement pour faire des tests
 
-    // Recher une cible parmi une liste de position attaquable
+    std::unordered_map<std::shared_ptr<Troupe>, std::list<unsigned int>> trouveChemins(std::list<std::shared_ptr<Troupe>> agents, std::list<unsigned int> targets);
+
+    // Rechercher une cible parmi une liste de position attaquable
     std::shared_ptr<Element> cible(std::shared_ptr<Troupe> t) const;
 
     // Parcourir la liste des troupes pour combattre l'ennemie a portée de l'arme
     void combat();
-
 
     void passerEreSuivante();
 };

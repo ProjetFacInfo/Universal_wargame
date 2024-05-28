@@ -84,6 +84,16 @@ bool Joueur::giveTroupe(TypeTroupe const &troupe, uint16_t i, uint16_t j)
     return true;
 }
 
+std::unordered_map<std::shared_ptr<Troupe>, std::list<unsigned int>> Joueur::trouveChemins(std::list<std::shared_ptr<Troupe>> agents, std::list<unsigned int> targets)
+{
+    Paths paths = MAPF::run(_carte, agents, targets);
+    std::unordered_map<std::shared_ptr<Troupe>, std::list<unsigned int>> res;
+    for(auto const & path : paths){
+        res[path.first] = path.second.at(0);
+    }
+    return res;
+}
+
 std::shared_ptr<Element> Joueur::cible(std::shared_ptr<Troupe> t) const {
     auto list_pos_att = t->list_pos_attaquable();
     for (auto pos : list_pos_att) {
