@@ -13,7 +13,7 @@ uniform sampler2D gTextureHeight2;
 uniform sampler2D gTextureHeight3;
 
 uniform float gHeight0 = -2.0;
-uniform float gHeight1 = -1.0;
+uniform float gHeight1 = 0.0;
 uniform float gHeight2 = 50.0;
 uniform float gHeight3 = 80.0;
 

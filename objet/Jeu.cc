@@ -36,3 +36,7 @@ void Jeu::afficherCarte(std::ostream & flux) const
 {
     _carte->afficher(flux);
 }
+
+std::shared_ptr<Carte> Jeu::getCarte() const {
+    return _carte;
+}

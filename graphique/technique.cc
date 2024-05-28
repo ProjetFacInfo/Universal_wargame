@@ -57,7 +57,7 @@ bool Technique::ajoutShader(GLenum shaderType, const char* pFic) {
     std::string s;
 
     if (!lireFichier(pFic, s)) {
-        fprintf(stderr, "erreur fichier ajout shader %s\n", pFic);
+        fprintf(stderr, "erreur fichier ajout shader %s\n",  pFic);
         return false;
     }
 

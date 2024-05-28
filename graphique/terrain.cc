@@ -239,8 +239,7 @@ void Terrain::SaveToFile(const char* pFilename)
 }
 
 
-void Terrain::Render(const Camera& camera)
-{
+void Terrain::Render(const Camera& camera) {
     Matrice4f VP = camera.getVueProjMat();
 
     m_terrainTech.activeShaderProgram();
@@ -258,8 +257,7 @@ void Terrain::Render(const Camera& camera)
 }
 
 
-void Terrain::setMinMaxHeight(float MinHeight, float MaxHeight)
-{
+void Terrain::setMinMaxHeight(float MinHeight, float MaxHeight) {
     m_minHeight = MinHeight;
     m_maxHeight = MaxHeight;
 

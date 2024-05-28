@@ -10,10 +10,13 @@ void test_list_position();
 
 int main(int argc, char *argv[]){
 
-    Jeu jeu(maps["1"]);
+    Jeu jeu(maps["2"]);
     jeu.afficherCarte(std::cout);
 
     jeu.lancer();
+    printf("ok");
+    jeu.getCarte()->creerCarteHauteur();
+    // test_list_position();
 
     return 0;
 }

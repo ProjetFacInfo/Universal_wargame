@@ -188,8 +188,8 @@ public:
         // _terrain.setLumiereDir(_lumiereDir.directionMonde);
 
         _terrain.InitTerrain(WorldScale, TextureScale, TextureFilenames);
-        _terrain.CreateMidpointDisplacement(_terrainSize, _roughness, _hauteurMin, _hauteurMax);
-        // _terrain.CreateMap("carte_aleatoire", _terrainSize, _hauteurMin, _hauteurMax);
+        // _terrain.CreateMidpointDisplacement(_terrainSize, _roughness, _hauteurMin, _hauteurMax);
+        _terrain.CreateMap("../instance/carte_hauteur", _terrainSize, _hauteurMin, _hauteurMax);
 
 
         _terrain.SaveToFile("carte_aleatoire");

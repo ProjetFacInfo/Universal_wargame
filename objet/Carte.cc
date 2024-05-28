@@ -1,4 +1,5 @@
 #include "Carte.hh"
+#include <fstream>
 
 Carte::Carte() : _largeur(LARGEURCARTE), _longueur(LONGUEURCARTE), _plateau(_largeur * _longueur), _posBase1(_largeur*3/4*_largeur+_longueur/4), _posBase2(_largeur/4*_largeur+_longueur*3/4-1) {}
 
@@ -198,4 +199,86 @@ Case & Carte::operator[](uint16 pos) {
 
 const Case & Carte::operator[](uint16 pos) const {
     return _plateau[pos];
+}
+
+std::vector<float> Carte::getPlageHauteur(float min, float max) const {
+    srand(time(NULL));
+    std::vector<float> tmp(_largeur * _longueur);
+
+    for (uint16_t i=0; i < _largeur * _longueur; i++) {
+            tmp[i] = (rand() / (float)RAND_MAX) * (max - min) + min;
+    }
+    return tmp;
+}
+
+
+void Carte::creerCarteHauteur() const {
+    float merMin = -3.0f;
+    float merMax = -2.0f;
+    float eauMin = -2.0f;
+    float eauMax = -1.0f;
+    float desertMin = -1.0f;
+    float desertMax = 0.0f;
+    float plaineMin = 0.0f;
+    float plaineMax = 5.0f;
+    float foretMin = 0.0f;
+    float foretMax = 5.0f;
+    float collineMin = 1.0f;
+    float collineMax = 20.0f;
+    float montagneMin = 20.0f;
+    float montagneMax = 200.0f;
+
+    std::ofstream flux;
+    flux.open("../instance/carte_hauteur");
+    std::vector<std::vector<float>> acc(_largeur * _longueur);
+    std::vector<float> tmp;
+    int cpt = 0;
+
+    for (const auto & c : _plateau) {
+        switch (c._terrain) {
+            case Terrain::mer:
+            tmp = getPlageHauteur(merMin, merMax);
+            break;
+
+            case Terrain::eau:
+            tmp = getPlageHauteur(eauMin, eauMax);
+            break;
+
+            case Terrain::desert:
+            tmp = getPlageHauteur(desertMin, desertMax);
+            break;
+
+            case Terrain::plaine:
+            tmp = getPlageHauteur(plaineMin, plaineMax);
+            break;
+
+            case Terrain::foret:
+            tmp = getPlageHauteur(foretMin, foretMax);
+            break;
+
+            case Terrain::colline:
+            tmp = getPlageHauteur(collineMin, collineMax);
+            break;
+
+            case Terrain::montagne:
+            tmp = getPlageHauteur(montagneMin, collineMax);
+            break;
+        }
+        acc[cpt] = tmp;
+        ++cpt;
+    }
+
+    for (int l=0; l < _longueur; ++l) {
+        for (int k=0; k < _largeur; ++k) {
+            for (int j= l*_longueur; j < l*_longueur+_longueur; ++j) {
+                for (int i= k*_longueur; i < k*_largeur+_largeur; ++i) {
+                   flux << acc[j][i] << " ";
+                }
+            }
+            flux << "\n";
+        }
+    }
+
+
+    flux.close();
 }

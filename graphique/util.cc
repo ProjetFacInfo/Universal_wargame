@@ -9,9 +9,9 @@ long long getTempsMilliSecondre() {
 bool lireFichier(const char* pFileName, std::string& outFile) {
     std::ifstream f(pFileName);
 
-    printf("pfilename : %s\n", pFileName);
+    // printf("pfilename : %s\n", pFileName);
     if (f.is_open()) {
-        printf("LireFichier OK\n");
+        // printf("LireFichier OK\n");
         std::string line;
         while (getline(f, line)) {
             outFile.append(line);

@@ -55,4 +55,7 @@ public:
 
     Case & operator[](uint16 pos);
     const Case & operator[](uint16 pos) const;
+
+    std::vector<float> getPlageHauteur(float min, float max) const;
+    void creerCarteHauteur() const;
 };
