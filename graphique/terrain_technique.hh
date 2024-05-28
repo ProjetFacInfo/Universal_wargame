@@ -20,8 +20,7 @@ private:
 public:
 
     TerrainTechnique();
-    // TODO : supprimer virtual
-    virtual bool init();
+    bool init();
     void setVP(const Matrice4f & VP);
     void setHauteurMinMax(float min, float max);
     void setTextureHauteur(float hauteurTex0, float hauteurTex1, float hauteurTex2, float hauteurTex3);

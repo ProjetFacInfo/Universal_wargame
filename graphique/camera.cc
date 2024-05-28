@@ -12,9 +12,8 @@ Camera::Camera()
     : _vitesse(10.0f) {}
 
 Camera::Camera(int Windowlargeur, int WindowHauteur)
-    :_windowLargeur(Windowlargeur), _windowHauteur(WindowHauteur)
-     , _pos(Vecteur3f(0.0f, 0.0f, 0.0f)), _cible(Vecteur3f(0.0f, 0.0f, 1.0f))
-     , _up(Vecteur3f(0.0f, 1.0f, 0.0f)) {
+    : _pos(Vecteur3f(0.0f, 0.0f, 0.0f)), _cible(Vecteur3f(0.0f, 0.0f, 1.0f)) , _up(Vecteur3f(0.0f, 1.0f, 0.0f))
+      , _windowLargeur(Windowlargeur), _windowHauteur(WindowHauteur){
     initInterne();
 }
 
@@ -224,10 +223,6 @@ bool Camera::OnKeyboard(int Key) {
         }
     }
 
-    // TODO : supprimer
-    if (posChanger) {
-        // printf("Camera pos: "); _pos.print(); printf("\n");
-    }
 
     return posChanger;
 }

@@ -42,22 +42,6 @@ bool TerrainTechnique::init() {
     _hauteurTex3Loc = getUniformLocation("gHauteur3");
     _lumireDirInverseLoc = getUniformLocation("gLumiereDirInverse");
 
-// TODO : supprimer
-    if (_VPLoc == INVALID_UNIFORM_LOCALISATION||
-        _hauteutMinLoc == INVALID_UNIFORM_LOCALISATION ||
-        _hauteurMaxLoc == INVALID_UNIFORM_LOCALISATION ||
-        _texUnit0Loc == INVALID_UNIFORM_LOCALISATION ||
-        _texUnit1Loc == INVALID_UNIFORM_LOCALISATION ||
-        _texUnit2Loc == INVALID_UNIFORM_LOCALISATION ||
-        _texUnit3Loc == INVALID_UNIFORM_LOCALISATION ||
-        _hauteurTex0Loc == INVALID_UNIFORM_LOCALISATION ||
-        _hauteurTex1Loc == INVALID_UNIFORM_LOCALISATION ||
-        _hauteurTex2Loc == INVALID_UNIFORM_LOCALISATION ||
-        _hauteurTex3Loc == INVALID_UNIFORM_LOCALISATION ||
-        _lumireDirInverseLoc == INVALID_UNIFORM_LOCALISATION) {
-        return false;
-    }
-
     activeShaderProgram();
     glUniform1i(_texUnit0Loc, COULEUR_TEXTURE_UNIT_IND_0);
     glUniform1i(_texUnit1Loc, COULEUR_TEXTURE_UNIT_IND_1);

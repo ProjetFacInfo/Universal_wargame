@@ -165,38 +165,6 @@ void Terrain::chargerCarte(const char* pFilename, int size) {
     _carteHauteur.initTableau2D(size, size, data);
 }
 
-// TODO : supprimer
-// void Terrain::LoadFromFile(const char* pFilename)
-// {
-//     LoadhauteurCarteFile(pFilename);
-//
-//     _triangleList.creerTriangleList(_tailleTerrain, _tailleTerrain, this);
-// }
-//
-//
-// void Terrain::LoadhauteurCarteFile(const char* pFilename)
-// {
-//     int FileSize = 0;
-//     unsigned char* p = (unsigned char*)ReadBinaryFile(pFilename, FileSize);
-//
-//     if (FileSize % sizeof(float) != 0) {
-//         printf("%s:%d - '%s' does not contain an whole number of floats (size %d)\n", __FILE__, __LINE__, pFilename, FileSize);
-//         exit(0);
-//     }
-//
-//     _tailleTerrain = (int)sqrtf((float)FileSize / (float)sizeof(float));
-//
-//     printf("Terrain size %d\n", _tailleTerrain);
-//
-//     if ((_tailleTerrain * _tailleTerrain) != (FileSize / sizeof(float))) {
-//         printf("%s:%d - '%s' does not contain a square height map - size %d\n", __FILE__, __LINE__, pFilename, FileSize);
-//         exit(0);
-//     }
-//
-//     _carteHauteur.initTableau2D(_tailleTerrain, _tailleTerrain, (float*)p);
-// }
-
-
 void Terrain::saveDansFic(const char* pFilename) {
     unsigned char* p = (unsigned char*)malloc(_tailleTerrain * _tailleTerrain);
     float* src = _carteHauteur.getBaseAddr();

@@ -5,13 +5,7 @@
 
 class Technique {
 private:
-    // TODO : supprimer
-    // typedef std::list<GLuint> ShaderObjList;
-    // ShaderObjList _shaderObjList;
     std::list<GLuint> _shaderObjList;
-
-// TODO : _shaderProg private ?
-protected:
     GLuint _shaderProg;
 
 public:

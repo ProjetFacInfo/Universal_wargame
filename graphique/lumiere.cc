@@ -10,7 +10,7 @@ bool LumiereBase::estZero() {
 }
 
 LumiereDirectionnel::LumiereDirectionnel()
-    :directionMonde(Vecteur3f(0.0f, 0.0f, 0.0f)), directionLocal(Vecteur3f(0.0f, 0.0f, 0.0f)) {}
+    : directionLocal(Vecteur3f(0.0f, 0.0f, 0.0f)),directionMonde(Vecteur3f(0.0f, 0.0f, 0.0f)) {}
 
 const Vecteur3f& LumiereDirectionnel::getDirectionLocal() const {
     return directionLocal;
@@ -25,7 +25,7 @@ Attenuation::Attenuation()
     :constant(1.0f), linear(0.0f), exponentiel(0.0f) {}
 
 LumierePonctuel::LumierePonctuel()
-        :posMonde(Vecteur3f(0.0f, 0.0f, 0.0f)), posLocal(Vecteur3f(0.0f, 0.0f, 0.0f)) {}
+        :posLocal(Vecteur3f(0.0f, 0.0f, 0.0f)), posMonde(Vecteur3f(0.0f, 0.0f, 0.0f)) {}
 
 const Vecteur3f& LumierePonctuel::getPosLocal() const {
     return posLocal;
@@ -36,8 +36,8 @@ void LumierePonctuel::calcPosLocal(const MondeTrans& mondeTransform) {
 }
 
 LumiereProjecteur::LumiereProjecteur()
-    : directionMonde(Vecteur3f(0.0f, 0.0f, 0.0f))
-      , directionLocal(Vecteur3f(0.0f, 0.0f, 0.0f)), limite(0.0f)  {}
+    : directionLocal(Vecteur3f(0.0f, 0.0f, 0.0f))
+      , directionMonde(Vecteur3f(0.0f, 0.0f, 0.0f)), limite(0.0f)  {}
 
 void LumiereProjecteur::calcDirEtPosLocal(const MondeTrans& mondeTransform) {
     calcPosLocal(mondeTransform);

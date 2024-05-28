@@ -29,7 +29,4 @@ class Texture {
         void charger(unsigned int taiBuffer, void* pImageData);
         void chargerF32(int largeur, int hauteur, const float* pImageData);
 
-        // TODO : supprimer
-        // void chargerBrut(int largeur, int hauteur, int _BPP, const unsigned char* pImageData);
-
 };

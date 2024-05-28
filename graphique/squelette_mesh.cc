@@ -368,8 +368,6 @@ void SqueletteMesh::hierarchieNoeud
         calcLocalTransform(transform, tickes, pNodeAnim);
         Matrice4f scalMat;
         scalMat.scaleTransform(transform.scaling.x, transform.scaling.y, transform.scaling.z);
-        // TODO : supprimer
-        // Matrice4f rotationMat = Matrice4f(transform.rotation.GetMatrix());
         Matrice4f rotationMat(transform.rotation.GetMatrix());
         Matrice4f translationMat;
         translationMat.translationTransform(transform.translation.x, transform.translation.y, transform.translation.z);

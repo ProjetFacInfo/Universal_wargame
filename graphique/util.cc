@@ -6,12 +6,11 @@ long long getTempsMilliSecondre() {
     return duration_cast<milliseconds>(now.time_since_epoch()).count();
 }
 
-bool lireFichier(const char* pFileName, std::string& outFile) {
-    std::ifstream f(pFileName);
+bool lireFichier(const char* pNomFic, std::string& outFile) {
+    std::ifstream f(pNomFic);
 
     // printf("pfilename : %s\n", pFileName);
     if (f.is_open()) {
-        // printf("LireFichier OK\n");
         std::string line;
         while (getline(f, line)) {
             outFile.append(line);
@@ -19,10 +18,9 @@ bool lireFichier(const char* pFileName, std::string& outFile) {
         }
 
         f.close();
-
         return true;
     } else {
-        printf("LireFichier KO \n");
+        printf("LireFichier %s KO \n", pNomFic);
     }
 
     return false;

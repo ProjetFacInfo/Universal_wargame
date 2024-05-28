@@ -8,12 +8,15 @@
 
 class Camera {
 private:
+    PersProjInfo _persProfInfo;
+    Matrice4f _projection;
     Vecteur3f _pos;
     Vecteur3f _cible;
     Vecteur3f _up;
-    float _vitesse;
+    Position _mousePos;
     int _windowLargeur;
     int _windowHauteur;
+    float _vitesse;
     float _angleH;                  // angle vue horizontal
     float _angleV;                  // angle vue vertical
     // Les 4 bords de l'écran pour verifié si on l'attend
@@ -21,9 +24,6 @@ private:
     bool _bordInf;
     bool _bordGauche;
     bool _bordDroite;
-    Position _mousePos;
-    PersProjInfo _persProfInfo;
-    Matrice4f _projection;
 
 public:
 

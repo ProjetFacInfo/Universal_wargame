@@ -159,14 +159,3 @@ void Texture::chargerF32(int largeur, int hauteur, const float* pImageData) {
     glTextureParameteri(_textureObj, GL_TEXTURE_WRAP_T, GL_REPEAT);
 }
 
-// TODO : supprimer
-// void Texture::chargerBrut(int largeur, int hauteur, int _BPP, const unsigned char* pImageData)
-// {
-//     _largeur = largeur;
-//     _hauteur = hauteur;
-//     _BPP = _BPP;
-//
-//     chargerInterne(pImageData);
-// }
-
-

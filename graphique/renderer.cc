@@ -227,9 +227,6 @@ void Renderer::renderAnimationAttache
 
     renderAnimationInterne(pMesh);
 
-    // TODO : a supprimer si c'est bon
-    // std::vector<Matrice4f> transforms;
-    // pMesh->getSqueletteTransformsAttache (tempAnimation, transforms, debAnimInd, finAnimInd, facteur);
     std::vector<Matrice4f> transforms =
         pMesh->getSqueletteTransformsAttache(tempAnimation, debAnimInd, finAnimInd, facteur);
 
