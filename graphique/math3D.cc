@@ -786,9 +786,8 @@ float radianEnDegree(float f) {
 }
 
 float floattantAleatoire() {
-    return (float)(rand() / RAND_MAX);
+    return (rand() / (float)RAND_MAX);
 }
-
 float plageFloattantAleatoire(float deb, float fin) {
     return floattantAleatoire() * (fin - deb) + deb;
 }
