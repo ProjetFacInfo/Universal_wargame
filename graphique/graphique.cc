@@ -22,9 +22,9 @@
 #define WINDOW_HEIGHT 1080
 #define Z_FAR 5000.0f
 
-static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
-static void CursorPosCallback(GLFWwindow* window, double x, double y);
-static void MouseButtonCallback(GLFWwindow* window, int Button, int Action, int Mode);
+static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+static void cursorPosCallback(GLFWwindow* window, double x, double y);
+static void mouseButtonCallback(GLFWwindow* window, int Button, int Action, int Mode);
 
 
 class Graphique {
@@ -45,9 +45,9 @@ private:
     int _animationInd = 0;
 
     int _terrainSize = 256;
-    float _roughness = 2.0f;
-    float _hauteurMin = -2.0f;
-    float _hauteurMax = 100.0f;
+    float _roughness = 1.5f;
+    float _hauteurMin = -20.0f;
+    float _hauteurMax = 200.0f;
     bool _constrainCamera = false;
 
 public:
@@ -65,18 +65,18 @@ public:
     }
 
 
-    void Init() {
-        CreateWindow();
+    void init() {
+        createWindow();
 
-        InitCallbacks();
+        initCallbacks();
 
-        InitTerrain();
+        initTerrain();
 
-        InitCamera();
+        initCamera();
 
-        InitMesh();
+        initMesh();
 
-        InitRenderer();
+        initRenderer();
 
         _debTemps = getTempsMilliSecondre();
         _courantTemps = _debTemps;
@@ -119,11 +119,11 @@ public:
     }
 
 
-    void PassiveMouseCB(int x, int y) {
+    void passiveMouseCB(int x, int y) {
             _pCamera->OnMouse(x, y);
     }
 
-    void KeyboardCB(uint key, int state) {
+    void keyboardCB(uint key, int state) {
         if (state == GLFW_PRESS) {
 
             switch (key) {
@@ -139,10 +139,10 @@ public:
     }
 
 
-    void MouseCB(int button, int action, int x, int y) {
+    void mouseCB(int button, int action, int x, int y) {
     }
 
-    void CreateWindow() {
+    void createWindow() {
         int major_ver = 0;
         int minor_ver = 0;
         bool estPleinEcrain = true;
@@ -151,28 +151,30 @@ public:
     }
 
 
-    void InitCallbacks() {
-        glfwSetKeyCallback(window, KeyCallback);
-        glfwSetCursorPosCallback(window, CursorPosCallback);
-        glfwSetMouseButtonCallback(window, MouseButtonCallback);
+    void initCallbacks() {
+        glfwSetKeyCallback(window, keyCallback);
+        glfwSetCursorPosCallback(window, cursorPosCallback);
+        glfwSetMouseButtonCallback(window, mouseButtonCallback);
     }
 
-    void InitTerrain() {
-        float WorldScale = 4.0f;
-        float TextureScale = 1.0f;
-        std::vector<std::string> TextureFilenames;
-        TextureFilenames.push_back("../graphique/data/textures/ocean_terrain.jpg");
-        TextureFilenames.push_back("../graphique/data/textures/eau_terrain.jpg");
-        TextureFilenames.push_back("../graphique/data/textures/pelouse_terrain.png");
-        TextureFilenames.push_back("../graphique/data/textures/montagne_terrain.jpg");
+    void initTerrain() {
+        float worldScale = 4.0f;
+        float textureScale = 1.0f;
+        std::vector<std::string> textureNomFic;
+        textureNomFic.push_back("../graphique/data/textures/ocean_terrain.jpg");
+        textureNomFic.push_back("../graphique/data/textures/eau_terrain.jpg");
+        textureNomFic.push_back("../graphique/data/textures/desert_terrain.jpg");
+        textureNomFic.push_back("../graphique/data/textures/pelouse_terrain.png");
+        textureNomFic.push_back("../graphique/data/textures/montagne_terrain.jpg");
+        textureNomFic.push_back("../graphique/data/textures/neige_terrain.png");
 
-        _terrain.initTerrain(WorldScale, TextureScale, TextureFilenames);
+        _terrain.initTerrain(worldScale, textureScale, textureNomFic);
         _terrain.creerCarteDiamantCarre(_terrainSize, _roughness, _hauteurMin, _hauteurMax);
         // _terrain.creerCarte("../instance/carte_hauteur", _terrainSize, _hauteurMin, _hauteurMax);
         _terrain.setLumiereDir(_lumiereDir.directionMonde);
     }
 
-    void InitCamera() {
+    void initCamera() {
         float CameraX = _terrain.getTailleMonde() / 2.0f;
         Vecteur3f Pos(CameraX , 600.0f, 0);
         Vecteur3f Target(0.0f, -0.25f, 1.0f);
@@ -185,34 +187,23 @@ public:
 
         _pCamera = new Camera(persProjInfo, Pos, Target, Up);
         _pCamera->setVitesse(10.0f);
-        // printf("camera : x %f y %f z %f\n", Pos.x, Pos.y, Pos.z);
-
-        // Vecteur3f Pos(0.0f, 0.0f, 0.0f);
-        // Vecteur3f Target(0.0f, 0.0f, 1.0f);
-        // Vecteur3f Up(0.0, 1.0f, 0.0f);
-        // float FOV = 45.0f;
-        // float zNear = 0.1f;
-        // float zFar = Z_FAR;
-        // PersProjInfo persProjInfo = { FOV, (float)WINDOW_WIDTH, (float)WINDOW_HEIGHT, zNear, zFar };
-        // _pCamera = new Camera(persProjInfo, Pos, Target, Up);
-        // _pCamera->setVitesse(10.0f);
     }
 
 
-    void InitRenderer() {
+    void initRenderer() {
         _renderer.initRenderer();
         _renderer.setCamera(_pCamera);
         _renderer.setLumiereDirectionel(_lumiereDir);
     }
 
 
-    void InitMesh() {
+    void initMesh() {
         float scale = 0.1f;
         float CameraX = _terrain.getTailleMonde() / 2.0f;
         float CameraZ = CameraX;
         Vecteur3f Pos(CameraX, 0.0f, CameraZ);
         Pos = _terrain.constrainPosToTerrain(Pos);
-        // Pos.y += 10.0f * scale;
+        Pos.y += 10.0f;
 
         _pMesh1 = new SqueletteMesh();
         _pMesh1->chargerMesh("../graphique/data/Walking.dae");
@@ -225,20 +216,20 @@ public:
 
 Graphique* app = NULL;
 
-static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
-    app->KeyboardCB(key, action);
+static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+    app->keyboardCB(key, action);
 }
 
 
-static void CursorPosCallback(GLFWwindow* window, double x, double y) {
-    app->PassiveMouseCB((int)x, (int)y);
+static void cursorPosCallback(GLFWwindow* window, double x, double y) {
+    app->passiveMouseCB((int)x, (int)y);
 }
 
 
-static void MouseButtonCallback(GLFWwindow* window, int Button, int Action, int Mode) {
+static void mouseButtonCallback(GLFWwindow* window, int Button, int Action, int Mode) {
     double x, y;
     glfwGetCursorPos(window, &x, &y);
-    app->MouseCB(Button, Action, (int)x, (int)y);
+    app->mouseCB(Button, Action, (int)x, (int)y);
 }
 
 
@@ -246,7 +237,7 @@ int main(int argc, char** argv) {
 
     app = new Graphique();
 
-    app->Init();
+    app->init();
 
     glClearColor(135.0f / 255.0f, 206.0f / 255.0f, 235.0f / 255.0f, 0.0f);
     // glClearColor(0.04f, 0.04f, 0.16f, 1.0f);

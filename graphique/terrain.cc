@@ -214,8 +214,8 @@ void Terrain::setHauteurMinMax(float hauteurMin, float hauteurMax) {
 }
 
 
-void Terrain::setTextureHauteur(float hauteurTex0, float hauteurTex1, float hauteurTex2, float hauteurTex3) {
-    _terrainTech.setTextureHauteur(hauteurTex0, hauteurTex1, hauteurTex2, hauteurTex3);
+void Terrain::setTextureHauteur(float hauteurTex0, float hauteurTex1, float hauteurTex2, float hauteurTex3, float hauteurTex4, float hauteurTex5) {
+    _terrainTech.setTextureHauteur(hauteurTex0, hauteurTex1, hauteurTex2, hauteurTex3, hauteurTex4, hauteurTex5);
 }
 
 void Terrain::creerCarteDiamantCarre(int tailleTerrain, float chaos, float hauteurMin, float hauteurMax) {

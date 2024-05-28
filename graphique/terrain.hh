@@ -15,7 +15,7 @@ class Terrain {
       Vecteur3f _lumiereDir;
       int _tailleTerrain;
       float _mondeEchelle;
-      Texture* _pTextures[4];
+      Texture* _pTextures[6];
       float _textureEchelle;
       float _hauteurMin;
       float _hauteurMax;
@@ -41,7 +41,7 @@ class Terrain {
       int getTaille() const { return _tailleTerrain; }
       void setHauteurMinMax(float hauteurMin, float hauteurMax);
       void setTexture(Texture* pTexture) { _pTextures[0] = pTexture; }
-      void setTextureHauteur(float hauteurTex0, float hauteurTex1, float hauteurTex2, float hauteurTex3);
+      void setTextureHauteur(float hauteurTex0, float hauteurTex1, float hauteurTex2, float hauteurTex3, float hauteurTex4, float hauteurTex5);
       void setLumiereDir(const Vecteur3f& dir) { _lumiereDir = dir; }
       void creerCarteDiamantCarre(int Size, float chaos, float hauteurMin, float hauteurMax);
       Vecteur3f constrainPosToTerrain(const Vecteur3f& pos);
