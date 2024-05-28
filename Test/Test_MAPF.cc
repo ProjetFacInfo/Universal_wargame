@@ -56,7 +56,7 @@ int posY(unsigned int pos, std::shared_ptr<Carte> const & carte){
 int main(){
 
     std::shared_ptr<Carte> carte(std::make_shared<Carte>(maps.at("1")));
-    IA j1(carte, TypeJoueur::joueur1);
+    Joueur j1(carte, TypeJoueur::joueur1);
     j1.giveTroupe(TypeTroupe::archer, posX(j1.getBase()->pos(), carte), posY(j1.getBase()->pos(), carte)-1);
     j1.giveTroupe(TypeTroupe::catapulte, posX(j1.getBase()->pos(), carte)-1, posY(j1.getBase()->pos(), carte)-1);
     j1.giveTroupe(TypeTroupe::cavalier, posX(j1.getBase()->pos(), carte)+1, posY(j1.getBase()->pos(), carte)-1);
