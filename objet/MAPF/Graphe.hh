@@ -23,6 +23,7 @@ public:
     float is_edge(vertex r, vertex c) const;
     void add_edge(vertex r, vertex c);
     void add_all_edge(vertex r, std::shared_ptr<Carte> const & carte);
+    void add_all_edge(vertex r, std::shared_ptr<Carte> const & carte, std::list<std::shared_ptr<Troupe>> const & autresAgents);
     void delete_edge(vertex r, vertex c);
     void delete_all_edge(vertex r, std::shared_ptr<Carte> const & carte);
 

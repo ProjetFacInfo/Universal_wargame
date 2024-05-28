@@ -1,7 +1,5 @@
 #include "MAPF.hh"
 
-
-
 bool estAtteignable(Graphe const & graphe, std::shared_ptr<Carte> const & carte, std::shared_ptr<Troupe> const & agent, unsigned int target){
     std::vector<bool> check(carte->taille(), false);
     std::queue<vertex> file;
@@ -53,15 +51,23 @@ void ordrePrio(Graphe graphe, std::shared_ptr<Carte> const & carte, std::list<st
             }
         }
     }
+    for (auto const & target : targetsbis){
+        graphe.add_all_edge(target, carte);
+    }
     for (auto const & agent : agentsbis){
         graphe.delete_all_edge(agent->pos(), carte);
     }
     while(!agentsbis.empty()){
         auto target_it = targetsbis.begin();
         auto agent_it = agentsbis.begin();
-        while(agent_it != agentsbis.end() && !estAtteignable(graphe, carte, *agent_it, *target_it)){
-            agent_it++;
-            target_it++;
+        while(agent_it != agentsbis.end()){
+            graphe.add_all_edge((*agent_it)->pos(), carte);
+            if (!estAtteignable(graphe, carte, *agent_it, *target_it)){
+                graphe.delete_all_edge((*agent_it)->pos(), carte);
+                agent_it++;
+                target_it++;
+            }
+            else break;
         }
         if (agent_it != agentsbis.end()){
             agents.push_back(*agent_it);
@@ -91,9 +97,16 @@ Paths MAPF::run(std::shared_ptr<Carte> const &carte, std::list<std::shared_ptr<T
     while (!agents.empty()){
         std::shared_ptr<Troupe> troupe = agents.front();
         agents.pop_front();
-        if (!estAtteignable(graphe, carte, troupe, targets.front())) std::cout << "target non atteignable !" << std::endl;
-        paths[troupe] = fabriqueChemin(graphe, carte, troupe, agents, paths, targets.front());
+        //if (!estAtteignable(graphe, carte, troupe, targets.front())) std::cout << "target non atteignable !" << std::endl;
+        paths.emplace(troupe, fabriqueChemin(graphe, carte, troupe, agents, paths, targets.front()));
         targets.pop_front();
     }
-    return paths;
+
+    Paths paths2;
+
+    for (auto const & path : paths){
+        paths2.emplace(path.first, path.second);
+    }
+
+    return paths2;
 }

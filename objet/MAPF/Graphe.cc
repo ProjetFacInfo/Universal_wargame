@@ -5,11 +5,11 @@ Graphe::Graphe(std::shared_ptr<Carte> const & carte, std::list<std::shared_ptr<T
     _matrice.shrink_to_fit();
     for (vertex r = 0; r < carte->taille() ; ++r){
         if (!carte->getCase(r)._element) {
-            add_all_edge(r, carte);
+            add_all_edge(r, carte, agents);
         }
     }
     for (auto const & agent : agents){
-        add_all_edge(agent->pos(), carte);
+        add_all_edge(agent->pos(), carte, agents);
     }
 
     /*
@@ -33,6 +33,21 @@ void Graphe::add_edge(vertex r, vertex c)
     vertex min = std::min(r, c); 
     vertex max = std::max(r, c); 
     _matrice[(max * (max + 1)) / 2 + min] = true;
+}
+
+bool posInclude(std::list<std::shared_ptr<Troupe>> const & autresAgents, unsigned int position){
+    for (auto const & agent : autresAgents){
+        if (agent->pos() == position) return true;
+    }
+    return false;
+}
+
+void Graphe::add_all_edge(vertex r, std::shared_ptr<Carte> const & carte, std::list<std::shared_ptr<Troupe>> const & autresAgents)
+{
+    if (carte->estCase(r % _largeur - 1, r / _largeur) && (!carte->getCase(r % _largeur - 1, r / _largeur)._element || posInclude(autresAgents, carte->pos(r % _largeur - 1, r / _largeur)))) add_edge(r, r-1);
+    if (carte->estCase(r % _largeur + 1, r / _largeur) && (!carte->getCase(r % _largeur + 1, r / _largeur)._element || posInclude(autresAgents, carte->pos(r % _largeur + 1, r / _largeur)))) add_edge(r, r+1);
+    if (carte->estCase(r % _largeur, r / _largeur - 1) && (!carte->getCase(r % _largeur, r / _largeur - 1)._element || posInclude(autresAgents, carte->pos(r % _largeur, r / _largeur - 1)))) add_edge(r, r-_largeur);
+    if (carte->estCase(r % _largeur, r / _largeur + 1) && (!carte->getCase(r % _largeur, r / _largeur + 1)._element || posInclude(autresAgents, carte->pos(r % _largeur, r / _largeur + 1)))) add_edge(r, r+_largeur);
 }
 
 void Graphe::add_all_edge(vertex r, std::shared_ptr<Carte> const & carte)

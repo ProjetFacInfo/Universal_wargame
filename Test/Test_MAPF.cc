@@ -45,11 +45,11 @@ void affichePaths(Paths const & paths, std::shared_ptr<Carte> const & carte){
 }
 
 int posX(unsigned int pos, std::shared_ptr<Carte> const & carte){
-    return pos/carte->largeur();
+    return pos%carte->largeur();
 }
 
 int posY(unsigned int pos, std::shared_ptr<Carte> const & carte){
-    return pos%carte->largeur();
+    return pos/carte->largeur();
 }
 
 
@@ -67,11 +67,11 @@ int main(){
     std::list<std::shared_ptr<Troupe>> agents = j1.getTroupes();
     std::list<unsigned int> targets {
         carte->pos(12, 12),
-        carte->pos(6, 8),
+        carte->pos(8, 6),
         carte->pos(5, 5),
-        carte->pos(5, 4),
-        carte->pos(15, 10),
-        carte->pos(14, 10),
+        carte->pos(4, 5),
+        carte->pos(10, 15),
+        carte->pos(8, 14),
     };
 
     Paths paths = MAPF::run(carte, agents, targets);
