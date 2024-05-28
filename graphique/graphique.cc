@@ -80,7 +80,6 @@ public:
 
         _debTemps = getTempsMilliSecondre();
         _courantTemps = _debTemps;
-        // std::cerr << "=================== Init ok ======================" << std::endl;
     }
 
     // boucle principale du programme qui continue tant que la fenetre n'est pas fermée
@@ -102,7 +101,6 @@ public:
 
 
     void RenderScene() {
-        // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         _pCamera->OnRender();
 
@@ -110,16 +108,13 @@ public:
             _courantTemps = getTempsMilliSecondre();
         }
 
-        // _terrain.setLumiereDir(_lumiereDir.directionMonde);
-        // _terrain.render(*_pCamera);
-        _terrain.setLightDir(_lumiereDir.directionMonde);
-        _terrain.Render(*_pCamera);
+        _terrain.setLumiereDir(_lumiereDir.directionMonde);
+        _terrain.render(*_pCamera);
 
         float AnimationTimeSec = (float)((double)_courantTemps - (double)_debTemps) / 1000.0f;
         float TotalPauseTimeSec = (float)((double)_pauseTemps / 1000.0f);
         AnimationTimeSec -= TotalPauseTimeSec;
 
-        // std::cerr << "=================== Render ok ======================" << std::endl;
         _renderer.renderAnimation(_pMesh1, AnimationTimeSec, _animationInd);
     }
 
@@ -138,24 +133,15 @@ public:
                 glfwTerminate();
                 exit(0);
 
-            case GLFW_KEY_B:
-                _constrainCamera = !_constrainCamera;
-                printf("constrain %d\n", _constrainCamera);
-                break;
             }
-
-            bool CameraChangedPos = _pCamera->OnKeyboard(key);
-
-            if (_constrainCamera && CameraChangedPos) {
-                ConstrainCameraToTerrain();
-            }
+            _pCamera->OnKeyboard(key);
         }
-
     }
 
 
     void MouseCB(int button, int action, int x, int y) {
     }
+
     void CreateWindow() {
         int major_ver = 0;
         int minor_ver = 0;
@@ -180,31 +166,15 @@ public:
         TextureFilenames.push_back("../graphique/data/textures/pelouse_terrain.png");
         TextureFilenames.push_back("../graphique/data/textures/montagne_terrain.jpg");
 
-        // _terrain.initTerrain(WorldScale, TextureScale, TextureFilenames);
-        // _terrain.creerCarteDiamantCarre(_terrainSize, _roughness, _hauteurMin, _hauteurMax);
-        //
-        //
-        // _terrain.sauvegarderDansFichier("carte_aleatoire");
-        // _terrain.setLumiereDir(_lumiereDir.directionMonde);
-
-        _terrain.InitTerrain(WorldScale, TextureScale, TextureFilenames);
-        // _terrain.CreateMidpointDisplacement(_terrainSize, _roughness, _hauteurMin, _hauteurMax);
-        _terrain.CreateMap("../instance/carte_hauteur", _terrainSize, _hauteurMin, _hauteurMax);
-
-
-        _terrain.SaveToFile("carte_aleatoire");
-        _terrain.setLightDir(_lumiereDir.directionMonde);
+        _terrain.initTerrain(WorldScale, TextureScale, TextureFilenames);
+        _terrain.creerCarteDiamantCarre(_terrainSize, _roughness, _hauteurMin, _hauteurMax);
+        // _terrain.creerCarte("../instance/carte_hauteur", _terrainSize, _hauteurMin, _hauteurMax);
+        _terrain.setLumiereDir(_lumiereDir.directionMonde);
     }
 
     void InitCamera() {
-        float CameraX = _terrain.getWorldSize() / 2.0f;
-        // float CameraX = _terrain.getTailleMonde() / 2.0f;
-        float CameraZ = CameraX;
-        Vecteur3f Pos(CameraX , 0.0f, CameraZ);
-        Pos = _terrain.ConstrainPosToTerrain(Pos);
-        // Pos = _terrain.contraindrePositionAuTerrain(Pos);
-        std::cout << "getWorldHeight : " << _terrain.getWorldHeight(CameraX, CameraZ) << std::endl;
-        Pos.y += 100.0f;
+        float CameraX = _terrain.getTailleMonde() / 2.0f;
+        Vecteur3f Pos(CameraX , 600.0f, 0);
         Vecteur3f Target(0.0f, -0.25f, 1.0f);
         Vecteur3f Up(0.0, 1.0f, 0.0f);
 
@@ -215,7 +185,7 @@ public:
 
         _pCamera = new Camera(persProjInfo, Pos, Target, Up);
         _pCamera->setVitesse(10.0f);
-        printf("camera : x %f y %f z %f\n", Pos.x, Pos.y, Pos.z);
+        // printf("camera : x %f y %f z %f\n", Pos.x, Pos.y, Pos.z);
 
         // Vecteur3f Pos(0.0f, 0.0f, 0.0f);
         // Vecteur3f Target(0.0f, 0.0f, 1.0f);
@@ -238,31 +208,19 @@ public:
 
     void InitMesh() {
         float scale = 0.1f;
-        float CameraX = _terrain.getWorldSize() / 2.0f;
+        float CameraX = _terrain.getTailleMonde() / 2.0f;
         float CameraZ = CameraX;
         Vecteur3f Pos(CameraX, 0.0f, CameraZ);
-        Pos = _terrain.ConstrainPosToTerrain(Pos);
-        printf("Model 1 : x %f y %f z %f\n", Pos.x, Pos.y, Pos.z);
+        Pos = _terrain.constrainPosToTerrain(Pos);
         // Pos.y += 10.0f * scale;
-        printf("Model 1 : x %f y %f z %f\n", Pos.x, Pos.y, Pos.z);
 
         _pMesh1 = new SqueletteMesh();
         _pMesh1->chargerMesh("../graphique/data/Walking.dae");
         void setPosition(const Vecteur3f & pos);
         _pMesh1->setPosition(Pos);
-        // printf("Position mesh : ");
-        // _pMesh1->getPosition().print();
-        // printf("\n");
         _pMesh1->setScale(scale);
-
     }
 
-    void ConstrainCameraToTerrain() {
-        Vecteur3f NewCameraPos = _terrain.ConstrainPosToTerrain(_pCamera->getPos());
-        NewCameraPos.y += 10.0f;
-
-        _pCamera->setPosition(NewCameraPos);
-    }
 };
 
 Graphique* app = NULL;
@@ -300,7 +258,6 @@ int main(int argc, char** argv) {
     app->Run();
 
     delete app;
-    // std::cerr << "=================== main ok ======================" << std::endl;
 
     return 0;
 }

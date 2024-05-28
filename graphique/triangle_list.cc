@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <cstdio>
 #include <vector>
 #include <cassert>
 
@@ -7,8 +7,25 @@
 #include "terrain.hh"
 
 
-TriangleList::TriangleList() {
+TriangleList::Sommet::Sommet()
+   : pos(Vecteur3f(0.0f, 0.0f, 0.0f)), tex(Vecteur2f(0.0f, 0.0f))
+     , normal(Vecteur3f(0.0f, 0.0f, 0.0f)) {}
+
+void TriangleList::Sommet::initSommet(const Terrain* pTerrain, int x, int z) {
+    float y = pTerrain->getHauteur(x, z);
+
+	float echelleMonde = pTerrain->getMondeEchelle();
+	pos = Vecteur3f(x * echelleMonde, y, z * echelleMonde);
+
+    float size = (float)pTerrain->getTaille();
+    float textureEchelle = pTerrain->getTextureEchellee();
+    tex = Vecteur2f(textureEchelle * (float)x / size, textureEchelle * (float)z / size);
 }
+
+TriangleList::TriangleList()
+   : _largeur(0), _profondeur(0),
+     _VAO(0), _VBO(0),
+     _IndB(0) { }
 
 
 TriangleList::~TriangleList() {
@@ -17,181 +34,149 @@ TriangleList::~TriangleList() {
 
 
 void TriangleList::effacer() {
-    if (m_vao > 0) {
-        glDeleteVertexArrays(1, &m_vao);
+    if (_VAO > 0) {
+        glDeleteVertexArrays(1, &_VAO);
     }
 
-    if (m_vb > 0) {
-        glDeleteBuffers(1, &m_vb);
+    if (_VBO > 0) {
+        glDeleteBuffers(1, &_VBO);
     }
 
-    if (m_ib > 0) {
-        glDeleteBuffers(1, &m_ib);
+    if (_IndB > 0) {
+        glDeleteBuffers(1, &_IndB);
     }
 }
 
 
-void TriangleList::CreateTriangleList(int Width, int Depth, const Terrain* pTerrain)
-{
-	m_width = Width;
-    m_depth = Depth;
+void TriangleList::creerTriangleList(int largeur, int profondeur, const Terrain* pTerrain) {
+   _largeur = largeur;
+   _profondeur = profondeur;
 
-    CreateGLState();
-
-	  PopulateBuffers(pTerrain);
-
-    glBindVertexArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+   creerGlEtat();
+   initBuffer(pTerrain);
+   glBindVertexArray(0);
+   glBindBuffer(GL_ARRAY_BUFFER, 0);
+   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 
-void TriangleList::CreateGLState()
-{
-    glGenVertexArrays(1, &m_vao);
-
-    glBindVertexArray(m_vao);
-
-    glGenBuffers(1, &m_vb);
-
-    glBindBuffer(GL_ARRAY_BUFFER, m_vb);
-
-    glGenBuffers(1, &m_ib);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ib);
+void TriangleList::creerGlEtat() {
+    glGenVertexArrays(1, &_VAO);
+    glBindVertexArray(_VAO);
+    glGenBuffers(1, &_VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, _VBO);
+    glGenBuffers(1, &_IndB);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _IndB);
 
     int POS_LOC = 0;
     int TEX_LOC = 1;
 	  int NORMAL_LOC = 2;
 
-	size_t NumFloats = 0;
+   	size_t nbre = 0;
 
     glEnableVertexAttribArray(POS_LOC);
-    glVertexAttribPointer(POS_LOC, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void*)(NumFloats * sizeof(float)));
-    NumFloats += 3;
+    glVertexAttribPointer(POS_LOC, 3, GL_FLOAT, GL_FALSE, sizeof(Sommet), (const void*)(nbre * sizeof(float)));
+    nbre += 3;
 
     glEnableVertexAttribArray(TEX_LOC);
-    glVertexAttribPointer(TEX_LOC, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void*)(NumFloats * sizeof(float)));
-    NumFloats += 2;
+    glVertexAttribPointer(TEX_LOC, 2, GL_FLOAT, GL_FALSE, sizeof(Sommet), (const void*)(nbre * sizeof(float)));
+    nbre += 2;
 
     glEnableVertexAttribArray(NORMAL_LOC);
-    glVertexAttribPointer(NORMAL_LOC, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void*)(NumFloats * sizeof(float)));
-    NumFloats += 3;
+    glVertexAttribPointer(NORMAL_LOC, 3, GL_FLOAT, GL_FALSE, sizeof(Sommet), (const void*)(nbre * sizeof(float)));
+    nbre += 3;
 }
 
 
-void TriangleList::PopulateBuffers(const Terrain* pTerrain)
-{
-    std::vector<Vertex> Vertices;
-    Vertices.resize(m_width * m_depth);
+void TriangleList::initBuffer(const Terrain* pTerrain) {
+    std::vector<Sommet> sommets;
+    sommets.resize(_largeur * _profondeur);
+    initSommets(pTerrain, sommets);
+	  std::vector<uint> inds;
+    int NumQuads = (_largeur - 1) * (_profondeur - 1);
+    inds.resize(NumQuads * 6);
+    initIndBuffer(inds);
 
-    InitVertices(pTerrain, Vertices);
+    calcNormals(sommets, inds);
 
-	  std::vector<unsigned int> Indices;
-    int NumQuads = (m_width - 1) * (m_depth - 1);
-    Indices.resize(NumQuads * 6);
-    InitIndices(Indices);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(sommets[0]) * sommets.size(), &sommets[0], GL_STATIC_DRAW);
 
-    CalcNormals(Vertices, Indices);
-
-    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices[0]) * Vertices.size(), &Vertices[0], GL_STATIC_DRAW);
-
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices[0]) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(inds[0]) * inds.size(), &inds[0], GL_STATIC_DRAW);
 }
 
 
-void TriangleList::Vertex::InitVertex(const Terrain* pTerrain, int x, int z)
-{
-    float y = pTerrain->getHeight(x, z);
-
-	float WorldScale = pTerrain->getWorldScale();
-	Pos = Vecteur3f(x * WorldScale, y, z * WorldScale);
-
-    float Size = (float)pTerrain->getSize();
-    float TextureScale = pTerrain->getTextureScale();
-    Tex = Vecteur2f(TextureScale * (float)x / Size, TextureScale * (float)z / Size);
-}
 
 
-void TriangleList::InitVertices(const Terrain* pTerrain, std::vector<Vertex>& Vertices)
-{
-    int Index = 0;
+void TriangleList::initSommets(const Terrain* pTerrain, std::vector<Sommet>& sommets) {
+    int ind = 0;
 
-    for (int z = 0 ; z < m_depth ; z++) {
-        for (int x = 0 ; x < m_width ; x++) {
-            assert(Index < Vertices.size());
-			Vertices[Index].InitVertex(pTerrain, x, z);
-			Index++;
+    for (int z = 0 ; z < _profondeur ; z++) {
+        for (int x = 0 ; x < _largeur ; x++) {
+            assert(ind < (int)sommets.size());
+			      sommets[ind].initSommet(pTerrain, x, z);
+			      ind++;
         }
     }
 
-    assert(Index == Vertices.size());
+    assert(ind == (int)sommets.size());
 }
 
 
-void TriangleList::InitIndices(std::vector<unsigned int>& Indices)
-{
-    int Index = 0;
+void TriangleList::initIndBuffer(std::vector<uint>& inds) {
+    int ind = 0;
 
-    for (int z = 0 ; z < m_depth - 1 ; z++) {
-        for (int x = 0 ; x < m_width - 1 ; x++) {
-			unsigned int IndexBottomLeft = z * m_width + x;
-			unsigned int IndexTopLeft = (z + 1) * m_width + x;
-			unsigned int IndexTopRight = (z + 1) * m_width + x + 1;
-			unsigned int IndexBottomRight = z * m_width + x + 1;
+    for (int z = 0 ; z < _profondeur - 1 ; z++) {
+        for (int x = 0 ; x < _largeur - 1 ; x++) {
+			uint indBasGauche = z * _largeur + x;
+			uint indHautGauche = (z + 1) * _largeur + x;
+			uint indHautDroite = (z + 1) * _largeur + x + 1;
+			uint indBasDroite = z * _largeur + x + 1;
 
-            // Add "top left" triangle
-            assert(Index < Indices.size());
-            Indices[Index++] = IndexBottomLeft;
-            assert(Index < Indices.size());
-            Indices[Index++] = IndexTopLeft;
-            assert(Index < Indices.size());
-            Indices[Index++] = IndexTopRight;
+            assert(ind < (int)inds.size());
+            inds[ind++] = indBasGauche;
+            assert(ind < (int)inds.size());
+            inds[ind++] = indHautGauche;
+            assert(ind < (int)inds.size());
+            inds[ind++] = (int)indHautDroite;
 
-            // Add "bottom right" triangle
-            assert(Index < Indices.size());
-            Indices[Index++] = IndexBottomLeft;
-            assert(Index < Indices.size());
-            Indices[Index++] = IndexTopRight;
-            assert(Index < Indices.size());
-            Indices[Index++] = IndexBottomRight;
+            assert(ind < (int)inds.size());
+            inds[ind++] = indBasGauche;
+            assert(ind < (int)inds.size());
+            inds[ind++] = (int)indHautDroite;
+            assert(ind < (int)inds.size());
+            inds[ind++] = indBasDroite;
         }
     }
 
-    assert(Index == Indices.size());
+    assert(ind == (int)inds.size());
 }
 
 
-void TriangleList::CalcNormals(std::vector<Vertex>& Vertices, std::vector<uint>& Indices)
-{
-    unsigned int Index = 0;
+void TriangleList::calcNormals(std::vector<Sommet>& sommets, std::vector<uint>& inds) {
+    uint ind = 0;
 
-    // Accumulate each triangle normal into each of the triangle vertices
-    for (unsigned int i = 0 ; i < Indices.size() ; i += 3) {
-        unsigned int Index0 = Indices[i];
-        unsigned int Index1 = Indices[i + 1];
-        unsigned int Index2 = Indices[i + 2];
-        Vecteur3f v1 = Vertices[Index1].Pos - Vertices[Index0].Pos;
-        Vecteur3f v2 = Vertices[Index2].Pos - Vertices[Index0].Pos;
-        Vecteur3f Normal = v1.produitVectoriel(v2);
-        Normal.normaliser();
+    for (uint i = 0 ; i < inds.size() ; i += 3) {
+        uint ind0 = inds[i];
+        uint ind1 = inds[i + 1];
+        uint ind2 = inds[i + 2];
+        Vecteur3f v1 = sommets[ind1].pos - sommets[ind0].pos;
+        Vecteur3f v2 = sommets[ind2].pos - sommets[ind0].pos;
+        Vecteur3f normal = v1.produitVectoriel(v2);
+        normal.normaliser();
 
-        Vertices[Index0].Normal += Normal;
-        Vertices[Index1].Normal += Normal;
-        Vertices[Index2].Normal += Normal;
+        sommets[ind0].normal += normal;
+        sommets[ind1].normal += normal;
+        sommets[ind2].normal += normal;
     }
 
-    // normaliser all the vertex normals
-    for (unsigned int i = 0 ; i < Vertices.size() ; i++) {
-        Vertices[i].Normal.normaliser();
+    for (uint i = 0 ; i < sommets.size() ; i++) {
+        sommets[i].normal.normaliser();
     }
 }
 
 
-void TriangleList::Render()
-{
-    glBindVertexArray(m_vao);
-
-    glDrawElements(GL_TRIANGLES, (m_depth - 1) * (m_width - 1) * 6, GL_UNSIGNED_INT, NULL);
-
+void TriangleList::render() {
+    glBindVertexArray(_VAO);
+    glDrawElements(GL_TRIANGLES, (_profondeur - 1) * (_largeur - 1) * 6, GL_UNSIGNED_INT, NULL);
     glBindVertexArray(0);
 }

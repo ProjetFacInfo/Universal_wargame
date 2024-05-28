@@ -7,74 +7,47 @@
 #include "triangle_list.hh"
 #include "terrain_technique.hh"
 
-class Terrain
-{
- public:
-    Terrain() {}
+class Terrain {
+   private:
+      tableau2D<float> _carteHauteur;
+      TriangleList _triangleList;
+      TerrainTechnique _terrainTech;
+      Vecteur3f _lumiereDir;
+      int _tailleTerrain;
+      float _mondeEchelle;
+      Texture* _pTextures[4];
+      float _textureEchelle;
+      float _hauteurMin;
+      float _hauteurMax;
 
-    ~Terrain();
+   public:
+      Terrain();
+      ~Terrain();
 
-    void effacer();
+      void effacer();
+      void initTerrain(float mondeEchelle, float textureEchelle, const std::vector<std::string>& textureNomFic);
+      void render(const Camera& camera);
+      void chargerCarte(const char* pFilename, int size);
+      void creerCarte(const char * pFileName, int size, float hauteurMin, float hauteurMax);
+      void saveDansFic(const char* pFilename);
+      float getHauteur(int x, int z) const { return _carteHauteur.get(x, z); }
+      float getHauteurMax() const { return _hauteurMax; }
+      float getTailleMonde() const { return _tailleTerrain * _mondeEchelle; }
+      float getTextureEchellee() const { return _textureEchelle; }
+      float getMondeEchelle() const { return _mondeEchelle; }
+      float getHauteurMonde(float x, float z) const;
+      float getHauteurInterpoler(float x, float z) const;
+      float getHauteurInterpolerBaryCentrique(float x, float z) const;
+      int getTaille() const { return _tailleTerrain; }
+      void setHauteurMinMax(float hauteurMin, float hauteurMax);
+      void setTexture(Texture* pTexture) { _pTextures[0] = pTexture; }
+      void setTextureHauteur(float hauteurTex0, float hauteurTex1, float hauteurTex2, float hauteurTex3);
+      void setLumiereDir(const Vecteur3f& dir) { _lumiereDir = dir; }
+      void creerCarteDiamantCarre(int Size, float chaos, float hauteurMin, float hauteurMax);
+      Vecteur3f constrainPosToTerrain(const Vecteur3f& pos);
 
-	void InitTerrain(float WorldScale, float TextureScale, const std::vector<std::string>& TextureFilenames);
-
-    void Render(const Camera& camera);
-
-    // void LoadFromFile(const char* pFilename);
-    //
-    void LoadMap(const char* pFilename, int size);
-
-    void CreateMap(const char * pFileName, int size, float MinHeight, float MaxHeight);
-    void SaveToFile(const char* pFilename);
-
-	float getHeight(int x, int z) const { return m_heightMap.get(x, z); }
-
-    float getWorldHeight(float x, float z) const;
-
-    float getHeightInterpolated(float x, float z) const;
-
-    float getHeightInterpolatedBaryCentrique(float x, float z) const;
-
-	float getWorldScale() const { return m_worldScale; }
-
-    float getTextureScale() const { return m_textureScale; }
-
-    int getSize() const { return m_terrainSize; }
-
-    void setTexture(Texture* pTexture) { m_pTextures[0] = pTexture; }
-
-    void setTextureHeights(float Tex0Height, float Tex1Height, float Tex2Height, float Tex3Height);
-
-    void setLightDir(const Vecteur3f& Dir) { m_lightDir = Dir; }
-
-    float getMaxHeight() const { return m_maxHeight; }
-    float getWorldSize() const { return m_terrainSize * m_worldScale; }
-    Vecteur3f ConstrainPosToTerrain(const Vecteur3f& Pos);
-
-    void CreateMidpointDisplacement(int Size, float Roughness, float MinHeight, float MaxHeight);
-
- protected:
-
-	// void LoadHeightMapFile(const char* pFilename);
-
-    void setMinMaxHeight(float MinHeight, float MaxHeight);
-
-
-    int m_terrainSize = 0;
-	  float m_worldScale = 1.0f;
-    tableau2D<float> m_heightMap;
-    TriangleList m_triangleList;
-    Texture* m_pTextures[4] = { 0 };
-    float m_textureScale = 1.0f;
-
-private:
-    float m_minHeight = 0.0f;
-    float m_maxHeight = 0.0f;
-    TerrainTechnique m_terrainTech;
-    Vecteur3f m_lightDir;
-
-    void CreateMidpointDisplacementF32(float Roughness);
-    void DiamondStep(int RectSize, float CurHeight);
-    void SquareStep(int RectSize, float CurHeight);
+   private:
+      void diamant(int tailRect, float hauteurCourant);
+      void carre(int tailRect, float hauteurCourant);
 };
 
