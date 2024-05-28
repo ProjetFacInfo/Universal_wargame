@@ -1,6 +1,6 @@
 #include "Carte.hh"
 
-Carte::Carte() : _largeur(LARGEURCARTE), _longueur(LONGUEURCARTE), _plateau(_largeur * _longueur), _posBase1(_largeur/4*_largeur+_longueur*3/4-1), _posBase2(_largeur*3/4*_largeur+_longueur/4) {}
+Carte::Carte() : _largeur(LARGEURCARTE), _longueur(LONGUEURCARTE), _plateau(_largeur * _longueur), _posBase1(_largeur*3/4*_largeur+_longueur/4), _posBase2(_largeur/4*_largeur+_longueur*3/4-1) {}
 
 Carte::Carte(std::array<Terrain, TAILLECARTE> const & liste_terrains):Carte(){
     auto it = _plateau.begin();
@@ -10,8 +10,8 @@ Carte::Carte(std::array<Terrain, TAILLECARTE> const & liste_terrains):Carte(){
     }
     std::shared_ptr<Base> base1 = std::make_shared<Base>(_posBase1, TypeJoueur::joueur1);
     std::shared_ptr<Base> base2 = std::make_shared<Base>(_posBase2, TypeJoueur::joueur2);
-    _getCase(_longueur*3/4-1, _largeur/4)._element = base1;
-    _getCase(_longueur/4, _largeur*3/4)._element = base2;
+    _getCase(_longueur/4, _largeur*3/4)._element = base1;
+    _getCase(_longueur*3/4-1, _largeur/4)._element = base2;
 }
 
 uint16_t Carte::largeur() const
@@ -91,7 +91,7 @@ uint16_t Carte::getPosBase2() const
 bool Carte::poseElement(std::shared_ptr<Element> element, uint16_t i, uint16_t j)
 {
     Case& c = _getCase(i, j);
-    if (!c._element) return false;
+    if (c._element) return false;
     else c._element = element;
     return true;
 }
@@ -144,7 +144,7 @@ void Carte::afficher(std::ostream &flux) const
 {
     for (auto i = 0; i < _largeur ; ++i){
         for (auto j = 0; j < _longueur ; ++j){
-            getCase(i, j).afficher(flux);
+            getCase(j, i).afficher(flux);
             flux << " ";
         }
         flux << "\n";
