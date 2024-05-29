@@ -20,7 +20,10 @@ Dans terminal:
 
 Pour excuter la partie 2 :
 
-il faut installer d'abord assimp https://github.com/assimp/assimp
+Installation necéssaire :
+	"sudo apt install g++ make libglew-dev libglew2.2 libglfw3 libglfw3-dev"
+
+Puis il faut installer assimp https://github.com/assimp/assimp
 
 taper dans terminal  "ldd ./graphique" pour bien verifier les liens
 puis "export LD_LIBRARY_PATH=repertoire_ou_vous_avez_installer_assim/bin"
