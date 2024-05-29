@@ -39,7 +39,7 @@ bool Texture::charger() {
         exit(0);
     }
 
-    printf("largeur %d, hauteur %d, BPP %d\n", _largeur, _hauteur, _BPP);
+    // printf("largeur %d, hauteur %d, BPP %d\n", _largeur, _hauteur, _BPP);
 
     chargerInterne(pImageData);
 

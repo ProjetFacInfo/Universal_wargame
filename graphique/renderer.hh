@@ -37,8 +37,6 @@ private:
     void render(Mesh* pMesh);
     void renderAnimationInterne(SqueletteMesh* pMesh);
     void renderAnimation(SqueletteMesh* pMesh, float tempAnimation, int animationInd = 0);
-    void renderAnimationAttache
-    (SqueletteMesh* pMesh, float tempAnimation, int debAnimInd, int finAnimInd, float facteur);
 
     void passerEnLumiereTech();
     void passerEnSqueletteTech();

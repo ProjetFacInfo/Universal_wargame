@@ -67,8 +67,6 @@ class SqueletteMesh : public Mesh {
 
         uint getNbreOs() const;
         std::vector<Matrice4f> getSqueletteTransforms(float temps, uint animationInd = 0);
-        std::vector<Matrice4f> getSqueletteTransformsAttache
-            (float temps, uint deb, uint fin, float taux);
 
     private:
         int getOsId(const aiBone * pBone);
@@ -89,10 +87,6 @@ class SqueletteMesh : public Mesh {
         void hierarchieNoeud
         (float temps, const aiNode * pNode,
          const Matrice4f & parentTransform, const aiAnimation & animation);
-        void hierarchieNoeudAttache
-        (float debAnimationEnTicks, float finAnimationEnTicks, const aiNode * pNode,
-         const Matrice4f & parentTransform, const aiAnimation & debAnimation,
-         const aiAnimation & finAnimation, float taux);
         void markNoeudPourOs(const aiBone * pBone);
         void initNoeudMap(const aiNode * pNode);
         float convertTempsEnTicks(float tempsEnSecond, uint animationInd);

@@ -72,7 +72,6 @@ void TerrainTechnique::setHauteurMinMax(float min, float max) {
 
 
 void TerrainTechnique::setTextureHauteur
-// (float hauteurTex0, float hauteurTex1, float hauteurTex2, float hauteurTex3) {
 (float hauteurTex0, float hauteurTex1, float hauteurTex2, float hauteurTex3, float hauteurTex4, float hauteurTex5) {
     glUniform1f(_hauteurTex0Loc, hauteurTex0);
     glUniform1f(_hauteurTex1Loc, hauteurTex1);

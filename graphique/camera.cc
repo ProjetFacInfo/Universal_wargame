@@ -144,9 +144,10 @@ bool Camera::OnKeyboard(int Key) {
 
     switch (Key) {
 
-        case GLFW_KEY_W:
+        case GLFW_KEY_W: {
             _pos += (_cible * _vitesse);
             posChanger = true;
+            }
             break;
 
         case GLFW_KEY_S: {
@@ -161,7 +162,7 @@ bool Camera::OnKeyboard(int Key) {
             gauche *= _vitesse;
             _pos += gauche;
             posChanger = true;
-        }
+            }
             break;
 
         case GLFW_KEY_D: {
@@ -170,39 +171,8 @@ bool Camera::OnKeyboard(int Key) {
             droite *= _vitesse;
             _pos += droite;
             posChanger = true;
-        }
+            }
             break;
-
-        case GLFW_KEY_UP:
-            _angleV += _vitesse;
-            update();
-            break;
-
-        case GLFW_KEY_DOWN:
-            _angleV -= _vitesse;
-            update();
-            break;
-
-        case GLFW_KEY_LEFT:
-            _angleH -= _vitesse;
-            update();
-            break;
-
-        case GLFW_KEY_RIGHT:
-            _angleH += _vitesse;
-            update();
-            break;
-
-        case GLFW_KEY_PAGE_UP:
-            _pos.y += _vitesse;
-            posChanger = true;
-            break;
-
-        case GLFW_KEY_PAGE_DOWN:
-            _pos.y -= _vitesse;
-            posChanger = true;
-            break;
-
 
         case GLFW_KEY_KP_ADD:
             _vitesse += 0.1f;
@@ -217,12 +187,7 @@ bool Camera::OnKeyboard(int Key) {
             printf("vitesse change %f\n", _vitesse);
             break;
 
-        case GLFW_KEY_C: {
-            printf("Camera "); print(); printf("\n");
-            break;
         }
-    }
-
 
     return posChanger;
 }

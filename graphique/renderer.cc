@@ -218,25 +218,6 @@ void Renderer::renderAnimation(SqueletteMesh* pMesh, float tempAnimation, int an
 }
 
 
-void Renderer::renderAnimationAttache
-(SqueletteMesh* pMesh, float tempAnimation, int debAnimInd, int finAnimInd, float facteur) {
-    if (!pMesh) {
-        printf("RendererAnimationAttache: Squelette Mesh non initialiser\n");
-        exit(0);
-    }
-
-    renderAnimationInterne(pMesh);
-
-    std::vector<Matrice4f> transforms =
-        pMesh->getSqueletteTransformsAttache(tempAnimation, debAnimInd, finAnimInd, facteur);
-
-    for (uint i = 0 ; i < transforms.size() ; i++) {
-        _squeletteTech.setSqueletteTransform(i, transforms[i]);
-    }
-
-    pMesh->render();
-}
-
 void Renderer::renderAnimationInterne(SqueletteMesh* pMesh) {
     if (!_pCamera) {
         printf("Renderer: camera non initialiser\n");
@@ -258,9 +239,7 @@ void Renderer::renderAnimationInterne(SqueletteMesh* pMesh) {
     }
 
     _squeletteTech.updateLumierePonctuelPos(_nbreLumierePonctuel, _lumierePonctuels);
-
     _squeletteTech.updateLumiereProjecteurPosDir(_nbreLumiereProjecteur, _lumiereProjecteurs);
-
     _squeletteTech.setMateriau(pMesh->getMateriau());
 
     PBRMateriau materiau;

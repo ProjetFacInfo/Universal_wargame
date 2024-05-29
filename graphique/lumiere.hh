@@ -5,7 +5,6 @@
 #include "technique.hh"
 #include "materiau.hh"
 #include "monde_transformation.hh"
-#include "IRendererCallback.hh"
 
 
 struct LumiereBase {
@@ -64,7 +63,7 @@ struct LumierePBR {
 };
 
 
-class LumiereTechnique : public Technique, public IRendererCallback {
+class LumiereTechnique : public Technique {
 public:
     static const unsigned int MAX_LUMIERE_PONCTUEL = 2;
     static const unsigned int MAX_LUMIERE_PROJECTEUR = 2;

@@ -398,81 +398,6 @@ void SqueletteMesh::hierarchieNoeud
 }
 
 
-void SqueletteMesh::hierarchieNoeudAttache
-(float debAnimationEnTicks, float finAnimationEnTicks, const aiNode * pNode
- , const Matrice4f & parentTransform, const aiAnimation & debAnimation
- , const aiAnimation & finAnimation, float taux) {
-
-    std::string nomNoeud(pNode->mName.data);
-    Matrice4f noeudTransform(pNode->mTransformation);
-    const aiNodeAnim * pStartNodeAnim = getNodeAnim(debAnimation, nomNoeud);
-    LocalTransform debTransform;
-
-    if (pStartNodeAnim) {
-        calcLocalTransform(debTransform, debAnimationEnTicks, pStartNodeAnim);
-    }
-
-    LocalTransform finTransform;
-
-    const aiNodeAnim * pEndNodeAnim = getNodeAnim(finAnimation, nomNoeud);
-
-    if ((pStartNodeAnim  && !pEndNodeAnim) || (!pStartNodeAnim  && pEndNodeAnim)) {
-        printf("dans le noeud %s, il n'y a qu'un seul noeud d'animation pour le deb/fin.\n", nomNoeud.c_str());
-        exit(0);
-    }
-
-    if (pEndNodeAnim) {
-        calcLocalTransform(finTransform, finAnimationEnTicks, pEndNodeAnim);
-    }
-
-    if (pStartNodeAnim  && pEndNodeAnim) {
-        const aiVector3D & scale0 = debTransform.scaling;
-        const aiVector3D & scale1 = finTransform.scaling;
-        aiVector3D blendScaling = (1.0f - taux)  * scale0 + scale1  * taux;
-        Matrice4f scalMat;
-        scalMat.scaleTransform(blendScaling.x, blendScaling.y, blendScaling.z);
-
-        const aiQuaternion & rot0 = debTransform.rotation;
-        const aiQuaternion & rot1 = finTransform.rotation;
-        aiQuaternion blendRotation;
-        aiQuaternion::Interpolate(blendRotation, rot0, rot1, taux);
-        Matrice4f rotationMat = Matrice4f(blendRotation.GetMatrix());
-
-        const aiVector3D & Pos0 = debTransform.translation;
-        const aiVector3D & Pos1 = finTransform.translation;
-        aiVector3D blendTranslation = (1.0f - taux)  * Pos0 + Pos1  * taux;
-        Matrice4f translationMat;
-        translationMat.translationTransform(blendTranslation.x, blendTranslation.y, blendTranslation.z);
-
-        noeudTransform = translationMat  * rotationMat  * scalMat;
-    }
-
-    Matrice4f globalTransform = parentTransform  * noeudTransform;
-
-    if (_osIndMap.find(nomNoeud) != _osIndMap.end()) {
-        uint osInd = _osIndMap[nomNoeud];
-        _osInfos[osInd].transformFinal = _globalInverseTransform  * globalTransform  * _osInfos[osInd].matriceDecalage;
-    }
-
-    for (uint i = 0 ; i < pNode->mNumChildren ; i++) {
-        std::string noeudFils(pNode->mChildren[i]->mName.data);
-
-        std::map<std::string,NoeudInfo>::iterator it = _noeudMap.find(noeudFils);
-
-        if (it == _noeudMap.end()) {
-            printf("fils %s introuvable dans le noeud map\n", noeudFils.c_str());
-            assert(0);
-        }
-
-        if (it->second.estNecessair) {
-            hierarchieNoeudAttache(debAnimationEnTicks, finAnimationEnTicks,
-                                     pNode->mChildren[i], globalTransform, debAnimation, finAnimation, taux);
-        }
-    }
-}
-
-
-
 std::vector<Matrice4f> SqueletteMesh::getSqueletteTransforms(float temps, uint animationInd) {
     if (animationInd >= _pScene->mNumAnimations) {
         printf("animation ind invalid %d, le max est %d\n", animationInd, _pScene->mNumAnimations);
@@ -495,49 +420,10 @@ std::vector<Matrice4f> SqueletteMesh::getSqueletteTransforms(float temps, uint a
 }
 
 
-std::vector<Matrice4f>
-SqueletteMesh::getSqueletteTransformsAttache(float temps, uint deb, uint fin, float taux) {
-    if (deb >= _pScene->mNumAnimations) {
-        printf("Debut d'animation invalid %d, max est %d\n", deb, _pScene->mNumAnimations);
-        assert(0);
-    }
-
-    if (fin >= _pScene->mNumAnimations) {
-        printf("fin d'animation invalid %d, max est %d\n", deb, _pScene->mNumAnimations);
-        assert(0);
-    }
-
-    if ((taux < 0.0f) || (taux > 1.0f)) {
-        printf("Taux de liaison invalid %f\n", taux);
-        assert(0);
-    }
-
-    float debAnimationEnTicks = convertTempsEnTicks(temps, deb);
-    float finAnimationEnTicks = convertTempsEnTicks(temps, fin);
-
-    const aiAnimation & debAnimation =  *_pScene->mAnimations[deb];
-    const aiAnimation & finAnimation =  *_pScene->mAnimations[fin];
-
-    Matrice4f identite;
-    identite.identite();
-
-    hierarchieNoeudAttache(debAnimationEnTicks, finAnimationEnTicks, _pScene->mRootNode, identite, debAnimation, finAnimation, taux);
-
-    std::vector<Matrice4f> transforms;
-    transforms.resize(_osInfos.size());
-
-    for (uint i = 0 ; i < _osInfos.size() ; i++) {
-        transforms[i] = _osInfos[i].transformFinal;
-    }
-    return transforms;
-}
-
-
 float SqueletteMesh::convertTempsEnTicks(float tempsEnSecond, uint animationInd) {
     float ticksParSecondre = (float)(_pScene->mAnimations[animationInd]->mTicksPerSecond != 0 ? _pScene->mAnimations[animationInd]->mTicksPerSecond : 25.0f);
     float TempsEnTicks = tempsEnSecond * ticksParSecondre;
-    double duree = 0.0;
-    double fraction = modf((double)_pScene->mAnimations[animationInd]->mDuration, &duree);
+    double duree = (float)((int)_pScene->mAnimations[animationInd]->mDuration);
     return fmod(TempsEnTicks, (float)duree);
 }
 

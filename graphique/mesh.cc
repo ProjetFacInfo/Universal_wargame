@@ -170,7 +170,6 @@ void Mesh::initMesh(uint meshInd, const aiMesh * paiMesh) {
 
 bool Mesh::initMateriau(const aiScene * pScene, const std::string & fic) {
     std::string dir = cheminDuFic(fic);
-    std::cout << "Dir : " << dir << std::endl;
 
     bool tmp = true;
 
@@ -188,7 +187,6 @@ bool Mesh::initMateriau(const aiScene * pScene, const std::string & fic) {
 }
 
 void Mesh::chargerTextureDiffuse(const std::string & dir, const aiMaterial * pMaterial, int materiauInd) {
-    // TODO: supprimer
     _materiaux[materiauInd].pDiffuse = nullptr;
 
     if (pMaterial->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
@@ -198,28 +196,13 @@ void Mesh::chargerTextureDiffuse(const std::string & dir, const aiMaterial * pMa
             const aiTexture * paiTexture = _pScene->GetEmbeddedTexture(Path.C_Str());
 
             if (paiTexture) {  // Texture integrée
-                printf("Type de texture diffuse integrée '%s'\n", paiTexture->achFormatHint);
+                // printf("Type de texture diffuse integrée '%s'\n", paiTexture->achFormatHint);
                 _materiaux[materiauInd].pDiffuse = new Texture(GL_TEXTURE_2D);
                 int buffer_size = paiTexture->mWidth;
                 _materiaux[materiauInd].pDiffuse->charger(buffer_size, paiTexture->pcData);
             } else {            // Texture a part
                 std::string p(Path.data);
-
-
-                // TODO : supprimer
-                for (int i = 0 ; i < p.length() ; i++) {
-                    if (p[i] == '\\') {
-                        p[i] = '/';
-                    }
-                }
-
-                // TODO : supprimer
-                if (p.substr(0, 2) == ".\\") {
-                    p = p.substr(2, p.size() - 2);
-                }
-
                 std::string FullPath = dir + "/" + p;
-
                 _materiaux[materiauInd].pDiffuse = new Texture(GL_TEXTURE_2D, FullPath.c_str());
 
                 if (!_materiaux[materiauInd].pDiffuse->charger()) {
@@ -241,20 +224,12 @@ void Mesh::chargerTextureSpeculair(const std::string & dir, const aiMaterial * p
             const aiTexture * paiTexture = _pScene->GetEmbeddedTexture(Path.C_Str());
 
             if (paiTexture) {       // Texture integrée
-                printf("Texture speculaire integrée type '%s'\n", paiTexture->achFormatHint);
+                // printf("Texture speculaire integrée type '%s'\n", paiTexture->achFormatHint);
                 _materiaux[materiauInd].pExposantSpeculaire = new Texture(GL_TEXTURE_2D);
                 int buffer_size = paiTexture->mWidth;
                 _materiaux[materiauInd].pExposantSpeculaire->charger(buffer_size, paiTexture->pcData);
             } else {                // Texture à part
                 std::string p(Path.data);
-
-                // TODO : supprimer
-                if (p == "C:\\\\") {
-                    p = "";
-                } else if (p.substr(0, 2) == ".\\") {
-                    p = p.substr(2, p.size() - 2);
-                }
-
                 std::string FullPath = dir + "/" + p;
 
                 _materiaux[materiauInd].pExposantSpeculaire = new Texture(GL_TEXTURE_2D, FullPath.c_str());
@@ -274,11 +249,11 @@ void Mesh::chargerCouleur(const aiMaterial * pMaterial, int index) {
     int modelOmbrage = 0;
 
     if (pMaterial->Get(AI_MATKEY_SHADING_MODEL, modelOmbrage) == AI_SUCCESS) {
-        printf("model d'ombrage %d\n", modelOmbrage);
+        // printf("model d'ombrage %d\n", modelOmbrage);
     }
 
     if (pMaterial->Get(AI_MATKEY_COLOR_AMBIENT, couleurAmbiante) == AI_SUCCESS) {
-        printf("chargement couleur ambiante [%f %f %f]\n", couleurAmbiante.r, couleurAmbiante.g, couleurAmbiante.b);
+        // printf("chargement couleur ambiante [%f %f %f]\n", couleurAmbiante.r, couleurAmbiante.g, couleurAmbiante.b);
         _materiaux[index].couleurAmbiante.r = couleurAmbiante.r;
         _materiaux[index].couleurAmbiante.g = couleurAmbiante.g;
         _materiaux[index].couleurAmbiante.b = couleurAmbiante.b;
@@ -289,7 +264,7 @@ void Mesh::chargerCouleur(const aiMaterial * pMaterial, int index) {
     aiColor3D couleurDiffuse(0.0f, 0.0f, 0.0f);
 
     if (pMaterial->Get(AI_MATKEY_COLOR_DIFFUSE, couleurDiffuse) == AI_SUCCESS) {
-        printf("chargement couleur diffuse [%f %f %f]\n", couleurDiffuse.r, couleurDiffuse.g, couleurDiffuse.b);
+        // printf("chargement couleur diffuse [%f %f %f]\n", couleurDiffuse.r, couleurDiffuse.g, couleurDiffuse.b);
         _materiaux[index].couleurDiffuse.r = couleurDiffuse.r;
         _materiaux[index].couleurDiffuse.g = couleurDiffuse.g;
         _materiaux[index].couleurDiffuse.b = couleurDiffuse.b;
@@ -298,7 +273,7 @@ void Mesh::chargerCouleur(const aiMaterial * pMaterial, int index) {
     aiColor3D couleurSpeculaire(0.0f, 0.0f, 0.0f);
 
     if (pMaterial->Get(AI_MATKEY_COLOR_SPECULAR, couleurSpeculaire) == AI_SUCCESS) {
-        printf("chargement couleur speculaire [%f %f %f]\n", couleurSpeculaire.r, couleurSpeculaire.g, couleurSpeculaire.b);
+        // printf("chargement couleur speculaire [%f %f %f]\n", couleurSpeculaire.r, couleurSpeculaire.g, couleurSpeculaire.b);
         _materiaux[index].couleurSpeculaire.r = couleurSpeculaire.r;
         _materiaux[index].couleurSpeculaire.g = couleurSpeculaire.g;
         _materiaux[index].couleurSpeculaire.b = couleurSpeculaire.b;
@@ -350,8 +325,7 @@ void Mesh::initBuffers() {
     glVertexArrayAttribBinding(_VAO, NORMAL_LOCATION, 0);
 }
 
-void Mesh::render(IRendererCallback * pRendererCallback) {
-    // printf("Render : IRenderCallbacks\n");
+void Mesh::render() {
     glBindVertexArray(_VAO);
 
     for (uint i = 0 ; i < _meshes.size() ; i++) {
@@ -364,23 +338,6 @@ void Mesh::render(IRendererCallback * pRendererCallback) {
 
         if (_materiaux[materiauInd].pExposantSpeculaire) {
             _materiaux[materiauInd].pExposantSpeculaire->attacher(EXPOSANT_SPECULAIRE_UNIT);
-
-            if (pRendererCallback) {
-                pRendererCallback->exposantSpeculaire(true);
-            }
-        } else {
-            if (pRendererCallback) {
-                pRendererCallback->exposantSpeculaire(false);
-            }
-        }
-
-        if (pRendererCallback) {
-            if (_materiaux[materiauInd].pDiffuse) {
-                pRendererCallback->dessiner(i);
-                pRendererCallback->setMateriau(_materiaux[materiauInd]);
-            } else {
-                pRendererCallback->desactiverTexture();
-            }
         }
 
         glDrawElementsBaseVertex(GL_TRIANGLES,
@@ -395,7 +352,7 @@ void Mesh::render(IRendererCallback * pRendererCallback) {
 
 
 void Mesh::render(uint renderInd, uint primitifInd) {
-    printf("render : renderInd primitifInd\n");
+    // printf("render : renderInd primitifInd\n");
     glBindVertexArray(_VAO);
 
     uint materiauInd = _meshes[renderInd].materiauInd;
@@ -421,7 +378,7 @@ void Mesh::render(uint renderInd, uint primitifInd) {
 
 
 void Mesh::render(uint nbreInstance, const Matrice4f * matMVP, const Matrice4f * matMonde) {
-    printf("render : nbreInstance matMVP mat Monde\n");
+    // printf("render : nbreInstance matMVP mat Monde\n");
     glBindBuffer(GL_ARRAY_BUFFER, _buffers[MVP_MAT_BUFFER]);
     glBufferData(GL_ARRAY_BUFFER, sizeof(Matrice4f) * nbreInstance, matMVP, GL_DYNAMIC_DRAW);
 

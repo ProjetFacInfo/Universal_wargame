@@ -15,7 +15,6 @@
 #include "texture.hh"
 #include "monde_transformation.hh"
 #include "materiau.hh"
-#include "IRendererCallback.hh"
 
 
 class Mesh {
@@ -72,7 +71,7 @@ class Mesh {
         PBRMateriau & getPBRMateriau();
         void getSommetBase(uint renderInd, uint primitifInd, Vecteur3f & sommet);
         bool chargerMesh(const std::string & fic);
-        virtual void render(IRendererCallback * pRendererCallback = nullptr);
+        void render();
         void render(uint renderInd, uint primitifInd);
         void render(uint nbreInstance, const Matrice4f * matMVP, const Matrice4f * matMonde);
 

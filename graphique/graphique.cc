@@ -26,6 +26,7 @@ static void keyCallback(GLFWwindow* window, int key, int scancode, int action, i
 static void cursorPosCallback(GLFWwindow* window, double x, double y);
 static void mouseButtonCallback(GLFWwindow* window, int Button, int Action, int Mode);
 
+//class pour tester et faire le lien entre le moteur plus tard
 
 class Graphique {
 private:
@@ -33,6 +34,8 @@ private:
     Camera* _pCamera = NULL;
     Renderer _renderer;
     SqueletteMesh* _pMesh1 = NULL;
+    SqueletteMesh* _pMesh2 = NULL;
+    SqueletteMesh* _pMesh3 = NULL;
     PersProjInfo _persProfInfo;
     LumiereDirectionnel _lumiereDir;
     Terrain _terrain;
@@ -116,6 +119,8 @@ public:
         AnimationTimeSec -= TotalPauseTimeSec;
 
         _renderer.renderAnimation(_pMesh1, AnimationTimeSec, _animationInd);
+        _renderer.renderAnimation(_pMesh2, AnimationTimeSec, _animationInd);
+        _renderer.renderAnimation(_pMesh3, AnimationTimeSec, _animationInd);
     }
 
 
@@ -199,17 +204,33 @@ public:
 
     void initMesh() {
         float scale = 0.1f;
-        float CameraX = _terrain.getTailleMonde() / 2.0f;
-        float CameraZ = CameraX;
-        Vecteur3f Pos(CameraX, 0.0f, CameraZ);
-        Pos = _terrain.constrainPosToTerrain(Pos);
-        Pos.y += 10.0f;
+        float cameraX = _terrain.getTailleMonde() / 2.0f;
+        float cameraZ = cameraX - 40.0f;
+        Vecteur3f pos(cameraX, 0.0f, cameraZ);
+        pos = _terrain.constrainPosToTerrain(pos);
+        pos.y += 10.0f;
 
         _pMesh1 = new SqueletteMesh();
-        _pMesh1->chargerMesh("../graphique/data/Walking.dae");
-        void setPosition(const Vecteur3f & pos);
-        _pMesh1->setPosition(Pos);
+        _pMesh1->chargerMesh("../graphique/data/Paladin.dae");
+        _pMesh1->setPosition(pos);
         _pMesh1->setScale(scale);
+
+        pos.z += 40.0f;
+        pos = _terrain.constrainPosToTerrain(pos);
+        pos.y += 10.0f;
+        _pMesh2 = new SqueletteMesh();
+        _pMesh2->chargerMesh("../graphique/data/Mutant.dae");
+        _pMesh2->setPosition(pos);
+        _pMesh2->setScale(scale);
+        _pMesh2->setRotation(0.0f, 180.0f, 0.0f);
+
+        pos = Vecteur3f(300.0f, 0.0f, cameraZ);
+        pos = _terrain.constrainPosToTerrain(pos);
+        pos.y += 10.0f;
+        _pMesh3 = new SqueletteMesh();
+        _pMesh3->chargerMesh("../graphique/data/Walking.dae");
+        _pMesh3->setPosition(pos);
+        _pMesh3->setScale(scale);
     }
 
 };

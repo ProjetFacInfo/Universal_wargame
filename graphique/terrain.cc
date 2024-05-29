@@ -226,7 +226,7 @@ void Terrain::creerCarteDiamantCarre(int tailleTerrain, float chaos, float haute
 
     _tailleTerrain = tailleTerrain;
     setHauteurMinMax(hauteurMin, hauteurMax);
-    std::cout << "Terrain size : " << tailleTerrain << std::endl;
+    // std::cout << "Terrain size : " << tailleTerrain << std::endl;
     _carteHauteur.initTableau2D(tailleTerrain, tailleTerrain, 0.0f);
 
     int tailRect = _tailleTerrain;
