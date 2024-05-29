@@ -21,7 +21,7 @@ Dans terminal:
 Pour excuter la partie 2 :
 
 Installation necéssaire :
-	"sudo apt install g++ make libglew-dev libglew2.2 libglfw3 libglfw3-dev"
+Sur ubuntu :	"sudo apt install g++ make libglew-dev libglew2.2 libglfw3 libglfw3-dev"
 
 Puis il faut installer assimp https://github.com/assimp/assimp
 
